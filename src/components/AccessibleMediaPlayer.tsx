@@ -11,11 +11,20 @@ import {
 import { useAccessibilitySettings } from "@/components/AccessibilityProvider";
 import type { MediaRef } from "@/types/media";
 
+/** Production placeholders (.txt slots) are not browser-playable media. */
+function isPlayableTimedSrc(src: string): boolean {
+  const path = src.split("?")[0]?.toLowerCase() ?? "";
+  if (!path) return false;
+  if (path.endsWith(".txt") || path.includes("-slot.")) return false;
+  return /\.(mp3|wav|ogg|m4a|aac|mp4|webm|ogv|mov)$/i.test(path);
+}
+
 export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
   const { settings } = useAccessibilitySettings();
   const reactId = useId();
   const mediaRef = useRef<HTMLVideoElement | HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
+  const [playbackError, setPlaybackError] = useState<string | null>(null);
   const [showCaptions, setShowCaptions] = useState(settings.captionsDefaultOn);
   const [showTranscript, setShowTranscript] = useState(
     settings.transcriptDefaultVisible,
@@ -38,13 +47,47 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
   const useReducedSensory =
     settings.reducedSensory && Boolean(a11y.reducedSensoryAlt);
   const isTimed = media.kind === "audio" || media.kind === "video";
+  const canPlayTimed =
+    isTimed && isPlayableTimedSrc(media.src) && !playbackError;
   const title = media.title ?? media.id;
+
+  useEffect(() => {
+    setPlaybackError(null);
+    setPlaying(false);
+  }, [media.src]);
+
+  useEffect(() => {
+    // Slots: surface transcript/AD by default so the scene stays readable.
+    if (isTimed && !isPlayableTimedSrc(media.src)) {
+      if (a11y.transcript) setShowTranscript(true);
+      else if (a11y.captions) setShowCaptions(true);
+      else if (a11y.audioDescription) setShowAd(true);
+    }
+  }, [
+    isTimed,
+    media.src,
+    a11y.transcript,
+    a11y.captions,
+    a11y.audioDescription,
+  ]);
 
   function playPause() {
     const el = mediaRef.current;
-    if (!el) return;
+    if (!el || !canPlayTimed) return;
     if (el.paused) {
-      void el.play().then(() => setPlaying(true));
+      void el
+        .play()
+        .then(() => {
+          setPlaying(true);
+          setPlaybackError(null);
+        })
+        .catch(() => {
+          setPlaying(false);
+          setPlaybackError(
+            "This media file cannot be played in the browser yet. Use captions, transcript, or descriptive text below.",
+          );
+          if (a11y.transcript) setShowTranscript(true);
+        });
     } else {
       el.pause();
       setPlaying(false);
@@ -53,13 +96,25 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
 
   function replay() {
     const el = mediaRef.current;
-    if (!el) return;
+    if (!el || !canPlayTimed) return;
     el.currentTime = 0;
-    void el.play().then(() => setPlaying(true));
+    void el
+      .play()
+      .then(() => {
+        setPlaying(true);
+        setPlaybackError(null);
+      })
+      .catch(() => {
+        setPlaying(false);
+        setPlaybackError(
+          "This media file cannot be played in the browser yet. Use captions, transcript, or descriptive text below.",
+        );
+        if (a11y.transcript) setShowTranscript(true);
+      });
   }
 
   function onKeyDown(event: KeyboardEvent) {
-    if (!isTimed) return;
+    if (!isTimed || !canPlayTimed) return;
     if (event.key === " " || event.key === "k") {
       event.preventDefault();
       playPause();
@@ -101,7 +156,22 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
         />
       ) : null}
 
-      {!useReducedSensory && media.kind === "video" ? (
+      {isTimed && !useReducedSensory && !canPlayTimed ? (
+        <div
+          role="status"
+          className="rounded-sm border border-dashed border-[var(--color-line)] bg-[var(--color-wash)]/40 p-3 text-sm text-[var(--color-muted)]"
+        >
+          <p className="font-medium text-[var(--color-ink)]">
+            Timed media not playable yet
+          </p>
+          <p className="mt-1">
+            {playbackError ??
+              "This scene still uses a production slot (script text), not a licensed audio or video file. Captions, transcript, and descriptive text remain available."}
+          </p>
+        </div>
+      ) : null}
+
+      {!useReducedSensory && canPlayTimed && media.kind === "video" ? (
         <video
           ref={(el) => {
             mediaRef.current = el;
@@ -114,6 +184,11 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
           onEnded={() => setPlaying(false)}
+          onError={() =>
+            setPlaybackError(
+              "This media file cannot be played in the browser yet. Use captions, transcript, or descriptive text below.",
+            )
+          }
           aria-describedby={
             showAd && a11y.audioDescription
               ? `${reactId}-ad`
@@ -135,7 +210,7 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
         </video>
       ) : null}
 
-      {!useReducedSensory && media.kind === "audio" ? (
+      {!useReducedSensory && canPlayTimed && media.kind === "audio" ? (
         <audio
           ref={(el) => {
             mediaRef.current = el;
@@ -145,11 +220,16 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
           onEnded={() => setPlaying(false)}
+          onError={() =>
+            setPlaybackError(
+              "This media file cannot be played in the browser yet. Use captions, transcript, or descriptive text below.",
+            )
+          }
           className="w-full"
         />
       ) : null}
 
-      {isTimed && !useReducedSensory ? (
+      {isTimed && !useReducedSensory && canPlayTimed ? (
         <div
           className="mt-3 flex flex-wrap gap-2"
           role="group"
@@ -256,7 +336,11 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
       ) : null}
 
       <p className="mt-3 text-xs text-[var(--color-muted)]">
-        Media never autoplays. Use Play when you are ready
+        {canPlayTimed
+          ? "Media never autoplays. Use Play when you are ready"
+          : isTimed
+            ? "Media never autoplays. Playback awaits a licensed media file; text access is available now"
+            : "Still media has no autoplay"}
         {settings.reducedMotion ? " · reduced motion on" : ""}.
       </p>
     </figure>
