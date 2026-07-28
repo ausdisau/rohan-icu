@@ -1,0 +1,81 @@
+{
+  "id": "ep01-consent-dialogue",
+  "phaseId": "phase-02-resistant-pneumonia",
+  "title": "Consent under uncertainty",
+  "openingNarrative": "Rohan is awake but fatigued. Eye gaze is unreliable. He is using auditory scanning and a cheek switch. The intensivist addresses Rohan first—Samira does not answer for him. Short information units cover: the resistant treatment is controlling pneumonia; kidney function is worsening; changing strategy may reduce toxicity but allow slower infection control; uncertainty is legitimate; a decision does not require spoken voice. The communication specialist confirms each scanned response. Pauses are part of the method, not proof of misunderstanding.",
+  "clinicalState": "Awake, fatigued, fluctuating visual access. Auditory scanning plus cheek switch active. Infection–renal trade-off still live. Decision-making access uses AAC methods, not grip strength. No exact drug names or doses.",
+  "communicationMethod": "mixed",
+  "choices": [
+    {
+      "id": "consent-rohan-needs-numbers",
+      "label": "Honour Rohan’s request for kidney and infection trend numbers before any change",
+      "immediateConsequence": "Authorship and communication access rise. Staff present trends in short units and wait for scanned confirmation. Samira’s fear is acknowledged without handing her the decision.",
+      "delayedConsequence": "Review clock is set; delayed harm risk if numbers delay a needed change past the agreed review point. Debrief will weigh information rights against infection tempo.",
+      "domainDeltas": {
+        "authorshipControl": 10,
+        "communicationAccess": 8,
+        "infectionControl": -2,
+        "familyBurden": -4,
+        "privacyProtection": 3
+      },
+      "nextNodeId": "ep01-pressure-rise",
+      "rohanAacLine": "TELL ME BEFORE MEDICINE."
+    },
+    {
+      "id": "consent-shared-review-clock",
+      "label": "Set a shared review clock with Rohan via scanning; keep current plan until then",
+      "immediateConsequence": "Uncertainty is named without forcing an instant binary. Communication access and public trust improve modestly; clinical domains hold near current values.",
+      "delayedConsequence": "If pressures rise before the clock, the team must reopen consent quickly—not treat Rohan’s prior slow answer as outdated incapacity.",
+      "domainDeltas": {
+        "authorshipControl": 7,
+        "communicationAccess": 6,
+        "infectionControl": 1,
+        "renalReserve": -1,
+        "familyBurden": -3,
+        "publicTrust": 4
+      },
+      "nextNodeId": "ep01-pressure-rise",
+      "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+    },
+    {
+      "id": "consent-change-now-with-rohan",
+      "label": "Propose a renal-sparing change now, confirming each step with Rohan’s cheek switch",
+      "immediateConsequence": "Treatment burden shifts toward kidney protection; infection tempo may slow. Rohan remains in the loop; Samira is present and frightened but not the first speaker.",
+      "delayedConsequence": "Documentation must record Rohan’s scanned consent units, not ‘mother agreed’. Later infection pressure may test whether the change was premature.",
+      "domainDeltas": {
+        "renalReserve": 6,
+        "infectionControl": -5,
+        "authorshipControl": 9,
+        "communicationAccess": 7,
+        "familyBurden": -2
+      },
+      "nextNodeId": "ep01-pressure-rise",
+      "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Address Rohan directly; Samira must not answer first.",
+    "Slow scanned responses are still answers; do not reinterpret delay as lack of understanding.",
+    "Spoken voice is not required for authority, consent, or capacity."
+  ],
+  "debriefNotes": [
+    "Prompt 3 dialogue beat: accessible consent under uncertainty.",
+    "Rohan ends by naming what information he still needs—preserve that authorship in debrief.",
+    "Family fear is real; it does not transfer decision rights."
+  ],
+  "media": [
+    {
+      "id": "consent-dialogue-script",
+      "kind": "audio",
+      "src": "/media/audio/ep01-consent-dialogue-slot.txt",
+      "title": "Consent dialogue — production slot",
+      "accessibility": {
+        "transcript": "See content/dialogues/ep01-consent-conversation.json for the full structured dialogue transcript.",
+        "captions": "Structured dialogue captions live with the conversation JSON.",
+        "reducedSensoryAlt": "Text-only dialogue cards with pause controls; no alarm layer.",
+        "audioDescription": "Clinician seated at eye level; Rohan using cheek switch; Samira nearby not speaking first."
+      },
+      "autoplayForbidden": true
+    }
+  ]
+}

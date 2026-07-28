@@ -1,0 +1,32 @@
+{
+  "id": "clinical-diagram-prompt4",
+  "prompt": 4,
+  "title": "Distal right lower-lobe mucus plug — clinical diagram",
+  "asset": {
+    "kind": "svg",
+    "src": "/media/clinical/right-lower-lobe-distal-plug.svg",
+    "id": "right-lower-lobe-distal-plug"
+  },
+  "styleNotes": [
+    "High-contrast clinical diagram",
+    "Clear labels",
+    "Uncluttered",
+    "Suitable for adolescents and adult learners",
+    "No blood or invasive procedural imagery",
+    "Do not use colour alone — hatch and dotted patterns plus labels",
+    "Caption space beneath the image"
+  ],
+  "shows": [
+    "Simplified front view of the lungs",
+    "Tracheostomy airway",
+    "Open central airway",
+    "Distal mucus plug in a right lower-lobe bronchial branch",
+    "Reduced aeration beyond the plug",
+    "No pneumothorax"
+  ],
+  "altText": {
+    "concise": "Front-view lung diagram: open central airway via tracheostomy; distal mucus plug in right lower-lobe branch; reduced aeration beyond the plug; no pneumothorax.",
+    "conciseWordCount": 28,
+    "extended": "Simplified front view of both lungs for an accessible medical simulation. A tracheostomy enters the central airway at the neck; the central airway is shown open and patent. A distal mucus plug sits in a right lower-lobe bronchial branch and is marked with a hatch pattern so it is not distinguished by colour alone. Lung tissue beyond the plug uses a dotted fill and a dashed outline to show reduced aeration. Labels state that suction through the tracheostomy may not reach a distal plug. The diagram explicitly notes that no pneumothorax is shown. Equipment and anatomy are schematic, without blood or procedural imagery."
+  }
+}

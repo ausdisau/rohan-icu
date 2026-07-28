@@ -1,0 +1,137 @@
+{
+  "id": "ep01-consent-conversation",
+  "prompt": 3,
+  "title": "Disability-aware ICU consent dialogue",
+  "nodeId": "ep01-consent-dialogue",
+  "communicationSetup": {
+    "rohanState": "Awake but fatigued. Eye gaze unreliable.",
+    "methods": ["auditory-scanning", "cheek-switch"],
+    "rules": [
+      "Address Rohan directly",
+      "Short information units",
+      "Confirm responses",
+      "Allow pauses",
+      "Samira does not answer first",
+      "Show Samira’s fear without vilifying her",
+      "Do not interpret slow response as lack of understanding",
+      "End with Rohan identifying what information he still needs"
+    ]
+  },
+  "participants": [
+    "Rohan",
+    "Intensivist",
+    "Infectious-diseases consultant",
+    "Samira",
+    "Communication specialist"
+  ],
+  "turns": [
+    {
+      "id": "t01",
+      "speaker": "Intensivist",
+      "to": "Rohan",
+      "text": "Rohan. Short updates. One at a time. Cheek switch yes or no after each."
+    },
+    {
+      "id": "t02",
+      "speaker": "Communication specialist",
+      "to": "Rohan",
+      "text": "Scanning is on. Press when you hear the choice you want. We will wait."
+    },
+    {
+      "id": "t03",
+      "speaker": "Intensivist",
+      "to": "Rohan",
+      "text": "The resistant treatment is helping control the pneumonia."
+    },
+    {
+      "id": "t04",
+      "speaker": "Communication specialist",
+      "to": "Rohan",
+      "text": "Confirm: you heard pneumonia improving with current treatment — yes or no."
+    },
+    {
+      "id": "t05",
+      "speaker": "Rohan",
+      "method": "cheek-switch",
+      "text": "YES",
+      "note": "Pause held; response not rushed."
+    },
+    {
+      "id": "t06",
+      "speaker": "Infectious-diseases consultant",
+      "to": "Rohan",
+      "text": "Kidney function is worsening while we use that treatment."
+    },
+    {
+      "id": "t07",
+      "speaker": "Communication specialist",
+      "to": "Rohan",
+      "text": "Confirm: kidneys worse on current plan — yes or no."
+    },
+    {
+      "id": "t08",
+      "speaker": "Rohan",
+      "method": "auditory-scanning",
+      "text": "YES",
+      "note": "Slow scan selection; specialist repeats back without adding interpretation."
+    },
+    {
+      "id": "t09",
+      "speaker": "Infectious-diseases consultant",
+      "to": "Rohan",
+      "text": "Changing treatment may be gentler on kidneys. Infection control may slow."
+    },
+    {
+      "id": "t10",
+      "speaker": "Intensivist",
+      "to": "Rohan",
+      "text": "There is uncertainty. We do not need spoken voice for this decision."
+    },
+    {
+      "id": "t11",
+      "speaker": "Samira",
+      "to": "team",
+      "text": "I am frightened. I keep wanting to answer. I will wait.",
+      "note": "Fear acknowledged; she does not take the first answer slot."
+    },
+    {
+      "id": "t12",
+      "speaker": "Intensivist",
+      "to": "Rohan",
+      "text": "Rohan — what do you still need before we choose?"
+    },
+    {
+      "id": "t13",
+      "speaker": "Rohan",
+      "method": "auditory-scanning",
+      "text": "TELL ME BEFORE MEDICINE.",
+      "aacCanonId": "tell-me-before-medicine"
+    },
+    {
+      "id": "t14",
+      "speaker": "Rohan",
+      "method": "auditory-scanning",
+      "text": "NUMBERS. KIDNEY. INFECTION. TREND.",
+      "note": "Rohan identifies information still needed — ends dialogue beat."
+    },
+    {
+      "id": "t15",
+      "speaker": "Communication specialist",
+      "to": "Rohan",
+      "text": "Confirmed. We will show kidney and infection trends in short units. Then we ask again."
+    },
+    {
+      "id": "t16",
+      "speaker": "Rohan",
+      "method": "cheek-switch",
+      "text": "SLOW ANSWER. STILL ANSWER.",
+      "aacCanonId": "slow-answer-still-answer"
+    }
+  ],
+  "accessibility": {
+    "captions": "Each turn available as caption card with speaker label.",
+    "transcript": "Full turns array above.",
+    "reducedSensoryAlt": "Text-only dialogue with learner-controlled advance; no alarm audio.",
+    "pacing": "Learner or specialist controls advance; no forced autoplay through turns."
+  }
+}

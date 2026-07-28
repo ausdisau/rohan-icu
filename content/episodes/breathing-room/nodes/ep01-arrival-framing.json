@@ -1,0 +1,46 @@
+{
+  "id": "ep01-arrival-framing",
+  "phaseId": "phase-01-post-arrest",
+  "title": "After the bay",
+  "openingNarrative": "Rohan Malik is in paediatric ICU under deep sedation. Locked sequence: the library called help; the ambulance performed CPR; the resuscitation bay restored sustained circulation; this ward begins only after that ROSC. His tracheostomy and controlled ventilation are support already in place—not a defeat to reverse. Communication systems are prepared for wake: cheek switch, auditory scanning, and AAC ready when sedation lightens. Silence now is sedation, not a judgement about capacity.",
+  "clinicalState": "Post-ROSC ICU transfer. Deep sedation. Airway secured via existing tracheostomy. Full controlled ventilation. Known severe cardiomyopathy with ICD in situ; fragile blood pressure and limited cardiac reserve after prolonged arrest. Active resistant right lower-lobe pneumonia pending treatment trade-offs. No exact drug names or doses.",
+  "communicationMethod": "deep-sedation",
+  "choices": [
+    {
+      "id": "arrive-acknowledge-lock",
+      "label": "Confirm chronology and keep AAC setup active for wake",
+      "immediateConsequence": "The team restates the locked sequence aloud and keeps cheek-switch, auditory scanning, and AAC hardware staged rather than treating silence as incapacity.",
+      "delayedConsequence": "When sedation lightens, Rohan is addressed first with access methods already in place; family labour is not substituted for staff communication support.",
+      "domainDeltas": {
+        "communicationAccess": 8,
+        "authorshipControl": 5,
+        "familyBurden": -4,
+        "privacyProtection": 2
+      },
+      "nextNodeId": "ep01-infection-renal",
+      "rohanAacLine": "COMMUNICATION WHEN EYES OPEN."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Silence under sedation is a temporary access barrier, not incapacity.",
+    "Prepare communication systems before wake; do not wait for spoken voice.",
+    "Ventilation and tracheostomy are baseline support, not tragedy markers."
+  ],
+  "debriefNotes": [
+    "Arrival framing establishes that ICU play continues after ROSC.",
+    "Learners who skip AAC preparation recreate the barrier the story critiques."
+  ],
+  "media": [
+    {
+      "id": "arrival-chronology-lock",
+      "kind": "image",
+      "src": "/media/illustrations/rohan-icu-placeholder.svg",
+      "title": "ICU after the bay — orientation still",
+      "accessibility": {
+        "altText": "Calm paediatric ICU bay at daylight; ventilator and AAC display present; no pity framing.",
+        "extendedAltText": "Placeholder still for the Episode 01 arrival beat. Daylit paediatric ICU room. Controlled ventilator and tracheostomy circuit visible but not dominant. AAC display and cheek-switch staged within reach for wake. Caption space reserved beneath the frame."
+      },
+      "autoplayForbidden": true
+    }
+  ]
+}

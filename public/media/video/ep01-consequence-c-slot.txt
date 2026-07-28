@@ -1,0 +1,2 @@
+Asset slot — Prompt 8 Branch C consequence video (45s).
+Script: content/multimedia/video-consequences.json → branchC

@@ -1,0 +1,80 @@
+{
+  "phaseId": "phase-03-airway-bronchoscopy",
+  "phaseNumber": 3,
+  "title": "Airway and bronchoscopy decisions",
+  "synopsis": "Recurrent pressure rise with patent tracheostomy and possible distal plug. Bronchoscopy is a decision, not a ritual. Episode 01: ep01-pressure-rise and consequence A/B/C.",
+  "openingNarrative": "Pressures rise. Suction through a patent tracheostomy yields little. Rohan may scan RIGHT MIDDLE. Differential includes distal plug, atelectasis, secretions, inflammation. Pneumothorax is not diagnosed without findings. High-pressure recruitment risks ventricular instability.",
+  "clinicalState": "Rising pressures. Reduced right air entry. Patent tracheostomy. Distal obstruction possible.",
+  "communicationMethod": "auditory-scanning",
+  "disabilityRightsNotes": [
+    "Rohan reports location; family does not answer for him.",
+    "No graphic bronchoscopy as spectacle."
+  ],
+  "debriefNotes": [
+    "Prompt 7–8 live in Episode 01.",
+    "No correct-answer framing across A/B/C."
+  ],
+  "playableEpisode01NodeIds": [
+    "ep01-pressure-rise",
+    "ep01-consequence-a",
+    "ep01-consequence-b",
+    "ep01-consequence-c"
+  ],
+  "nodes": [
+    {
+      "id": "p03-differential",
+      "phaseId": "phase-03-airway-bronchoscopy",
+      "title": "Name the differential before acting",
+      "openingNarrative": "Before choosing a manoeuvre, the team lists differentials aloud at eye level with Rohan.",
+      "clinicalState": "Uncertain airway cause. Cardiac reserve limited.",
+      "communicationMethod": "auditory-scanning",
+      "choices": [
+        {
+          "id": "p03-include-rohan",
+          "label": "Include Rohan’s scan in the differential discussion",
+          "immediateConsequence": "Access and authorship rise; proceeds to pressure-rise decision video.",
+          "delayedConsequence": "His report constrains later documentation language.",
+          "domainDeltas": {
+            "communicationAccess": 6,
+            "authorshipControl": 5
+          },
+          "nextNodeId": "ep01-pressure-rise",
+          "rohanAacLine": "RIGHT MIDDLE."
+        },
+        {
+          "id": "p03-assume-pneumothorax",
+          "label": "Treat as pneumothorax without supporting findings",
+          "immediateConsequence": "Wrong pathway risk; unnecessary invasive steps possible.",
+          "delayedConsequence": "Continuity review flags diagnosis without findings.",
+          "domainDeltas": {
+            "respiratoryStability": -4,
+            "painControl": -6,
+            "publicTrust": -5
+          },
+          "nextNodeId": "ep01-pressure-rise",
+          "rohanAacLine": "CHECK WHAT THIS ONE IS."
+        },
+        {
+          "id": "p03-auto-bronch",
+          "label": "Order bronchoscopy automatically because it worked in the bay",
+          "immediateConsequence": "Ritualises a prior success; procedural risk rises without fresh indication talk.",
+          "delayedConsequence": "Debrief challenges automatic ritual.",
+          "domainDeltas": {
+            "airwayObstructionRisk": -2,
+            "cardiacReserve": -4,
+            "authorshipControl": -3
+          },
+          "nextNodeId": "ep01-pressure-rise",
+          "rohanAacLine": "THE LAST EMERGENCY IS HISTORY. CHECK WHAT THIS ONE IS."
+        }
+      ],
+      "disabilityRightsNotes": [
+        "Prior bay bronchoscopy success does not make every later scope mandatory."
+      ],
+      "debriefNotes": [
+        "Teaching node for differential discipline."
+      ]
+    }
+  ],
+  "exitNodeIds": ["ep01-sedation-delirium"]
+}

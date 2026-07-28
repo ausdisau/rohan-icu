@@ -1,0 +1,99 @@
+{
+  "id": "ep01-sedation-delirium",
+  "phaseId": "phase-05-sedation-delirium",
+  "title": "Sedation lightens — orient, pain, stop-on-signal",
+  "openingNarrative": "Sedation is being reduced with a defined review reason: restore communication access, not make the room quieter. Rohan wakes fragmented. He may believe the bed is still moving—ambulance memories without relocating the arrest to the library. A ventilator alarm sounds once. The clinician identifies the ICU, confirms the airway is open and breaths are delivered, restores yes/no via cheek switch, asks about pain, and stops when Rohan signals stop. Reaching toward tubing is checked as pain or position first—not assumed line-pulling. Restraint is minimised. Samira’s fear about unnoticed emergencies is acknowledged; continuous bedroom-style video is not reintroduced as comfort.",
+  "clinicalState": "Planned sedation reduction. Fluctuating delirium risk. Pain undetermined until asked accessibly. Communication method restored stepwise. Cardiac and respiratory domains carry forward branch consequences. No exact drug names or doses.",
+  "communicationMethod": "cheek-switch",
+  "choices": [
+    {
+      "id": "sedation-orient-pain-stop",
+      "label": "Orient to ICU, restore yes/no, check pain, honour stop signal, avoid restraint",
+      "immediateConsequence": "Communication access rises; delirium burden eases modestly; restraint exposure stays low. Pain control improves if pain was present. Family burden falls because staff—not parents—run the access protocol.",
+      "delayedConsequence": "Delirium may continue in fragments; do not treat ongoing confusion as permanent incapacity. Privacy protection holds if telemetry stays proportionate.",
+      "domainDeltas": {
+        "sedationDepth": -15,
+        "deliriumBurden": -6,
+        "communicationAccess": 14,
+        "painControl": 10,
+        "restraintExposure": -8,
+        "privacyProtection": 4,
+        "familyBurden": -5,
+        "authorshipControl": 6
+      },
+      "nextNodeId": "ep01-home-school",
+      "rohanAacLine": "COMMUNICATION WHEN EYES OPEN."
+    },
+    {
+      "id": "sedation-keep-deeper",
+      "label": "Keep deeper sedation a little longer to protect synchrony, with a written review time",
+      "immediateConsequence": "Ventilator synchrony may look smoother; communication access stays suppressed; delirium and authorship risk rise if the review time slips.",
+      "delayedConsequence": "Deep sedation must keep a clinical reason and review point—not convenience. Delayed harm: missed pain and lost consent windows.",
+      "domainDeltas": {
+        "sedationDepth": 8,
+        "respiratoryStability": 4,
+        "deliriumBurden": 8,
+        "communicationAccess": -10,
+        "authorshipControl": -6,
+        "painControl": -4,
+        "restraintExposure": 2
+      },
+      "nextNodeId": "ep01-home-school",
+      "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+    },
+    {
+      "id": "sedation-rapid-wake",
+      "label": "Rapid wake to maximise AAC immediately, accepting short-term distress risk",
+      "immediateConsequence": "Communication access jumps; distress and arrhythmia risk may rise; pain may be reported sooner if the method is ready.",
+      "delayedConsequence": "Rapid wake without orientation can intensify delirium fragments. Stop-on-signal still applies; do not flood with questions.",
+      "domainDeltas": {
+        "sedationDepth": -22,
+        "communicationAccess": 16,
+        "deliriumBurden": 6,
+        "arrhythmiaBurden": 5,
+        "painControl": 6,
+        "authorshipControl": 8,
+        "restraintExposure": -4
+      },
+      "nextNodeId": "ep01-home-school",
+      "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Deep sedation needs a clinical reason and review point—not room convenience.",
+    "Reaching may be communication; check pain and tubing before restraint.",
+    "Interrupted or slow AAC is not incapacity.",
+    "Do not reintroduce disproportionate video surveillance to soothe family fear."
+  ],
+  "debriefNotes": [
+    "Prompt 6 audio wake scene pairs with this node.",
+    "Stop-on-signal is a rights-preserving control, not optional courtesy.",
+    "Ambulance memory fragments must not rewrite locked chronology."
+  ],
+  "media": [
+    {
+      "id": "wake-audio-scene",
+      "kind": "audio",
+      "src": "/media/audio/ep01-wake-scene-slot.txt",
+      "title": "Wake after sedation — 60s audio slot",
+      "accessibility": {
+        "captions": "See content/multimedia/audio-wake-script.json captions",
+        "transcript": "See content/multimedia/audio-wake-script.json fullTranscript",
+        "audioDescription": "Narrator locates ICU daylight; clinician at eye level; cheek switch restored; one brief alarm with visual equivalent.",
+        "reducedSensoryAlt": "Reduced-sensory mix omits alarm audio; uses on-screen alarm banner and calmer ambience only."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "cinematic-icu-still",
+      "kind": "image",
+      "src": "/media/illustrations/rohan-icu-placeholder.svg",
+      "title": "Rohan directing conversation — cinematic still placeholder",
+      "accessibility": {
+        "altText": "Twelve-year-old Rohan in paediatric ICU, awake, tracheostomy to ventilator, cheek switch and AAC in reach; clinician at eye level; Samira nearby not speaking for him.",
+        "extendedAltText": "Commission placeholder for Prompt 5. Daylit ICU. Rohan South Asian, twelve, awake and directing conversation. Power wheelchair referenced when out of bed. Tracheostomy connected to ventilator. Cheek switch and AAC display within reach. Clinician seated at eye level. Samira present but not speaking for him. Serious calm tone; no pity; no heroic glow."
+      },
+      "autoplayForbidden": true
+    }
+  ]
+}

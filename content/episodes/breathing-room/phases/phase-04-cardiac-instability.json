@@ -1,0 +1,132 @@
+{
+  "phaseId": "phase-04-cardiac-instability",
+  "phaseNumber": 4,
+  "title": "Cardiac instability",
+  "synopsis": "Respiratory stress can trigger ectopy, VT, ICD therapy, hypotension, or recurrent arrest risk. Treatment limits discussions must be accessible and must not imply disability reduces worthiness of escalation. Seeded for Episode 02; linked from Episode 01 debrief hook.",
+  "openingNarrative": "Rohan’s cardiomyopathy and ICD history mean respiratory manoeuvres are never only respiratory. Ectopy may cluster when pressures climb or recruitment is aggressive. Approaches include treating reversible respiratory triggers first, escalating circulatory support, or limiting additional burdens unless instability worsens—always with Rohan addressed directly when access exists.",
+  "clinicalState": "Severe cardiomyopathy. ICD in situ. Limited cardiac reserve post prolonged arrest. Arrhythmia burden sensitive to respiratory stress.",
+  "communicationMethod": "mixed",
+  "disabilityRightsNotes": [
+    "Disability does not make escalation less worthwhile.",
+    "Limits talk requires accessible communication—not family proxy first.",
+    "ICD therapy is clinical event, not spectacle."
+  ],
+  "debriefNotes": [
+    "Episode 01 Branch C previews this phase.",
+    "Next-episode hook from ep01-debrief-hook lands here."
+  ],
+  "nodes": [
+    {
+      "id": "p04-trigger-first",
+      "phaseId": "phase-04-cardiac-instability",
+      "title": "Ectopy under respiratory stress",
+      "openingNarrative": "Ventricular ectopy rises after an airway manoeuvre. The ICD paces. Blood pressure softens. Choose the emphasis.",
+      "clinicalState": "Ectopy cluster. Soft BP. Airway still imperfect. AAC fatigued but available.",
+      "communicationMethod": "cheek-switch",
+      "choices": [
+        {
+          "id": "p04-respiratory-triggers",
+          "label": "Treat reversible respiratory triggers first while monitoring rhythm",
+          "immediateConsequence": "Airway focus may settle ectopy; delay in pure cardiac escalation.",
+          "delayedConsequence": "If trigger persists, arrhythmia returns—legitimate uncertainty.",
+          "domainDeltas": {
+            "airwayObstructionRisk": -6,
+            "arrhythmiaBurden": -4,
+            "cardiacReserve": 2,
+            "respiratoryStability": 4
+          },
+          "nextNodeId": "p04-support-escalation",
+          "rohanAacLine": "EVERY ALARM STILL DESERVES AN ANSWER."
+        },
+        {
+          "id": "p04-escalate-support",
+          "label": "Escalate cardiac and circulatory support now",
+          "immediateConsequence": "Perfusion support rises; treatment burden and monitoring intensity rise.",
+          "delayedConsequence": "Must still explain actions to Rohan accessibly.",
+          "domainDeltas": {
+            "cardiacReserve": 8,
+            "arrhythmiaBurden": -6,
+            "familyBurden": 3,
+            "privacyProtection": -2,
+            "painControl": -2
+          },
+          "nextNodeId": "p04-support-escalation",
+          "rohanAacLine": "TELL ME BEFORE MEDICINE."
+        },
+        {
+          "id": "p04-limit-burdens",
+          "label": "Limit additional burdens unless instability worsens — with Rohan in the loop",
+          "immediateConsequence": "Authorship protected; risk of under-escalation if instability accelerates.",
+          "delayedConsequence": "Documentation must not imply disability-based undertreatment.",
+          "domainDeltas": {
+            "authorshipControl": 10,
+            "communicationAccess": 4,
+            "cardiacReserve": -2,
+            "arrhythmiaBurden": 3,
+            "publicTrust": 2
+          },
+          "nextNodeId": "p04-support-escalation",
+          "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+        }
+      ],
+      "disabilityRightsNotes": [
+        "Any limits discussion is about burdens and goals—not worth of a disabled life."
+      ],
+      "debriefNotes": [
+        "Forest node for Episode 02."
+      ]
+    },
+    {
+      "id": "p04-support-escalation",
+      "phaseId": "phase-04-cardiac-instability",
+      "title": "After the first cardiac choice",
+      "openingNarrative": "Instability eases or persists. Bridge toward sedation/communication work or home planning depending on episode wiring.",
+      "clinicalState": "Post-intervention observation.",
+      "communicationMethod": "aac-board",
+      "choices": [
+        {
+          "id": "p04-to-sedation",
+          "label": "Continue into sedation and communication restoration",
+          "immediateConsequence": "Moves to Phase 5 patterns.",
+          "delayedConsequence": "Cardiac domain remains elevated in debrief.",
+          "domainDeltas": {
+            "communicationAccess": 3
+          },
+          "nextNodeId": "ep01-sedation-delirium",
+          "rohanAacLine": "COMMUNICATION WHEN EYES OPEN."
+        },
+        {
+          "id": "p04-to-home",
+          "label": "Keep cardiac plan and open home/school continuity",
+          "immediateConsequence": "Rights planning continues during instability.",
+          "delayedConsequence": "Dates move; membership does not vanish.",
+          "domainDeltas": {
+            "homeReadiness": 4,
+            "schoolAccess": 2
+          },
+          "nextNodeId": "ep01-home-school",
+          "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+        },
+        {
+          "id": "p04-episode02-hook",
+          "label": "Park as Episode 02 opening state",
+          "immediateConsequence": "Forest marker for later playable episode.",
+          "delayedConsequence": "Debrief hook from Episode 01 points here.",
+          "domainDeltas": {
+            "authorshipControl": 2,
+            "publicTrust": 1
+          },
+          "nextNodeId": "ep01-debrief-hook",
+          "rohanAacLine": "THE AMBULANCE KEPT THE CODE GOING."
+        }
+      ],
+      "disabilityRightsNotes": [
+        "Cardiac phase does not end the story at ROSC."
+      ],
+      "debriefNotes": [
+        "Connector node for forest growth."
+      ]
+    }
+  ],
+  "exitNodeIds": ["ep01-sedation-delirium", "ep01-home-school", "ep01-debrief-hook"]
+}

@@ -1,0 +1,140 @@
+{
+  "phaseId": "phase-06-home-school-authorship",
+  "phaseNumber": 6,
+  "title": "Home, school, privacy and authorship",
+  "synopsis": "Two-person paid home staffing, school membership, telemetry versus privacy, and ownership of lived-experience training content. Episode 01 playable: ep01-home-school and ep01-debrief-hook.",
+  "openingNarrative": "Instability changes calendars. It does not erase educational membership, privacy rights, or authorship. Government funding models that treated a family member as the second airway worker were rejected. Jay remains a friend and creative collaborator outside the clinical roster. Rohan’s principle: the emergency may teach mechanics; his identity and framing require consent.",
+  "clinicalState": "Still critically ill or recovering in ICU. Planning domains remain active.",
+  "communicationMethod": "voice-output",
+  "disabilityRightsNotes": [
+    "Home and school plans require paid trained responders; friendship is not a staffing category.",
+    "Appropriate school transfer can be the plan working.",
+    "AAC logs and raw conversations are protected.",
+    "Public location does not make crisis public property."
+  ],
+  "debriefNotes": [
+    "Episode 01 continuity decision lives here.",
+    "Debrief hook continues beyond ROSC."
+  ],
+  "playableEpisode01NodeIds": [
+    "ep01-home-school",
+    "ep01-debrief-hook"
+  ],
+  "nodes": [
+    {
+      "id": "p06-home-evidence",
+      "phaseId": "phase-06-home-school-authorship",
+      "title": "Home Evidence Trust checkpoint",
+      "openingNarrative": "Someone proposes continuous bedroom video ‘until discharge is safer’. Apply Home Evidence Trust principles.",
+      "clinicalState": "ICU planning meeting. Fear high. Privacy at stake.",
+      "communicationMethod": "aac-board",
+      "choices": [
+        {
+          "id": "p06-refuse-continuous-video",
+          "label": "Refuse continuous video; keep least-intrusive alerts and paid night staffing",
+          "immediateConsequence": "Privacy and home readiness rise; family fear may remain.",
+          "delayedConsequence": "Audit record without raw bedroom capture.",
+          "domainDeltas": {
+            "privacyProtection": 12,
+            "homeReadiness": 8,
+            "familyBurden": 3,
+            "authorshipControl": 4
+          },
+          "nextNodeId": "ep01-home-school",
+          "rohanAacLine": "TELL ME BEFORE MEDICINE."
+        },
+        {
+          "id": "p06-parent-second-responder",
+          "label": "Fund one worker and assume a parent covers the second response",
+          "immediateConsequence": "Family burden spikes; home readiness is false economy.",
+          "delayedConsequence": "Rights lint and story canon reject this model.",
+          "domainDeltas": {
+            "familyBurden": 16,
+            "homeReadiness": -10,
+            "publicTrust": -8,
+            "privacyProtection": -4
+          },
+          "nextNodeId": "ep01-home-school",
+          "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+        },
+        {
+          "id": "p06-jay-on-call",
+          "label": "Ask Jay to learn suction so he can help at school events",
+          "immediateConsequence": "Friendship becomes unpaid clinical labour; school access is distorted.",
+          "delayedConsequence": "Canon violation: Jay is not a junior respiratory worker.",
+          "domainDeltas": {
+            "familyBurden": 6,
+            "schoolAccess": -6,
+            "publicTrust": -6,
+            "authorshipControl": -4
+          },
+          "nextNodeId": "ep01-home-school",
+          "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+        }
+      ],
+      "disabilityRightsNotes": [
+        "One worker handles the airway; another handles the rest—redundancy is not excess.",
+        "Jay may stay, leave, call an adult, or feel trauma—without becoming staff."
+      ],
+      "debriefNotes": [
+        "Negative branches included for rights teaching in the forest."
+      ]
+    },
+    {
+      "id": "p06-authorship-cut",
+      "phaseId": "phase-06-home-school-authorship",
+      "title": "Training package authorship",
+      "openingNarrative": "A distributor wants a shortened Code Pink/Blue training cut that drops communication access, delirium, restraint review, school exclusion, home staffing, and privacy.",
+      "clinicalState": "Post-event media request. Rohan can respond via AAC.",
+      "communicationMethod": "voice-output",
+      "choices": [
+        {
+          "id": "p06-withdraw-name",
+          "label": "Withdraw permission for Rohan’s name on the shortened cut",
+          "immediateConsequence": "Authorship control rises; public trust in ethical training rises.",
+          "delayedConsequence": "Next episode: dispute over what remaining footage may teach.",
+          "domainDeltas": {
+            "authorshipControl": 14,
+            "publicTrust": 6,
+            "privacyProtection": 4
+          },
+          "nextNodeId": "ep01-debrief-hook",
+          "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+        },
+        {
+          "id": "p06-allow-mechanics-only",
+          "label": "Allow anonymous mechanics teaching without identity or voice",
+          "immediateConsequence": "Partial compromise; privacy holds better than full likeness use.",
+          "delayedConsequence": "Must still block symptom-language misuse.",
+          "domainDeltas": {
+            "authorshipControl": 6,
+            "privacyProtection": 8,
+            "publicTrust": 2
+          },
+          "nextNodeId": "ep01-debrief-hook",
+          "rohanAacLine": "TELL ME BEFORE MEDICINE."
+        },
+        {
+          "id": "p06-full-likeness",
+          "label": "Approve name, voice, and likeness for wider distribution now",
+          "immediateConsequence": "Reach rises; authorship and privacy fall without granular consent.",
+          "delayedConsequence": "Hard to claw back once released.",
+          "domainDeltas": {
+            "publicTrust": -4,
+            "authorshipControl": -12,
+            "privacyProtection": -10
+          },
+          "nextNodeId": "ep01-debrief-hook",
+          "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+        }
+      ],
+      "disabilityRightsNotes": [
+        "Emergency teaching mechanics ≠ consent for identity and framing."
+      ],
+      "debriefNotes": [
+        "Feeds Episode 02 authorship conflict hook."
+      ]
+    }
+  ],
+  "exitNodeIds": ["ep01-debrief-hook"]
+}

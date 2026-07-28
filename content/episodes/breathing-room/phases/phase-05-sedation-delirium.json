@@ -1,0 +1,81 @@
+{
+  "phaseId": "phase-05-sedation-delirium",
+  "phaseNumber": 5,
+  "title": "Sedation reduction, delirium and communication",
+  "synopsis": "Orient, restore access, check pain, stop-on-signal, minimise restraint. Ambulance memory fragments must not rewrite chronology. Episode 01 playable: ep01-sedation-delirium.",
+  "openingNarrative": "As sedation lightens, Rohan may hold fragmented transport memories, fear alarms, mistrust sensors after the prior bedroom camera violation, and reach toward tubing because of pain or pulling. Learners restore access, inspect equipment tension, reduce sensory load, and avoid inaccessible capacity testing.",
+  "clinicalState": "Fluctuating delirium risk. Pain possible. Communication reliability variable. Restraint temptation high if reaching is misread.",
+  "communicationMethod": "cheek-switch",
+  "disabilityRightsNotes": [
+    "Reaching may be communication.",
+    "Delirium is not permanent incapacity.",
+    "Do not use grip strength to prove decision-making ability.",
+    "Monitoring is not automatically surveillance."
+  ],
+  "debriefNotes": [
+    "Pairs with Prompt 6 audio script.",
+    "Episode 01 node carries the playable choices."
+  ],
+  "playableEpisode01NodeIds": ["ep01-sedation-delirium"],
+  "nodes": [
+    {
+      "id": "p05-reaching",
+      "phaseId": "phase-05-sedation-delirium",
+      "title": "Reaching toward tubing",
+      "openingNarrative": "Rohan’s hand moves toward a line. Before soft restraint, check pain, position, and tubing tension. Restore yes/no.",
+      "clinicalState": "Possible pain or discomfort. Delirium fragments possible.",
+      "communicationMethod": "cheek-switch",
+      "choices": [
+        {
+          "id": "p05-check-pain-first",
+          "label": "Check pain and tubing first; ask yes/no; avoid restraint",
+          "immediateConsequence": "Restraint exposure falls; pain control may rise; access rises.",
+          "delayedConsequence": "If pulling continues after comfort, proportionate measures still require explanation.",
+          "domainDeltas": {
+            "painControl": 10,
+            "restraintExposure": -10,
+            "communicationAccess": 8,
+            "deliriumBurden": -3
+          },
+          "nextNodeId": "ep01-sedation-delirium",
+          "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+        },
+        {
+          "id": "p05-soft-mitts-first",
+          "label": "Apply soft mitts immediately to protect lines",
+          "immediateConsequence": "Line safety rises; restraint exposure and authorship fall; pain may go unread.",
+          "delayedConsequence": "Rights review challenges restraint-first habit.",
+          "domainDeltas": {
+            "restraintExposure": 12,
+            "painControl": -6,
+            "communicationAccess": -4,
+            "authorshipControl": -5,
+            "publicTrust": -3
+          },
+          "nextNodeId": "ep01-sedation-delirium",
+          "rohanAacLine": "TELL ME BEFORE MEDICINE."
+        },
+        {
+          "id": "p05-ask-samira-intent",
+          "label": "Ask Samira what Rohan usually means when he reaches",
+          "immediateConsequence": "Family burden rises; Rohan is not asked first.",
+          "delayedConsequence": "Pattern of proxy-first answering flagged.",
+          "domainDeltas": {
+            "familyBurden": 8,
+            "authorshipControl": -8,
+            "communicationAccess": -3
+          },
+          "nextNodeId": "ep01-sedation-delirium",
+          "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+        }
+      ],
+      "disabilityRightsNotes": [
+        "Samira’s knowledge can supplement after Rohan is offered access—not replace it."
+      ],
+      "debriefNotes": [
+        "Negative branches teach restraint and proxy errors."
+      ]
+    }
+  ],
+  "exitNodeIds": ["ep01-home-school"]
+}

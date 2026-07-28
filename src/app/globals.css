@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Calm clinical palette — cool slate / teal, no pity-purple glow */
+  --color-bg: #e8eef2;
+  --color-surface: #f5f8fa;
+  --color-wash: #dce6ec;
+  --color-line: #b8c6d0;
+  --color-ink: #1a2a33;
+  --color-muted: #4a5d6a;
+  --color-accent: #2f6f7a;
+  --color-accent-soft: #c5dde2;
+  --color-warning: #8a5a2b;
+  --color-focus: #1f5c66;
+
+  --background: var(--color-bg);
+  --foreground: var(--color-ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(ellipse 120% 80% at 10% -20%, #d4e4ea 0%, transparent 55%),
+    radial-gradient(ellipse 90% 60% at 100% 0%, #cfd9e0 0%, transparent 45%),
+    linear-gradient(180deg, var(--color-bg) 0%, #dfe7ec 100%);
+  color: var(--color-ink);
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+  min-height: 100%;
+}
+
+:root[data-reduced-motion="true"] *,
+:root[data-reduced-motion="true"] *::before,
+:root[data-reduced-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+:root[data-reduced-sensory="true"] body {
+  background: var(--color-surface);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.prose-clinical p {
+  max-width: 42rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only:focus,
+.sr-only:focus-visible,
+.focus\:not-sr-only:focus,
+.focus\:not-sr-only:focus-visible {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
 }

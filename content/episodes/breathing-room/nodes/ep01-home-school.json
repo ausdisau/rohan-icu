@@ -1,0 +1,69 @@
+{
+  "id": "ep01-home-school",
+  "phaseId": "phase-06-home-school-authorship",
+  "title": "Home staffing and school membership stay active",
+  "openingNarrative": "Medical instability may move dates. It does not erase legal orders, educational membership, or privacy rights. The team must keep one continuity decision live: protect two-person paid home airway staffing plans, or protect staged school return planning with trained paid responders. Family and friends stay outside the clinical roster. Rohan co-owns the framing. Public emergency footage from the library event is not automatically training content.",
+  "clinicalState": "Still ICU. Airway and infection courses ongoing. Communication access partially restored. Home readiness and school access domains remain trackable mid-ICU. Authorship and privacy live alongside physiology.",
+  "communicationMethod": "voice-output",
+  "choices": [
+    {
+      "id": "continuity-home-staffing",
+      "label": "Lock the two-person paid home airway-responder plan as non-negotiable on discharge planning",
+      "immediateConsequence": "Home readiness and public trust rise. Family burden falls because the plan rejects parent-as-second-responder funding logic. School timeline may slip without deleting membership.",
+      "delayedConsequence": "Insurers may push telemetry or video ‘for safety’; privacy protection must stay explicit. Next episode can test relief staffing coverage.",
+      "domainDeltas": {
+        "homeReadiness": 14,
+        "familyBurden": -12,
+        "privacyProtection": 6,
+        "publicTrust": 5,
+        "schoolAccess": -2,
+        "authorshipControl": 4
+      },
+      "nextNodeId": "ep01-debrief-hook",
+      "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+    },
+    {
+      "id": "continuity-school-membership",
+      "label": "Keep staged school membership active with two trained responders in the plan",
+      "immediateConsequence": "School access holds. Appropriate emergency transfer remains part of support—not proof inclusion failed. Home staffing still needs separate paid coverage.",
+      "delayedConsequence": "School may argue instability proves exclusion; counter-principle stays: transfer can be the plan working. Authorship needed if any training package uses this episode.",
+      "domainDeltas": {
+        "schoolAccess": 12,
+        "homeReadiness": 2,
+        "publicTrust": 4,
+        "authorshipControl": 5,
+        "familyBurden": -4,
+        "privacyProtection": 3
+      },
+      "nextNodeId": "ep01-debrief-hook",
+      "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+    },
+    {
+      "id": "continuity-privacy-authorship",
+      "label": "Refuse continuous video/GPS ‘comfort monitoring’ and require Rohan’s consent for any story use",
+      "immediateConsequence": "Privacy and authorship rise sharply. Some clinicians feel less ‘covered’; family fear may spike without becoming a reason to seize Rohan’s body as the treatment site for trauma.",
+      "delayedConsequence": "Home Evidence Trust principles apply: least intrusive evidence; AAC logs protected; raw conversations not routine evidence. Next episode can reopen proportionate monitoring debates.",
+      "domainDeltas": {
+        "privacyProtection": 14,
+        "authorshipControl": 12,
+        "publicTrust": 3,
+        "familyBurden": 4,
+        "homeReadiness": 3,
+        "schoolAccess": 2
+      },
+      "nextNodeId": "ep01-debrief-hook",
+      "rohanAacLine": "TELL ME BEFORE MEDICINE."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Clinical response labour stays with paid staff. Family and friends remain support people by choice, not substitute clinicians.",
+    "School emergency transfer can be part of inclusion, not evidence against it.",
+    "Rohan’s identity, voice, and authored framing require consent.",
+    "Instability changes dates; it does not auto-erase rights."
+  ],
+  "debriefNotes": [
+    "Home and school rights remain active mid-ICU—core acceptance criterion.",
+    "Privacy versus fear is a live trade-off without vilifying Samira.",
+    "Hook into debrief: rights domains are scored alongside physiology."
+  ]
+}

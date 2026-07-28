@@ -1,0 +1,94 @@
+{
+  "id": "ep01-pressure-rise",
+  "phaseId": "phase-03-airway-bronchoscopy",
+  "title": "Recurrent pressure rise",
+  "openingNarrative": "Ventilator pressures are climbing again. Right-sided air entry is reduced. The tracheostomy tube is patent—ordinary suction retrieves little secretion. Rohan uses auditory scanning to report RIGHT MIDDLE. A simplified overlay shows a possible distal plug. The clinician explains uncertainty at eye level. No family member answers on his behalf. Three imperfect options appear before any outcome is revealed.",
+  "clinicalState": "Rising peak pressures. Reduced right-sided air entry. Patent tracheostomy with little suction yield. Differential includes distal mucus plug, focal atelectasis, secretion burden, inflammation; pneumothorax is not diagnosed without supporting findings. Severe cardiomyopathy with ICD in situ; cardiac reserve limited—aggressive recruitment has previously linked to ventricular instability and ICD therapy.",
+  "communicationMethod": "auditory-scanning",
+  "choices": [
+    {
+      "id": "airway-early-bronchoscopy",
+      "label": "Early planned bronchoscopy through the tracheostomy",
+      "immediateConsequence": "Team prepares controlled bronchoscopy without graphic procedural display. Procedural and cardiac risk rise; obstruction may be confirmed or cleared.",
+      "delayedConsequence": "Branch A consequence follows: plug removal may coincide with brief hypotension without arrest. Access must stay available through the procedure window.",
+      "domainDeltas": {
+        "airwayObstructionRisk": -10,
+        "rightLungAeration": 6,
+        "respiratoryStability": 4,
+        "cardiacReserve": -8,
+        "arrhythmiaBurden": 6,
+        "communicationAccess": 2
+      },
+      "nextNodeId": "ep01-consequence-a",
+      "rohanAacLine": "THE LAST EMERGENCY IS HISTORY. CHECK WHAT THIS ONE IS."
+    },
+    {
+      "id": "airway-targeted-clearance",
+      "label": "Targeted humidification, positioning, and cautious clearance with observation",
+      "immediateConsequence": "Pressures may ease partially without a scope. Obstruction certainty remains low; observation burden rises.",
+      "delayedConsequence": "Branch B consequence follows: partial improvement can mask a plug that later worsens. Not framed as the gentle correct answer—only a different risk profile.",
+      "domainDeltas": {
+        "airwayObstructionRisk": -3,
+        "rightLungAeration": 2,
+        "respiratoryStability": 1,
+        "cardiacReserve": -1,
+        "infectionControl": -1,
+        "communicationAccess": 3
+      },
+      "nextNodeId": "ep01-consequence-b",
+      "rohanAacLine": "NOT EVERY ALARM IS A CODE."
+    },
+    {
+      "id": "airway-pressure-recruitment",
+      "label": "More aggressive pressure recruitment to re-expand the right lung",
+      "immediateConsequence": "Aeration may improve briefly. Cardiac and lung-injury risk climb because high-pressure techniques have previously triggered ventricular instability.",
+      "delayedConsequence": "Branch C consequence follows: brief gain can trade into arrhythmia burden and concern for pressure-related lung injury.",
+      "domainDeltas": {
+        "rightLungAeration": 8,
+        "respiratoryStability": 3,
+        "airwayObstructionRisk": -2,
+        "cardiacReserve": -10,
+        "arrhythmiaBurden": 12,
+        "painControl": -2
+      },
+      "nextNodeId": "ep01-consequence-c",
+      "rohanAacLine": "EVERY ALARM STILL DESERVES AN ANSWER."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Rohan reports the symptom location; staff do not speak over him.",
+    "Bronchoscopy is a decision, not an automatic ritual.",
+    "Camera stays at or below Rohan’s eye level when he is addressed."
+  ],
+  "debriefNotes": [
+    "Prompt 7 decision beat: three airway strategies, outcome not yet revealed.",
+    "Patent tracheostomy with distal obstruction is clinically coherent.",
+    "No correct-answer language in the node or media."
+  ],
+  "media": [
+    {
+      "id": "pressure-rise-video",
+      "kind": "video",
+      "src": "/media/video/ep01-pressure-rise-slot.txt",
+      "title": "Recurrent pressure rise — branching decision video slot",
+      "accessibility": {
+        "captions": "See content/multimedia/video-pressure-rise.json captions field.",
+        "transcript": "See content/multimedia/video-pressure-rise.json full transcript.",
+        "audioDescription": "Wide ICU room; ventilator pressure trend rising; clinician checks circuit; Rohan scans RIGHT MIDDLE; distal-plug overlay; three learner options.",
+        "reducedSensoryAlt": "Still frames plus text beat sheet; no alarm audio; no flashing monitor effects."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "distal-plug-diagram-ref",
+      "kind": "svg",
+      "src": "/media/clinical/right-lower-lobe-distal-plug.svg",
+      "title": "Possible distal plug overlay reference",
+      "accessibility": {
+        "altText": "Diagram reference for possible distal right lower-lobe plug with open central airway.",
+        "extendedAltText": "Educational overlay matching Prompt 4: tracheostomy entry, open central airway, distal plug with hatch pattern, reduced aeration beyond plug, no pneumothorax."
+      },
+      "autoplayForbidden": true
+    }
+  ]
+}

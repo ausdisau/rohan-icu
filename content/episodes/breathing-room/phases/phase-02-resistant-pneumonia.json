@@ -1,0 +1,79 @@
+{
+  "phaseId": "phase-02-resistant-pneumonia",
+  "phaseNumber": 2,
+  "title": "Resistant pneumonia treatment",
+  "synopsis": "Active resistant infection versus kidney toxicity. Colonisation is distinguished from active infection. No exact drug names or doses. Episode 01 playable nodes ep01-infection-renal and ep01-consent-dialogue live here.",
+  "openingNarrative": "Rohan’s airway has known resistant colonisation. After the library emergency and resus-bay clearance, culture plus fever, secretions, imaging, and pressures support active infection. Effective treatment may injure kidneys. Disability is not a reason to stop effective treatment; toxicity still requires accessible discussion.",
+  "clinicalState": "Active resistant right lower-lobe pneumonia. Limited renal and cardiac reserve. Non-prescriptive antimicrobial strategy.",
+  "communicationMethod": "aac-board",
+  "disabilityRightsNotes": [
+    "Distinguish colonisation from active infection.",
+    "Uncertainty is legitimate; silence is not consent.",
+    "Staff own clinical labour."
+  ],
+  "debriefNotes": [
+    "Maps to Prompt 2 and Prompt 3.",
+    "Three imperfect infection branches plus consent dialogue."
+  ],
+  "playableEpisode01NodeIds": [
+    "ep01-infection-renal",
+    "ep01-consent-dialogue"
+  ],
+  "nodes": [
+    {
+      "id": "p02-colonisation-vs-infection",
+      "phaseId": "phase-02-resistant-pneumonia",
+      "title": "Colonisation versus active infection checkpoint",
+      "openingNarrative": "Before escalating, the team must say whether this is colonisation alone or active infection with systemic features.",
+      "clinicalState": "Culture positive. Clinical features under review.",
+      "communicationMethod": "partner-assisted",
+      "choices": [
+        {
+          "id": "p02-treat-as-active",
+          "label": "Treat as confirmed active infection and open the toxicity trade-off",
+          "immediateConsequence": "Moves into antibiotic-versus-kidney decisions.",
+          "delayedConsequence": "Documentation must show clinical criteria, not culture alone.",
+          "domainDeltas": {
+            "infectionControl": 4,
+            "authorshipControl": 2
+          },
+          "nextNodeId": "ep01-infection-renal",
+          "rohanAacLine": "TELL ME BEFORE MEDICINE."
+        },
+        {
+          "id": "p02-colonisation-only",
+          "label": "Interpret as colonisation and watch closely",
+          "immediateConsequence": "Avoids toxicity for now; infection may declare itself.",
+          "delayedConsequence": "Risk of delayed escalation if systemic features were under-read.",
+          "domainDeltas": {
+            "renalReserve": 4,
+            "infectionControl": -6,
+            "antibioticResistance": 3
+          },
+          "nextNodeId": "ep01-infection-renal",
+          "rohanAacLine": "CHECK WHAT THIS ONE IS."
+        },
+        {
+          "id": "p02-ask-rohan-symptoms",
+          "label": "Prioritise Rohan’s symptom report via AAC before labelling",
+          "immediateConsequence": "Authorship rises; clinical label waits on his units.",
+          "delayedConsequence": "Still needs objective review clock.",
+          "domainDeltas": {
+            "communicationAccess": 8,
+            "authorshipControl": 8,
+            "infectionControl": -1
+          },
+          "nextNodeId": "ep01-infection-renal",
+          "rohanAacLine": "RIGHT LOW."
+        }
+      ],
+      "disabilityRightsNotes": [
+        "Rohan’s symptom language is clinical data."
+      ],
+      "debriefNotes": [
+        "RIGHT LOW / DEEP are canon symptom units from the library event."
+      ]
+    }
+  ],
+  "exitNodeIds": ["ep01-pressure-rise"]
+}

@@ -1,0 +1,3 @@
+Asset slot — consent dialogue audio (Prompt 3).
+Structured turns: content/dialogues/ep01-consent-conversation.json
+No forced autoplay.

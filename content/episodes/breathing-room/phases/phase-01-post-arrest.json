@@ -1,0 +1,142 @@
+{
+  "phaseId": "phase-01-post-arrest",
+  "phaseNumber": 1,
+  "title": "Post-arrest stabilisation",
+  "synopsis": "ICU begins after the resuscitation bay restored sustained circulation. Deep sedation must have a clinical reason and review point. Communication systems are staged for wake.",
+  "openingNarrative": "Rohan arrives in ICU after sustained ROSC in the resuscitation bay. The library called help; the ambulance performed CPR; this ward is not the arrest scene. Blood pressure is fragile. Full controlled ventilation continues via tracheostomy. Deep sedation is in use to protect synchrony and recovery—not to make the room easier when he is unconscious.",
+  "clinicalState": "Post-ROSC. Deep sedation. Fragile haemodynamics. High arrhythmia risk. Distal airway recently cleared in the bay. Resistant pneumonia active. AAC hardware staged.",
+  "communicationMethod": "deep-sedation",
+  "disabilityRightsNotes": [
+    "Sedation for clinical indication with review—not convenience.",
+    "Silence under sedation is not incapacity.",
+    "Ventilation is support, not defeat."
+  ],
+  "debriefNotes": [
+    "Phase 1 sets chronology lock and access preparation.",
+    "Rapid wake versus protected sedation are trade-offs, not virtue contests."
+  ],
+  "nodes": [
+    {
+      "id": "p01-sedation-strategy",
+      "phaseId": "phase-01-post-arrest",
+      "title": "Sedation strategy after ROSC",
+      "openingNarrative": "Choose how to manage sedation in the first ICU hours while AAC is prepared for wake windows.",
+      "clinicalState": "Deep sedation default. Cardiac fragility. Communication temporarily unavailable due to sedation and critical illness.",
+      "communicationMethod": "deep-sedation",
+      "choices": [
+        {
+          "id": "p01-deep-with-review",
+          "label": "Maintain deep sedation with a written review time and AAC staged",
+          "immediateConsequence": "Synchrony protected; communication access delayed; delirium risk accumulates if review slips.",
+          "delayedConsequence": "Missed consent window if review time is ignored.",
+          "domainDeltas": {
+            "sedationDepth": 10,
+            "respiratoryStability": 6,
+            "deliriumBurden": 5,
+            "communicationAccess": -8,
+            "authorshipControl": -4
+          },
+          "nextNodeId": "p01-wake-window",
+          "rohanAacLine": "COMMUNICATION WHEN EYES OPEN."
+        },
+        {
+          "id": "p01-planned-wake-windows",
+          "label": "Controlled ventilation with planned wake windows for access checks",
+          "immediateConsequence": "Partial access returns on schedule; haemodynamic wobble possible during lightening.",
+          "delayedConsequence": "Staff must run access—family is not the default interpreter.",
+          "domainDeltas": {
+            "sedationDepth": -8,
+            "communicationAccess": 10,
+            "cardiacReserve": -3,
+            "deliriumBurden": -2,
+            "familyBurden": -4,
+            "authorshipControl": 5
+          },
+          "nextNodeId": "p01-wake-window",
+          "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+        },
+        {
+          "id": "p01-rapid-reduction",
+          "label": "Rapid sedation reduction to maximise early AAC",
+          "immediateConsequence": "Access rises quickly; distress and arrhythmia burden may rise.",
+          "delayedConsequence": "Delirium fragments may intensify without orientation protocol.",
+          "domainDeltas": {
+            "sedationDepth": -18,
+            "communicationAccess": 14,
+            "arrhythmiaBurden": 8,
+            "deliriumBurden": 6,
+            "authorshipControl": 6
+          },
+          "nextNodeId": "p01-wake-window",
+          "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+        }
+      ],
+      "disabilityRightsNotes": [
+        "Do not deepen sedation because disability makes presence inconvenient."
+      ],
+      "debriefNotes": [
+        "Links forward to Episode 01 sedation node."
+      ]
+    },
+    {
+      "id": "p01-wake-window",
+      "phaseId": "phase-01-post-arrest",
+      "title": "First wake window",
+      "openingNarrative": "A brief wake window tests orientation and yes/no access without relocating chronology.",
+      "clinicalState": "Lightening sedation. Fluctuating reliability. Cheek switch available.",
+      "communicationMethod": "cheek-switch",
+      "choices": [
+        {
+          "id": "p01-orient-and-stop",
+          "label": "Orient, restore yes/no, stop on signal",
+          "immediateConsequence": "Access and authorship rise; restraint stays low.",
+          "delayedConsequence": "Proceed to infection–renal phase with access baseline set.",
+          "domainDeltas": {
+            "communicationAccess": 8,
+            "restraintExposure": -5,
+            "deliriumBurden": -3,
+            "authorshipControl": 4
+          },
+          "nextNodeId": "ep01-infection-renal",
+          "rohanAacLine": "TELL ME BEFORE MEDICINE."
+        },
+        {
+          "id": "p01-flood-questions",
+          "label": "Ask many clinical questions quickly while he is briefly awake",
+          "immediateConsequence": "Cognitive load spikes; stop signals may be missed; trust drops.",
+          "delayedConsequence": "Later delirium work is harder; Rohan may refuse engagement.",
+          "domainDeltas": {
+            "communicationAccess": -4,
+            "deliriumBurden": 6,
+            "authorshipControl": -5,
+            "publicTrust": -3
+          },
+          "nextNodeId": "ep01-infection-renal",
+          "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+        },
+        {
+          "id": "p01-defer-to-family",
+          "label": "Ask Samira to summarise Rohan’s wishes while he rests",
+          "immediateConsequence": "Family burden rises; authorship falls; Rohan is sidelined.",
+          "delayedConsequence": "Rights review flags speaking-over pattern.",
+          "domainDeltas": {
+            "familyBurden": 10,
+            "authorshipControl": -12,
+            "communicationAccess": -6,
+            "publicTrust": -4
+          },
+          "nextNodeId": "ep01-infection-renal",
+          "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+        }
+      ],
+      "disabilityRightsNotes": [
+        "Samira must not answer first when Rohan has any access path.",
+        "Paid staff run clinical interpretation; family supplements only after Rohan is offered access."
+      ],
+      "debriefNotes": [
+        "Negative example branch included for rights teaching."
+      ]
+    }
+  ],
+  "exitNodeIds": ["ep01-infection-renal"]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "breathing-room-ep01",
+  "slug": "breathing-room",
+  "title": "Breathing Room: After the Bay",
+  "subtitle": "Episode 01 — post-ROSC ICU",
+  "chronologyLock": [
+    "The library called help.",
+    "The ambulance performed CPR.",
+    "The resuscitation bay restored sustained circulation.",
+    "ICU care begins after sustained ROSC."
+  ],
+  "startNodeId": "ep01-arrival-framing",
+  "nodeIds": [
+    "ep01-arrival-framing",
+    "ep01-infection-renal",
+    "ep01-consent-dialogue",
+    "ep01-pressure-rise",
+    "ep01-consequence-a",
+    "ep01-consequence-b",
+    "ep01-consequence-c",
+    "ep01-sedation-delirium",
+    "ep01-home-school",
+    "ep01-debrief-hook"
+  ],
+  "estimatedMinutes": {
+    "min": 20,
+    "max": 30
+  },
+  "version": "1.0.0-ep01"
+}

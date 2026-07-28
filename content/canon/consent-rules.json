@@ -1,0 +1,57 @@
+{
+  "id": "consent-rules",
+  "title": "Consent rules — media, voice, likeness, symptom language",
+  "version": "1.0.0",
+  "appliesTo": [
+    "Episode media production",
+    "AAC voice assets",
+    "Illustrations and likeness",
+    "Training cuts and public distribution",
+    "Symptom language and clinical telemetry excerpts"
+  ],
+  "principles": [
+    {
+      "id": "identity-requires-consent",
+      "rule": "The emergency may teach clinical mechanics. Rohan’s identity, voice, and authored framing require consent."
+    },
+    {
+      "id": "no-child-voice-cloning",
+      "rule": "Do not clone a real child’s voice without consent. Use a licensed performer or an explicitly authorised synthetic voice."
+    },
+    {
+      "id": "no-unconsented-likeness",
+      "rule": "Do not use the likeness of a real minor. Commissioned art and placeholders must remain fictional or fully licensed."
+    },
+    {
+      "id": "symptom-language-ownership",
+      "rule": "Personalised symptom language (for example RIGHT LOW, DEEP, RIGHT MIDDLE) is clinical communication belonging to Rohan’s authorship. It is not free promotional copy."
+    },
+    {
+      "id": "aac-logs-protected",
+      "rule": "Raw AAC logs and private conversations are not routine evidence or marketing content."
+    },
+    {
+      "id": "public-crisis-not-public-property",
+      "rule": "A public location does not make a medical crisis public property. Recording should stop during deterioration; audience filming is restricted; emergency footage is not automatic training content."
+    },
+    {
+      "id": "shortened-cuts",
+      "rule": "Training packages that strip communication access, delirium, restraint review, school exclusion, home staffing, or privacy require renewed consent. Rohan may withdraw his name from shortened cuts."
+    },
+    {
+      "id": "family-fear-not-surveillance-licence",
+      "rule": "Family fear is treated seriously. It does not authorise continuous bedroom video, GPS, or seizure of Rohan’s body and privacy as the treatment site for someone else’s trauma."
+    },
+    {
+      "id": "media-player-defaults",
+      "rule": "Simulation media never forced-autoplays. Captions, transcripts, audio description or descriptive text, pause/replay, and reduced-sensory alternatives are required for production paths."
+    }
+  ],
+  "productionChecklist": [
+    "Confirm voice licence path before recording AAC lines",
+    "Confirm illustration licence or placeholder-only status",
+    "Keep symptom language attributed and reversible",
+    "Offer reduced-sensory alternate for any alarm-containing audio/video",
+    "Document withdrawals of consent in authorshipControl domain notes"
+  ]
+}

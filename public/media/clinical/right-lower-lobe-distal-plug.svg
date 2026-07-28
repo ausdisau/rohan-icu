@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 520" role="img" aria-labelledby="title desc">
+  <title id="title">Distal right lower-lobe mucus plug with patent tracheostomy</title>
+  <desc id="desc">Front-view educational lung diagram. Tracheostomy enters an open central airway. A hatched distal mucus plug sits in a right lower-lobe bronchial branch. Dotted fill shows reduced aeration beyond the plug. No pneumothorax is shown. Patterns and labels distinguish regions; colour is not the only cue.</desc>
+  <rect width="640" height="520" fill="#f7f4ef"/>
+  <text x="24" y="36" font-family="Georgia, serif" font-size="20" fill="#1a1a1a">Clinical diagram  distal right lower-lobe plug</text>
+  <text x="24" y="58" font-family="Segoe UI, sans-serif" font-size="12" fill="#333">High-contrast educational schematic · not a procedural image</text>
+
+  <!-- Neck / trach -->
+  <rect x="300" y="78" width="40" height="36" rx="6" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+  <line x1="280" y1="96" x2="300" y2="96" stroke="#1a1a1a" stroke-width="3"/>
+  <circle cx="272" cy="96" r="8" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="190" y="100" font-family="Segoe UI, sans-serif" font-size="13" fill="#1a1a1a">Tracheostomy entry</text>
+
+  <!-- Central airway -->
+  <path d="M320 114 v28" stroke="#1a1a1a" stroke-width="4" fill="none"/>
+  <text x="350" y="130" font-family="Segoe UI, sans-serif" font-size="13" fill="#1a1a1a">Central airway open / patent</text>
+
+  <!-- Left lung (patient left = viewer's right) outline -->
+  <path d="M330 150 C410 145 455 200 450 300 C445 380 390 420 330 410 Z" fill="#e8eef5" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="360" y="270" font-family="Segoe UI, sans-serif" font-size="12" fill="#1a1a1a">Left lung</text>
+  <text x="355" y="288" font-family="Segoe UI, sans-serif" font-size="11" fill="#333">aeration present</text>
+
+  <!-- Right lung outline -->
+  <path d="M310 150 C230 145 185 200 190 300 C195 380 250 420 310 410 Z" fill="#e8eef5" stroke="#1a1a1a" stroke-width="3"/>
+
+  <!-- Bronchial branches -->
+  <path d="M320 150 L260 210 L230 280" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+  <path d="M260 210 L285 260" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+  <path d="M320 150 L380 210 L410 280" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+
+  <!-- Distal plug  hatch pattern (not colour-only) -->
+  <defs>
+    <pattern id="hatchPlug" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#1a1a1a" stroke-width="2"/>
+    </pattern>
+    <pattern id="dotReduced" patternUnits="userSpaceOnUse" width="10" height="10">
+      <circle cx="2" cy="2" r="1.5" fill="#1a1a1a"/>
+    </pattern>
+  </defs>
+  <ellipse cx="228" cy="292" rx="22" ry="16" fill="url(#hatchPlug)" stroke="#1a1a1a" stroke-width="2"/>
+  <text x="70" y="286" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" fill="#1a1a1a">Distal mucus plug</text>
+  <text x="70" y="304" font-family="Segoe UI, sans-serif" font-size="11" fill="#333">(hatch pattern)</text>
+
+  <!-- Reduced aeration beyond plug  dotted fill -->
+  <path d="M210 300 C200 340 230 390 270 395 C290 396 300 360 295 330 C280 310 240 300 210 300 Z" fill="url(#dotReduced)" stroke="#1a1a1a" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="70" y="360" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" fill="#1a1a1a">Reduced aeration</text>
+  <text x="70" y="378" font-family="Segoe UI, sans-serif" font-size="11" fill="#333">beyond plug (dotted fill)</text>
+
+  <!-- Callouts -->
+  <text x="24" y="440" font-family="Segoe UI, sans-serif" font-size="12" fill="#1a1a1a">Suction through the tracheostomy may not reach a distal plug.</text>
+  <text x="24" y="460" font-family="Segoe UI, sans-serif" font-size="12" fill="#1a1a1a">No pneumothorax is shown in this diagram.</text>
+  <text x="24" y="490" font-family="Segoe UI, sans-serif" font-size="12" fill="#555">Caption space: patent central airway · distal right lower-lobe obstruction · pattern + labels</text>
+</svg>

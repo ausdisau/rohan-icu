@@ -1,0 +1,75 @@
+{
+  "id": "video-pressure-rise-prompt7",
+  "prompt": 7,
+  "title": "Recurrent pressure rise — 90-second branching decision video",
+  "durationSeconds": 90,
+  "decisionPoint": "Rising ventilator pressures and reduced right-sided air entry. Tracheostomy patent; ordinary suction retrieves little. End before clinical outcome.",
+  "requirements": [
+    "captions",
+    "audio description",
+    "no rapid flashing",
+    "no graphic bronchoscopy footage",
+    "camera at or below Rohan’s eye level when addressing him",
+    "no family member answers on his behalf",
+    "end before outcome revealed"
+  ],
+  "shotList": [
+    {
+      "shot": 1,
+      "durationSeconds": 12,
+      "description": "Wide orientation of the ICU room in daylight. Equipment present, not dominant."
+    },
+    {
+      "shot": 2,
+      "durationSeconds": 10,
+      "description": "Ventilator display showing a rising pressure trend — no flashing effects; steady readable numbers."
+    },
+    {
+      "shot": 3,
+      "durationSeconds": 12,
+      "description": "Clinician checks circuit and tracheostomy connection; suction yields little."
+    },
+    {
+      "shot": 4,
+      "durationSeconds": 14,
+      "description": "Camera at or below eye level. Rohan uses auditory scanning to report RIGHT MIDDLE."
+    },
+    {
+      "shot": 5,
+      "durationSeconds": 12,
+      "description": "Simplified animated overlay of possible distal plug (reuse Prompt 4 visual language: hatch + labels)."
+    },
+    {
+      "shot": 6,
+      "durationSeconds": 14,
+      "description": "Clinician explains uncertainty to Rohan. Samira visible, not answering."
+    },
+    {
+      "shot": 7,
+      "durationSeconds": 16,
+      "description": "Three on-screen learner options: early bronchoscopy; targeted clearance and observation; aggressive pressure recruitment."
+    }
+  ],
+  "productionScript": [
+    { "timecode": "00:00", "speaker": "AD", "text": "Wide paediatric ICU bay. Daylight. Rohan in bed on controlled ventilation." },
+    { "timecode": "00:12", "speaker": "AD", "text": "Ventilator trend: pressures climbing steadily. No flashing." },
+    { "timecode": "00:22", "speaker": "Clinician", "text": "Circuit is connected. The tracheostomy tube is patent. Suction brings up very little." },
+    { "timecode": "00:34", "speaker": "Clinician", "text": "Rohan — auditory scan is on. Tell us the location when you hear it." },
+    { "timecode": "00:42", "speaker": "Rohan AAC", "text": "RIGHT MIDDLE." },
+    { "timecode": "00:48", "speaker": "AD", "text": "Overlay: open central airway; possible distal plug with hatch pattern; reduced aeration beyond." },
+    { "timecode": "00:58", "speaker": "Clinician", "text": "We are uncertain. It may be a distal plug. It may be collapse or inflammation. We will not guess a pneumothorax without findings." },
+    { "timecode": "01:10", "speaker": "AD", "text": "Three learner options appear. Samira stays silent. Outcome not shown." },
+    { "timecode": "01:14", "speaker": "ONSCREEN", "text": "A Early bronchoscopy · B Targeted clearance and observation · C Aggressive pressure recruitment" }
+  ],
+  "captions": [
+    "Clinician: Circuit is connected. The tracheostomy tube is patent. Suction brings up very little.",
+    "Clinician: Rohan — auditory scan is on. Tell us the location when you hear it.",
+    "Rohan AAC: RIGHT MIDDLE.",
+    "Clinician: We are uncertain. It may be a distal plug. It may be collapse or inflammation.",
+    "Clinician: We will not guess a pneumothorax without findings.",
+    "[Options] A Early bronchoscopy · B Targeted clearance and observation · C Aggressive pressure recruitment"
+  ],
+  "audioDescription": "Wide ICU orientation; rising pressure trend without flashing; circuit and tracheostomy check; Rohan scans RIGHT MIDDLE at eye level; distal-plug overlay with patterns and labels; clinician states uncertainty; three options; Samira does not speak for him; freeze before outcome.",
+  "reducedSensoryAlt": "Still-frame beat sheet with captions; no alarm audio; no flashing monitors; text options only.",
+  "assetSlot": "/media/video/ep01-pressure-rise-slot.txt"
+}

@@ -1,0 +1,87 @@
+{
+  "id": "video-consequences-prompt8",
+  "prompt": 8,
+  "title": "Branch-specific airway consequence videos (3 × 45s)",
+  "sharedRules": [
+    "No moralising narrator",
+    "No correct-answer language",
+    "Include observable changes, team communication, Rohan access status, one remaining uncertainty",
+    "Transition into next decision (sedation / delirium)",
+    "Captions + audio description + reduced-sensory text timeline"
+  ],
+  "branchA": {
+    "id": "consequence-a",
+    "title": "Early bronchoscopy",
+    "durationSeconds": 45,
+    "summary": "Early bronchoscopy removes a distal plug. Brief hypotension. No arrest.",
+    "transcript": [
+      { "timecode": "00:00", "speaker": "AD", "text": "Controlled bronchoscopy implied without graphic footage. Pressure trend begins to fall." },
+      { "timecode": "00:10", "speaker": "Clinician", "text": "Plug coming out in sections. Right chest moving better." },
+      { "timecode": "00:18", "speaker": "Clinician", "text": "Blood pressure dipping — brief. No arrest. Fluids and position as planned." },
+      { "timecode": "00:28", "speaker": "AD", "text": "Rohan’s auditory scanning stays available. Samira watches; does not answer for him." },
+      { "timecode": "00:34", "speaker": "Clinician", "text": "Rohan — access stays on. We still do not know if secretions will rebuild overnight." },
+      { "timecode": "00:40", "speaker": "ONSCREEN", "text": "Next: sedation reduction and communication restoration." }
+    ],
+    "captions": [
+      "Clinician: Plug coming out in sections. Right chest moving better.",
+      "Clinician: Blood pressure dipping — brief. No arrest.",
+      "Clinician: Rohan — access stays on. We still do not know if secretions will rebuild overnight.",
+      "[Next: sedation reduction and communication restoration]"
+    ],
+    "audioDescription": "Pressures fall after clearance; brief hypotension without arrest; scanning access maintained; uncertainty about overnight reaccumulation; transition card.",
+    "reducedSensoryAlt": "Text timeline: clearance → brief BP dip → access on → uncertainty → next decision.",
+    "assetSlot": "/media/video/ep01-consequence-a-slot.txt",
+    "uncertaintyRemaining": "Whether inflammation will re-accumulate secretions overnight."
+  },
+  "branchB": {
+    "id": "consequence-b",
+    "title": "Targeted clearance and observation",
+    "durationSeconds": 45,
+    "summary": "Partial pressure improvement; obstruction remains uncertain; later worsening risk.",
+    "transcript": [
+      { "timecode": "00:00", "speaker": "AD", "text": "Humidification and positioning. Pressures ease modestly — not to baseline." },
+      { "timecode": "00:12", "speaker": "Clinician", "text": "Better than before. Not equal. We have not ruled out a distal plug." },
+      { "timecode": "00:22", "speaker": "AD", "text": "Cheek switch active. Reassessment clock set on the whiteboard." },
+      { "timecode": "00:28", "speaker": "Clinician", "text": "Rohan — we will check again early. Tell us if RIGHT MIDDLE changes." },
+      { "timecode": "00:36", "speaker": "AD", "text": "Later same shift cue: pressures beginning to climb again — cut before full crisis." },
+      { "timecode": "00:40", "speaker": "ONSCREEN", "text": "Next: sedation reduction and communication restoration." }
+    ],
+    "captions": [
+      "Clinician: Better than before. Not equal. We have not ruled out a distal plug.",
+      "Clinician: Rohan — we will check again early. Tell us if RIGHT MIDDLE changes.",
+      "[Later] Pressures beginning to climb again.",
+      "[Next: sedation reduction and communication restoration]"
+    ],
+    "audioDescription": "Partial improvement; unresolved differential; access on; later climb cue; transition card. No praise language.",
+    "reducedSensoryAlt": "Text timeline: partial ease → uncertainty → reassessment clock → later climb → next decision.",
+    "assetSlot": "/media/video/ep01-consequence-b-slot.txt",
+    "uncertaintyRemaining": "Whether a plug will declare itself after hours of observation."
+  },
+  "branchC": {
+    "id": "consequence-c",
+    "title": "Aggressive pressure recruitment",
+    "durationSeconds": 45,
+    "summary": "Brief aeration gain; ventricular instability; concern for pressure-related lung injury.",
+    "transcript": [
+      { "timecode": "00:00", "speaker": "AD", "text": "Recruitment manoeuvre. Right chest rises briefly." },
+      { "timecode": "00:10", "speaker": "Clinician", "text": "Aeration better for a moment — watch the rhythm." },
+      { "timecode": "00:16", "speaker": "AD", "text": "Ectopy clusters. ICD pacing cue on the monitor — no flashing strobe." },
+      { "timecode": "00:22", "speaker": "Clinician", "text": "Backing off recruitment. Treating the respiratory trigger. Escalation remains available." },
+      { "timecode": "00:30", "speaker": "Clinician", "text": "Rohan — access flickered with fatigue. Partner-assisted scan is back. This is fatigue, not a capacity judgement." },
+      { "timecode": "00:38", "speaker": "Clinician", "text": "We remain uncertain about pressure-related lung injury versus residual obstruction." },
+      { "timecode": "00:42", "speaker": "ONSCREEN", "text": "Next: sedation reduction and communication restoration." }
+    ],
+    "captions": [
+      "Clinician: Aeration better for a moment — watch the rhythm.",
+      "[ICD pacing cue]",
+      "Clinician: Backing off recruitment. Treating the respiratory trigger.",
+      "Clinician: Access flickered with fatigue. Partner-assisted scan is back.",
+      "Clinician: Uncertain about pressure-related lung injury versus residual obstruction.",
+      "[Next: sedation reduction and communication restoration]"
+    ],
+    "audioDescription": "Brief aeration; ectopy and ICD pacing without spectacle; access restored after fatigue; dual uncertainty named; transition card.",
+    "reducedSensoryAlt": "Text timeline with visual rhythm banner instead of alarm audio; next decision card.",
+    "assetSlot": "/media/video/ep01-consequence-c-slot.txt",
+    "uncertaintyRemaining": "Pressure-related lung injury contribution versus residual plug."
+  }
+}

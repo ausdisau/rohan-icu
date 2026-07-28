@@ -1,0 +1,42 @@
+{
+  "id": "cinematic-illustration-prompt5",
+  "prompt": 5,
+  "title": "Rohan directing conversation in paediatric ICU",
+  "commissionBrief": {
+    "subject": "Rohan Malik, twelve, South Asian, Duchenne muscular dystrophy",
+    "visibleSupports": [
+      "Tracheostomy connected to a ventilator",
+      "Cheek switch",
+      "AAC display within reach",
+      "Power wheelchair referenced when out of bed (The Administrative Vehicle) — optional background cue, not dominant"
+    ],
+    "scene": [
+      "Paediatric ICU room in daylight",
+      "Clinician seated at eye level",
+      "Samira nearby but not speaking for him",
+      "Communication board positioned within reach",
+      "Medical equipment present but not visually dominant"
+    ],
+    "tone": [
+      "Serious and calm",
+      "No pity framing",
+      "No heroic glow",
+      "No implication that equipment has erased childhood or personality",
+      "Show Rohan as the person with decision-making authority"
+    ],
+    "deliverables": [
+      "Still frame suitable for Episode 01 arrival and sedation nodes",
+      "Caption space beneath image",
+      "Licensed artwork only — no unconsented likeness of real children"
+    ]
+  },
+  "placeholder": {
+    "kind": "image",
+    "src": "/media/illustrations/rohan-icu-placeholder.svg",
+    "id": "rohan-icu-placeholder"
+  },
+  "altText": {
+    "concise": "Twelve-year-old Rohan in paediatric ICU, awake, tracheostomy to ventilator, cheek switch and AAC in reach; clinician at eye level; Samira nearby not speaking for him.",
+    "extended": "Commission placeholder for a respectful cinematic illustration. Daylit paediatric ICU. Rohan is awake and directing the conversation. A tracheostomy connects to a ventilator; a cheek switch and AAC display sit within reach. A clinician is seated at eye level. Samira is present nearby but not speaking for him. Tone is serious and calm, without pity framing or heroic glow. Medical equipment is present but not visually dominant. Caption space is reserved beneath the final artwork."
+  }
+}

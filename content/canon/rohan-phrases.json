@@ -1,0 +1,49 @@
+{
+  "phrases": [
+    {
+      "id": "slow-answer-still-answer",
+      "text": "SLOW ANSWER. STILL ANSWER.",
+      "usage": "Canon — reuse verbatim; do not paraphrase into defeat framing."
+    },
+    {
+      "id": "tell-me-before-medicine",
+      "text": "TELL ME BEFORE MEDICINE.",
+      "usage": "Canon — treatment timing and consent."
+    },
+    {
+      "id": "communication-when-eyes-open",
+      "text": "COMMUNICATION WHEN EYES OPEN.",
+      "usage": "Canon — access expectation at wake."
+    },
+    {
+      "id": "not-every-alarm-is-a-code",
+      "text": "NOT EVERY ALARM IS A CODE.",
+      "usage": "Canon — alarm literacy without dismissal."
+    },
+    {
+      "id": "every-alarm-still-deserves-an-answer",
+      "text": "EVERY ALARM STILL DESERVES AN ANSWER.",
+      "usage": "Canon — paired with not-every-alarm-is-a-code."
+    },
+    {
+      "id": "last-emergency-is-history",
+      "text": "THE LAST EMERGENCY IS HISTORY. CHECK WHAT THIS ONE IS.",
+      "usage": "Canon — reject ritualising prior emergencies."
+    },
+    {
+      "id": "ambulance-kept-the-code-going",
+      "text": "THE AMBULANCE KEPT THE CODE GOING.",
+      "usage": "Canon — locked chronology (ambulance CPR)."
+    },
+    {
+      "id": "resuscitation-bay-got-the-pulse-back",
+      "text": "THE RESUSCITATION BAY GOT THE PULSE BACK.",
+      "usage": "Canon — locked chronology (bay ROSC)."
+    },
+    {
+      "id": "now-ask-me-what-happens-next",
+      "text": "NOW ASK ME WHAT HAPPENS NEXT.",
+      "usage": "Canon — authorship and debrief hook."
+    }
+  ]
+}

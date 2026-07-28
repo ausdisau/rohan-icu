@@ -1,0 +1,51 @@
+{
+  "id": "ep01-consequence-c",
+  "phaseId": "phase-03-airway-bronchoscopy",
+  "title": "Branch C — aggressive recruitment consequence",
+  "openingNarrative": "Aggressive pressure recruitment improves right aeration briefly. Then ventricular ectopy clusters. The ICD paces; blood pressure wobbles. The team backs off recruitment and treats the respiratory trigger without implying disability makes escalation less worthwhile. Rohan’s access flickers with fatigue but is restored by the communication specialist using partner-assisted scanning—staff labour, not family default. Interrupted access is not incapacity. Uncertainty remains about pressure-related lung injury.",
+  "clinicalState": "Transient aeration gain followed by ventricular instability with ICD pacing. No sustained arrest in this beat. Concern for pressure-related lung injury. Airway obstruction not fully excluded. Communication access fluctuating with fatigue; staff partner-assisted scanning available.",
+  "communicationMethod": "partner-assisted",
+  "choices": [
+    {
+      "id": "consequence-c-continue",
+      "label": "Stabilise rhythm triggers, restore AAC access, proceed to sedation review",
+      "immediateConsequence": "Observable change: brief aeration gain then ectopy. Team communication links cardiac stress to respiratory manoeuvre. Rohan’s access status: staff partner-assisted scanning restored after fatigue pause — not parent substitution.",
+      "delayedConsequence": "Uncertainty that remains: lung-injury contribution versus residual plug. Transition into sedation reduction with arrhythmia burden elevated.",
+      "domainDeltas": {
+        "rightLungAeration": 5,
+        "respiratoryStability": -2,
+        "airwayObstructionRisk": 2,
+        "cardiacReserve": -8,
+        "arrhythmiaBurden": 10,
+        "communicationAccess": -3,
+        "painControl": -2
+      },
+      "nextNodeId": "ep01-sedation-delirium",
+      "rohanAacLine": "THE AMBULANCE KEPT THE CODE GOING."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Cardiac escalation remains on the table; disability does not shrink worthiness of treatment.",
+    "Fatigue-interrupted AAC is restored, not reinterpreted as inability to decide.",
+    "No correct-answer language comparing branches."
+  ],
+  "debriefNotes": [
+    "Prompt 8 Branch C: brief aeration, ventricular instability, lung-injury concern.",
+    "Respiratory manoeuvres and cardiac reserve are coupled domains."
+  ],
+  "media": [
+    {
+      "id": "consequence-c-video",
+      "kind": "video",
+      "src": "/media/video/ep01-consequence-c-slot.txt",
+      "title": "Branch C consequence — 45s slot",
+      "accessibility": {
+        "captions": "See content/multimedia/video-consequences.json branchC.captions",
+        "transcript": "See content/multimedia/video-consequences.json branchC.transcript",
+        "audioDescription": "Pressure recruitment; brief chest-rise gain; ectopy; ICD pacing cue; access restored.",
+        "reducedSensoryAlt": "Text timeline of Branch C observables; visual alarm banner instead of alarm audio."
+      },
+      "autoplayForbidden": true
+    }
+  ]
+}

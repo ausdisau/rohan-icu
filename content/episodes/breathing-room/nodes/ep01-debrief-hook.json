@@ -1,0 +1,33 @@
+{
+  "id": "ep01-debrief-hook",
+  "phaseId": "phase-06-home-school-authorship",
+  "title": "Debrief beyond ROSC",
+  "openingNarrative": "The library called help; the ambulance performed CPR; the resuscitation bay restored sustained circulation; ICU care and this debrief continue afterward. Review the pathway: infection–renal trade-offs, consent under scanning, airway branch consequences, sedation and access, home or school continuity. Survival alone is not the score. Rohan’s question to the learner waits in the debrief generator: NOW ASK ME WHAT HAPPENS NEXT.",
+  "clinicalState": "Playable Episode 01 complete. Domains reflect choice history. Next-episode hook opens cardiac instability and authorship disputes without resolving them here.",
+  "communicationMethod": "voice-output",
+  "choices": [
+    {
+      "id": "enter-debrief",
+      "label": "Open personalised debrief and next-episode hook",
+      "immediateConsequence": "Learner enters structured debrief categories: noticing, misses, respiratory and cardiac reasoning, infection–renal trade-offs, communication access, sedation and delirium, restraint prevention, privacy, home and school, documentation language, alternative pathway.",
+      "delayedConsequence": "Next-storyline hook: Phase 4 cardiac instability under residual respiratory stress, plus a fight over who owns the training cut of this emergency. ICU care continues.",
+      "domainDeltas": {
+        "authorshipControl": 3,
+        "publicTrust": 2
+      },
+      "nextNodeId": null,
+      "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Debrief continues beyond ROSC by design.",
+    "Do not score success only through survival or physiological improvement.",
+    "Identify rights-preserving moves alongside clinical ones."
+  ],
+  "debriefNotes": [
+    "Prompt 13 categories are implemented by the debrief engine using choice history and domain deltas.",
+    "Required beats: one clinically strong decision, one rights-preserving decision, one delayed-harm decision, one legitimate uncertainty, one question Rohan would ask.",
+    "Next-episode hook must keep chronology lock intact."
+  ],
+  "isEpisodeEnd": true
+}

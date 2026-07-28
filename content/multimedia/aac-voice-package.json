@@ -1,0 +1,109 @@
+{
+  "id": "aac-voice-package-prompt9",
+  "prompt": 9,
+  "title": "Rohan AAC voice production package",
+  "voiceQualities": [
+    "twelve-year-old character voice",
+    "clear",
+    "neutral Australian English",
+    "expressive without exaggerated emotion",
+    "not metallic or comedic",
+    "capable of pauses between scanned selections"
+  ],
+  "licensing": {
+    "allowed": [
+      "Licensed performer recording under character voice agreement",
+      "Explicitly authorised synthetic voice with documented licence covering character AAC use"
+    ],
+    "forbidden": [
+      "Cloning a real child’s voice without consent",
+      "Using unconsented likeness or voice of any minor",
+      "Adding background music to isolated AAC takes"
+    ],
+    "consentNotes": "See content/canon/consent-rules.json — voice, likeness, and symptom-language rules. Rohan’s AAC lines are authored content requiring production consent even when fictional."
+  },
+  "lines": [
+    {
+      "id": "slow-answer-still-answer",
+      "text": "SLOW ANSWER. STILL ANSWER.",
+      "pronunciation": "Slow AN-swer. Still AN-swer. Equal stress on both clauses. Brief pause at the full stop.",
+      "usage": "Canon — reuse verbatim; do not paraphrase into defeat framing."
+    },
+    {
+      "id": "tell-me-before-medicine",
+      "text": "TELL ME BEFORE MEDICINE.",
+      "pronunciation": "TELL me be-FORE MED-i-cine. Clear consonants; no rush on before.",
+      "usage": "Consent and timing of treatment changes."
+    },
+    {
+      "id": "communication-when-eyes-open",
+      "text": "COMMUNICATION WHEN EYES OPEN.",
+      "pronunciation": "Com-mu-ni-CA-tion when eyes OPEN. Pause after communication if scanning.",
+      "usage": "Access expectation at wake."
+    },
+    {
+      "id": "last-emergency-history",
+      "text": "THE LAST EMERGENCY IS HISTORY. CHECK WHAT THIS ONE IS.",
+      "pronunciation": "The last e-MER-gen-cy is HIS-to-ry. [pause] Check what THIS one is.",
+      "usage": "Reject ritualising prior bay success."
+    },
+    {
+      "id": "ambulance-kept-code",
+      "text": "THE AMBULANCE KEPT THE CODE GOING.",
+      "pronunciation": "The AM-bu-lance kept the code GO-ing. Do not soften into apology tone.",
+      "usage": "Locked chronology — ambulance performed CPR; no sustained ROSC in transit."
+    },
+    {
+      "id": "resus-bay-pulse",
+      "text": "THE RESUSCITATION BAY GOT THE PULSE BACK.",
+      "pronunciation": "The re-sus-ci-TA-tion bay got the pulse BACK. Slight emphasis on bay.",
+      "usage": "Locked chronology — sustained circulation restored in the resuscitation bay."
+    },
+    {
+      "id": "ask-what-happens-next",
+      "text": "NOW ASK ME WHAT HAPPENS NEXT.",
+      "pronunciation": "NOW ask me what HAP-pens next. Direct, not pleading.",
+      "usage": "Authorship and debrief hook."
+    },
+    {
+      "id": "not-every-alarm-code",
+      "text": "NOT EVERY ALARM IS A CODE.",
+      "pronunciation": "Not EV-ery a-larm is a CODE. Calm precision.",
+      "usage": "Alarm literacy without dismissal."
+    },
+    {
+      "id": "every-alarm-deserves-answer",
+      "text": "EVERY ALARM STILL DESERVES AN ANSWER.",
+      "pronunciation": "EV-ery a-larm still de-SERVES an AN-swer.",
+      "usage": "Paired with not-every-alarm-code."
+    }
+  ],
+  "deliverables": {
+    "cleanIsolatedVoiceFiles": "public/media/aac/{line-id}.wav (slots)",
+    "transcript": "This file — lines[].text",
+    "pronunciationNotes": "This file — lines[].pronunciation",
+    "slowAlternate": "public/media/aac/{line-id}-slow.wav (slots) — same text, longer inter-clause pauses, ~0.85× perceived pace without pitch caricature",
+    "noBackgroundMusic": true
+  },
+  "assetSlots": [
+    "/media/aac/slow-answer-still-answer.wav",
+    "/media/aac/slow-answer-still-answer-slow.wav",
+    "/media/aac/tell-me-before-medicine.wav",
+    "/media/aac/tell-me-before-medicine-slow.wav",
+    "/media/aac/communication-when-eyes-open.wav",
+    "/media/aac/communication-when-eyes-open-slow.wav",
+    "/media/aac/last-emergency-history.wav",
+    "/media/aac/last-emergency-history-slow.wav",
+    "/media/aac/ambulance-kept-code.wav",
+    "/media/aac/ambulance-kept-code-slow.wav",
+    "/media/aac/resus-bay-pulse.wav",
+    "/media/aac/resus-bay-pulse-slow.wav",
+    "/media/aac/ask-what-happens-next.wav",
+    "/media/aac/ask-what-happens-next-slow.wav",
+    "/media/aac/not-every-alarm-code.wav",
+    "/media/aac/not-every-alarm-code-slow.wav",
+    "/media/aac/every-alarm-deserves-answer.wav",
+    "/media/aac/every-alarm-deserves-answer-slow.wav"
+  ],
+  "slotReadme": "/media/aac/README.txt"
+}

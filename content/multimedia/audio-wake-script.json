@@ -1,0 +1,74 @@
+{
+  "id": "audio-wake-script-prompt6",
+  "prompt": 6,
+  "title": "Wake after sedation — 60-second ICU audio scene",
+  "durationSeconds": 60,
+  "scene": "Rohan is waking after sedation. He hears a ventilator alarm and briefly believes transport is still underway. The clinician orients him to ICU. The library called help; the ambulance performed CPR; the resuscitation bay restored sustained circulation; this ward begins afterward.",
+  "layers": [
+    "low ICU ambience",
+    "controlled ventilator breaths",
+    "one brief alarm (full mix only)",
+    "clinician voice",
+    "Rohan AAC voice",
+    "audio-description narrator"
+  ],
+  "doNot": [
+    "frantic music",
+    "imitate AAC as robotic comedy",
+    "overwhelm dialogue with alarms",
+    "resolve delirium instantly"
+  ],
+  "fullTranscript": [
+    { "timecode": "00:00", "speaker": "SFX", "text": "[Low ICU ambience. Soft controlled ventilator breaths.]" },
+    { "timecode": "00:04", "speaker": "AD", "text": "Daylight paediatric ICU. Rohan’s eyes open. Ventilator circuit and cheek switch within reach." },
+    { "timecode": "00:10", "speaker": "SFX", "text": "[One brief ventilator alarm — high pressure. Stops.]" },
+    { "timecode": "00:13", "speaker": "Rohan AAC", "text": "THE AMBULANCE KEPT THE CODE GOING." },
+    { "timecode": "00:18", "speaker": "Clinician", "text": "Rohan. You are in ICU. Not the ambulance." },
+    { "timecode": "00:23", "speaker": "Clinician", "text": "Your airway is open. The ventilator is delivering breaths." },
+    { "timecode": "00:28", "speaker": "AD", "text": "Clinician sits at eye level. Restores cheek-switch yes and no." },
+    { "timecode": "00:32", "speaker": "Clinician", "text": "Yes is one press. No is two. Are you in pain right now?" },
+    { "timecode": "00:38", "speaker": "SFX", "text": "[Single cheek-switch click — YES.]" },
+    { "timecode": "00:40", "speaker": "Clinician", "text": "Thank you. We will treat the pain. One more question—" },
+    { "timecode": "00:44", "speaker": "Rohan AAC", "text": "STOP." },
+    { "timecode": "00:46", "speaker": "Clinician", "text": "Stopping questions. I am here. Communication stays on." },
+    { "timecode": "00:52", "speaker": "Rohan AAC", "text": "COMMUNICATION WHEN EYES OPEN." },
+    { "timecode": "00:56", "speaker": "AD", "text": "Alarm quiet. Access remains. Delirium fragments may continue." }
+  ],
+  "captions": [
+    "[ICU ambience. Ventilator breaths.]",
+    "[Brief ventilator alarm]",
+    "Rohan AAC: THE AMBULANCE KEPT THE CODE GOING.",
+    "Clinician: Rohan. You are in ICU. Not the ambulance.",
+    "Clinician: Your airway is open. The ventilator is delivering breaths.",
+    "Clinician: Yes is one press. No is two. Are you in pain right now?",
+    "[Cheek switch: YES]",
+    "Clinician: Thank you. We will treat the pain. One more question—",
+    "Rohan AAC: STOP.",
+    "Clinician: Stopping questions. I am here. Communication stays on.",
+    "Rohan AAC: COMMUNICATION WHEN EYES OPEN."
+  ],
+  "soundEffectLabels": [
+    "ICU_AMBIENCE_LOW",
+    "VENT_BREATHS_CONTROLLED",
+    "VENT_ALARM_HIGH_PRESSURE_BRIEF",
+    "CHEEK_SWITCH_CLICK_YES",
+    "AAC_VOICE_LICENSED"
+  ],
+  "reducedSensoryVersion": {
+    "notes": "Omit alarm audio. Replace with on-screen visual banner: High-pressure ventilator alert — brief — cause under review. Keep clinician and AAC lines. Softer ambience only. No frantic music.",
+    "transcript": [
+      { "timecode": "00:00", "speaker": "VISUAL", "text": "[Banner: ICU — controlled breaths. No alarm audio.]" },
+      { "timecode": "00:06", "speaker": "AD", "text": "Daylight paediatric ICU. Rohan’s eyes open." },
+      { "timecode": "00:10", "speaker": "VISUAL", "text": "[Banner: High-pressure ventilator alert — brief — quieting.]" },
+      { "timecode": "00:13", "speaker": "Rohan AAC", "text": "THE AMBULANCE KEPT THE CODE GOING." },
+      { "timecode": "00:18", "speaker": "Clinician", "text": "Rohan. You are in ICU. Not the ambulance." },
+      { "timecode": "00:23", "speaker": "Clinician", "text": "Your airway is open. The ventilator is delivering breaths." },
+      { "timecode": "00:32", "speaker": "Clinician", "text": "Yes is one press. No is two. Are you in pain right now?" },
+      { "timecode": "00:38", "speaker": "VISUAL", "text": "[Yes selected on AAC panel.]" },
+      { "timecode": "00:44", "speaker": "Rohan AAC", "text": "STOP." },
+      { "timecode": "00:46", "speaker": "Clinician", "text": "Stopping questions. I am here. Communication stays on." },
+      { "timecode": "00:52", "speaker": "Rohan AAC", "text": "COMMUNICATION WHEN EYES OPEN." }
+    ]
+  },
+  "assetSlot": "/media/audio/ep01-wake-scene-slot.txt"
+}

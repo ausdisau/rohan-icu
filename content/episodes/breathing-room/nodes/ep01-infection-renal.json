@@ -1,0 +1,81 @@
+{
+  "id": "ep01-infection-renal",
+  "phaseId": "phase-02-resistant-pneumonia",
+  "title": "Effective treatment versus kidney toxicity",
+  "openingNarrative": "Rohan has active right lower-lobe pneumonia involving a resistant organism. Colonisation is no longer the whole story: fever, secretion change, imaging, and pressure trends support active infection. The most effective available intravenous strategy may worsen kidney function. Cardiac and respiratory reserve are limited. Staff—not parents—own clinical response labour. Rohan’s AAC remains available when access returns; motor responses are not a stand-in for decision-making access. There is no single correct answer—only trade-offs that will surface in debrief.",
+  "clinicalState": "Confirmed active resistant right lower-lobe pneumonia after resus-bay clearance of a distal plug. Renal reserve limited. Cardiac reserve fragile post-arrest. Antibiotic strategy non-prescriptive: no named agents or doses. Monitoring plan required whichever branch is chosen.",
+  "communicationMethod": "aac-board",
+  "choices": [
+    {
+      "id": "infection-active-coverage",
+      "label": "Continue the most active infection treatment with close renal monitoring",
+      "immediateConsequence": "Infection control improves; renal markers trend toward injury; cardiac tolerance needs tighter observation because fluid and perfusion shifts can follow renal stress.",
+      "delayedConsequence": "Later nodes may bring renal-support discussions and documentation risk if toxicity is framed as inevitable rather than monitored. Storyline complication: rising creatinine forces a mid-course reassessment while pneumonia is still settling.",
+      "domainDeltas": {
+        "infectionControl": 14,
+        "antibioticResistance": -6,
+        "renalReserve": -12,
+        "cardiacReserve": -4,
+        "communicationAccess": 2,
+        "authorshipControl": 2
+      },
+      "nextNodeId": "ep01-consent-dialogue",
+      "rohanAacLine": "TELL ME BEFORE MEDICINE."
+    },
+    {
+      "id": "infection-renal-sparing",
+      "label": "Use a more renal-sparing but potentially slower treatment strategy",
+      "immediateConsequence": "Renal reserve holds better; infection control advances more slowly; respiratory reserve stays exposed to ongoing inflammatory load.",
+      "delayedConsequence": "Delayed complication: pressures may climb again before infection turns. Documentation risk if slower strategy is recorded as undertreatment rather than an explicit shared trade-off.",
+      "domainDeltas": {
+        "renalReserve": 10,
+        "infectionControl": -8,
+        "antibioticResistance": 4,
+        "respiratoryStability": -5,
+        "rightLungAeration": -3,
+        "communicationAccess": 2
+      },
+      "nextNodeId": "ep01-consent-dialogue",
+      "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+    },
+    {
+      "id": "infection-delay-evidence",
+      "label": "Temporarily delay escalation while seeking further microbiological evidence",
+      "immediateConsequence": "Authorship and consent space open if Rohan can be brought into the uncertainty; infection control does not improve yet; resistance pressure may rise if active infection continues untreated.",
+      "delayedConsequence": "Delayed complication: fever and secretion burden worsen overnight, forcing urgent escalation without the leisure of debate. Documentation risk if delay is logged as indecision rather than time-limited evidence gathering with a review clock.",
+      "domainDeltas": {
+        "authorshipControl": 8,
+        "communicationAccess": 6,
+        "infectionControl": -6,
+        "antibioticResistance": 5,
+        "familyBurden": -3,
+        "publicTrust": 2
+      },
+      "nextNodeId": "ep01-consent-dialogue",
+      "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Disability is not a reason to withhold effective treatment or to accept toxicity without discussion.",
+    "Trade-offs are clinical and rights-bearing; outcomes are not scored by ambulation or airway hardware status.",
+    "Clinical response labour stays with paid staff, not family by default."
+  ],
+  "debriefNotes": [
+    "Prompt 2 node: infection versus renal toxicity with three imperfect branches.",
+    "Learner reasoning should name the trade-off, not hunt for a virtuous answer.",
+    "Rohan AAC lines assert medicine timing and continued answerhood."
+  ],
+  "media": [
+    {
+      "id": "clinical-lung-diagram",
+      "kind": "svg",
+      "src": "/media/clinical/right-lower-lobe-distal-plug.svg",
+      "title": "Distal right lower-lobe plug diagram",
+      "accessibility": {
+        "altText": "Front-view lung diagram: open central airway via tracheostomy; distal mucus plug in right lower-lobe branch; reduced aeration beyond the plug; no pneumothorax.",
+        "extendedAltText": "Simplified front view of both lungs. A tracheostomy enters the central airway at the neck; the central airway is shown open and patent. A distal mucus plug sits in a right lower-lobe bronchial branch, marked with a hatch pattern. The lung tissue beyond the plug uses a dotted fill to show reduced aeration. Labels state that suction through the tracheostomy may not reach a distal plug. The diagram explicitly notes that no pneumothorax is shown. Colour is not the only cue: hatch and dotted patterns distinguish plug and reduced aeration."
+      },
+      "autoplayForbidden": true
+    }
+  ]
+}

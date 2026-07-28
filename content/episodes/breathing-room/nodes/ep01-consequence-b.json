@@ -1,0 +1,50 @@
+{
+  "id": "ep01-consequence-b",
+  "phaseId": "phase-03-airway-bronchoscopy",
+  "title": "Branch B — targeted clearance consequence",
+  "openingNarrative": "Targeted humidification, positioning, and cautious clearance partially improve pressures. Right air entry is better than before, not equal. The obstruction remains uncertain. The team does not congratulate itself. Rohan’s access stays online. Later the same shift, pressures begin to climb again—uncertainty becoming a delayed complication, not a moral verdict.",
+  "clinicalState": "Partial pressure improvement. Distal obstruction not excluded. Observation and reassessment required. Cardiac rhythm currently stable. Infection load still present.",
+  "communicationMethod": "cheek-switch",
+  "choices": [
+    {
+      "id": "consequence-b-continue",
+      "label": "Schedule early reassessment and protect communication access through the wait",
+      "immediateConsequence": "Observable change: modest pressure drop. Team communication emphasises unresolved differential. Rohan’s access status: cheek switch plus scanning backup.",
+      "delayedConsequence": "Uncertainty that remains: whether a plug will declare itself after hours. Transition into sedation and delirium work while airway risk is still live.",
+      "domainDeltas": {
+        "rightLungAeration": 4,
+        "airwayObstructionRisk": -2,
+        "respiratoryStability": 2,
+        "infectionControl": -2,
+        "communicationAccess": 5,
+        "familyBurden": -2
+      },
+      "nextNodeId": "ep01-sedation-delirium",
+      "rohanAacLine": "THE LAST EMERGENCY IS HISTORY. CHECK WHAT THIS ONE IS."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Partial improvement is not proof the gentle path was virtuous.",
+    "Waiting still requires paid clinical responders, not family monitoring labour.",
+    "Rohan’s symptom reports remain authoritative during observation."
+  ],
+  "debriefNotes": [
+    "Prompt 8 Branch B: partial gain, later worsening risk.",
+    "Uncertainty can be legitimate and still create delayed harm."
+  ],
+  "media": [
+    {
+      "id": "consequence-b-video",
+      "kind": "video",
+      "src": "/media/video/ep01-consequence-b-slot.txt",
+      "title": "Branch B consequence — 45s slot",
+      "accessibility": {
+        "captions": "See content/multimedia/video-consequences.json branchB.captions",
+        "transcript": "See content/multimedia/video-consequences.json branchB.transcript",
+        "audioDescription": "Positioning and humidification; modest pressure change; reassessment clock set.",
+        "reducedSensoryAlt": "Text timeline of Branch B observables; no alarm audio."
+      },
+      "autoplayForbidden": true
+    }
+  ]
+}
