@@ -1,0 +1,106 @@
+{
+  "id": "canon-runtime",
+  "version": "1.0.0",
+  "chronologyLock": [
+    "The library called help.",
+    "The ambulance performed CPR.",
+    "The resuscitation bay restored sustained circulation.",
+    "ICU care begins after sustained ROSC."
+  ],
+  "phrases": [
+    {
+      "id": "slow-answer-still-answer",
+      "text": "SLOW ANSWER. STILL ANSWER."
+    },
+    {
+      "id": "tell-me-before-medicine",
+      "text": "TELL ME BEFORE MEDICINE."
+    },
+    {
+      "id": "communication-when-eyes-open",
+      "text": "COMMUNICATION WHEN EYES OPEN."
+    },
+    {
+      "id": "not-every-alarm-is-a-code",
+      "text": "NOT EVERY ALARM IS A CODE."
+    },
+    {
+      "id": "every-alarm-still-deserves-an-answer",
+      "text": "EVERY ALARM STILL DESERVES AN ANSWER."
+    },
+    {
+      "id": "last-emergency-is-history",
+      "text": "THE LAST EMERGENCY IS HISTORY. CHECK WHAT THIS ONE IS."
+    },
+    {
+      "id": "ambulance-kept-the-code-going",
+      "text": "THE AMBULANCE KEPT THE CODE GOING."
+    },
+    {
+      "id": "resuscitation-bay-got-the-pulse-back",
+      "text": "THE RESUSCITATION BAY GOT THE PULSE BACK."
+    },
+    {
+      "id": "now-ask-me-what-happens-next",
+      "text": "NOW ASK ME WHAT HAPPENS NEXT."
+    }
+  ],
+  "consentPrinciples": [
+    {
+      "id": "identity-requires-consent",
+      "rule": "The emergency may teach clinical mechanics. Rohan’s identity, voice, and authored framing require consent."
+    },
+    {
+      "id": "symptom-language-ownership",
+      "rule": "Personalised symptom language belongs to Rohan’s authorship — not free promotional copy."
+    },
+    {
+      "id": "aac-logs-protected",
+      "rule": "Raw AAC logs and private conversations are not routine evidence or marketing content."
+    },
+    {
+      "id": "public-crisis-not-public-property",
+      "rule": "A public location does not make a medical crisis public property."
+    },
+    {
+      "id": "family-fear-not-surveillance-licence",
+      "rule": "Family fear is serious; it does not authorise continuous video or seizure of Rohan’s privacy."
+    },
+    {
+      "id": "shortened-cuts",
+      "rule": "Training cuts that strip communication, delirium, restraint, school, home staffing, or privacy need renewed consent."
+    }
+  ],
+  "activePrinciples": [
+    {
+      "id": "icu-after-bay-rosc",
+      "text": "ICU begins only after the resuscitation bay restored sustained circulation — not in the library or ambulance.",
+      "alwaysOnEpisode01": true
+    },
+    {
+      "id": "access-not-incapacity",
+      "text": "Unavailable or slow communication is an access issue — never incapacity by itself.",
+      "when": ["any-aac-method", "deep-sedation"]
+    },
+    {
+      "id": "address-rohan-first",
+      "text": "Address Rohan directly. Family and friends are not default answerers or unpaid responders.",
+      "alwaysOnEpisode01": true
+    },
+    {
+      "id": "ventilation-is-support",
+      "text": "Tracheostomy and controlled ventilation are support — not defeat or a victory condition to reverse.",
+      "alwaysOnEpisode01": true
+    },
+    {
+      "id": "paid-responders",
+      "text": "Airway and emergency labour stay with paid trained responders. Parents and Jay are not the clinical roster.",
+      "when": ["home-school", "kit"]
+    },
+    {
+      "id": "consent-authorship",
+      "text": "Rohan’s identity, voice, and authored framing require consent — including story and training use.",
+      "when": ["privacy", "authorship", "home-school", "kit"]
+    }
+  ]
+}

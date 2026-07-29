@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 
 import { AccessibleMediaPlayer } from "@/components/AccessibleMediaPlayer";
+import { CanonPrognosisBlade } from "@/components/CanonPrognosisBlade";
 import { ChoiceCard } from "@/components/ChoiceCard";
 import { CommunicationStatusPanel } from "@/components/CommunicationStatusPanel";
 import { DomainMeters } from "@/components/DomainMeters";
@@ -173,6 +174,13 @@ export function DecisionNodeView({
           <RohanAacPanel
             line={aacLine}
             methodLabel={methodDisplayLabel(node.communicationMethod)}
+          />
+          <CanonPrognosisBlade
+            node={node}
+            state={state}
+            previousState={previousState}
+            mode="play"
+            announcePrognosis={Boolean(pendingConsequence)}
           />
           <DomainMeters state={state} previousState={previousState} />
         </div>

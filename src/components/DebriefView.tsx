@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
+import { CanonPrognosisBlade } from "@/components/CanonPrognosisBlade";
 import { DomainMeters } from "@/components/DomainMeters";
 import {
   generateDebrief,
@@ -82,6 +83,14 @@ export function DebriefView() {
           score. The story continues.
         </p>
       </header>
+
+      <CanonPrognosisBlade
+        mode="debrief"
+        state={payload.finalState}
+        historyNodeIds={
+          session?.history.map((entry) => entry.nodeId) ?? []
+        }
+      />
 
       <section aria-labelledby="highlights-heading">
         <h2

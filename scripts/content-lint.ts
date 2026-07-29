@@ -159,9 +159,11 @@ async function main(): Promise<void> {
 
     if (
       base === "episode.json" ||
-      (data &&
+      (base !== "canon-runtime.json" &&
+        data &&
         typeof data === "object" &&
-        "chronologyLock" in (data as object))
+        "chronologyLock" in (data as object) &&
+        "nodeIds" in (data as object))
     ) {
       const parsed = episodeManifestSchema.safeParse(data);
       if (!parsed.success) {

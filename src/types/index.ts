@@ -17,6 +17,18 @@ export type {
   SimulationNode,
 } from "./node";
 export type {
+  CanonContext,
+  CanonPhrase,
+  CanonPrinciple,
+  ConsentPrinciple,
+  DomainOutlook,
+  EvaluateCanonInput,
+  OutlookBand,
+  PrognosisGroup,
+  PrognosisGroupId,
+  PrognosisReport,
+} from "./prognosis";
+export type {
   SimulationState,
   SimulationStateDelta,
   SimulationStateKey,

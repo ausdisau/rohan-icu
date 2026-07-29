@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "content-lint": "tsx scripts/content-lint.ts"
+    "content-lint": "tsx scripts/content-lint.ts",
+    "prognosis-smoke": "tsx scripts/prognosis-smoke.ts"
   },
   "dependencies": {
     "next": "16.2.12",

@@ -1,4 +1,11 @@
 export {
+  buildCanonHeldChecklist,
+  evaluateCanonContext,
+  getCanonPhrases,
+  getConsentPrinciples,
+  getLockedChronology,
+} from "./canon";
+export {
   COMMUNICATION_STATUS_COPY,
   capacityStatusForCommunication,
   communicationStatusFromMethod,
@@ -11,6 +18,13 @@ export {
   type DebriefHighlights,
   type EnrichedDebriefPayload,
 } from "./debrief";
+export {
+  buildPrognosisReport,
+  buildPrognosisSummary,
+  domainLabel,
+  outlookBandForDomain,
+  outlookBandLabel,
+} from "./prognosis";
 export {
   SESSION_STORAGE_KEY,
   advanceAfterConsequence,
