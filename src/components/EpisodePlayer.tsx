@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
+import { ActionStations } from "@/components/ActionStations";
 import { DecisionNodeView } from "@/components/DecisionNodeView";
 import {
   advanceAfterConsequence,
@@ -11,14 +12,17 @@ import {
   saveSession,
   type SimulationSession,
 } from "@/engine/session";
+import type { ActionStationsParsed } from "@/schemas/action-stations";
 import type { EpisodeManifest, SimulationChoice, SimulationNode } from "@/types/node";
 
 export function EpisodePlayer({
   manifest,
   nodes,
+  actionStations,
 }: {
   manifest: EpisodeManifest;
   nodes: SimulationNode[];
+  actionStations: ActionStationsParsed;
 }) {
   const router = useRouter();
   const nodeMap = useMemo(
@@ -127,16 +131,19 @@ export function EpisodePlayer({
           </button>
         </section>
       ) : (
-        <DecisionNodeView
-          node={currentNode}
-          state={session.state}
-          previousState={
-            session.pendingConsequence ? stateBeforeChoice : undefined
-          }
-          pendingConsequence={session.pendingConsequence}
-          onSelectChoice={handleSelect}
-          onContinue={handleContinue}
-        />
+        <>
+          <DecisionNodeView
+            node={currentNode}
+            state={session.state}
+            previousState={
+              session.pendingConsequence ? stateBeforeChoice : undefined
+            }
+            pendingConsequence={session.pendingConsequence}
+            onSelectChoice={handleSelect}
+            onContinue={handleContinue}
+          />
+          <ActionStations reference={actionStations} />
+        </>
       )}
     </div>
   );

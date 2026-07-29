@@ -1,11 +1,22 @@
 import { EpisodePlayer } from "@/components/EpisodePlayer";
-import { loadEpisodeManifest, loadEpisodeNodes } from "@/lib/content";
+import {
+  loadActionStations,
+  loadEpisodeManifest,
+  loadEpisodeNodes,
+} from "@/lib/content";
 
 export default async function EpisodePage() {
-  const [manifest, nodes] = await Promise.all([
+  const [manifest, nodes, actionStations] = await Promise.all([
     loadEpisodeManifest(),
     loadEpisodeNodes(),
+    loadActionStations(),
   ]);
 
-  return <EpisodePlayer manifest={manifest} nodes={nodes} />;
+  return (
+    <EpisodePlayer
+      manifest={manifest}
+      nodes={nodes}
+      actionStations={actionStations}
+    />
+  );
 }

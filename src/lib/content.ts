@@ -5,6 +5,10 @@ import {
   episodeManifestSchema,
   simulationNodeSchema,
 } from "@/schemas/node";
+import {
+  actionStationsSchema,
+  type ActionStationsParsed,
+} from "@/schemas/action-stations";
 import type { EpisodeManifest, SimulationNode } from "@/types/node";
 
 const episodeDir = path.join(
@@ -30,4 +34,12 @@ export async function loadNode(nodeId: string): Promise<SimulationNode> {
 export async function loadEpisodeNodes(): Promise<SimulationNode[]> {
   const manifest = await loadEpisodeManifest();
   return Promise.all(manifest.nodeIds.map((id) => loadNode(id)));
+}
+
+export async function loadActionStations(): Promise<ActionStationsParsed> {
+  const raw = await readFile(
+    path.join(process.cwd(), "content", "canon", "action-stations.json"),
+    "utf8",
+  );
+  return actionStationsSchema.parse(JSON.parse(raw));
 }

@@ -1,0 +1,481 @@
+{
+  "id": "action-stations",
+  "version": "1.0.0",
+  "title": "Instrumental Action Stations",
+  "framing": "The station images represent items in Rohan's personal community emergency bag. They are not generic ward stock, and family or Jay are not assigned unpaid clinical responsibility for them.",
+  "educationalBoundary": "This is a decision-and-consequence exercise, not a procedure manual or a find-the-magic-object puzzle. The central PICU scene begins with incomplete evidence; selecting an image never proves it is the right action.",
+  "episodeNodeIds": [
+    "ep01-pressure-rise"
+  ],
+  "states": [
+    {
+      "id": "available",
+      "label": "Available",
+      "meaning": "Visible for consideration; relevance has not been established."
+    },
+    {
+      "id": "relevant",
+      "label": "Relevant",
+      "meaning": "The current evidence supports discussing this item."
+    },
+    {
+      "id": "locked-by-evidence",
+      "label": "Locked by evidence",
+      "meaning": "Still visible, but interpretation must consider missing evidence before assignment."
+    },
+    {
+      "id": "assigned",
+      "label": "Assigned",
+      "meaning": "Responsibility is named while Rohan's communication access remains active."
+    },
+    {
+      "id": "committed",
+      "label": "Committed",
+      "meaning": "The learner has committed this item to the branch consequence."
+    }
+  ],
+  "workflow": [
+    "Select",
+    "Interpret",
+    "Preconditions",
+    "Assign",
+    "Commit",
+    "Branch consequence"
+  ],
+  "evidenceGate": {
+    "assetNumbers": [
+      1,
+      2,
+      3
+    ],
+    "evidenceToConsider": [
+      "External ventilator circuit load and any pull on the tracheostomy",
+      "Rohan's position and whether support changes circuit alignment",
+      "Power continuity for ventilation, suction, and communication access"
+    ],
+    "earlySelectionWarning": "This airway option remains visible but is locked by incomplete evidence. Before assignment, consider external circuit load, Rohan's position, and power continuity. The image alone does not establish the action."
+  },
+  "decisionPrompts": [
+    "What do you notice in the image, and what remains uncertain?",
+    "What is this item intended to support in Rohan's context?",
+    "Which evidence in the central scene makes it relevant now?",
+    "Which evidence would make it irrelevant, unsafe, or premature?",
+    "What preconditions must be checked before anyone is assigned?",
+    "Who is the trained role responsible, and how will Rohan's AAC stay available while they act?",
+    "If you commit this item, what branch consequence should the team watch for rather than assuming success?"
+  ],
+  "accessibilityRequirements": [
+    "Every image has concise and extended alternative text.",
+    "Announcements include canonical number, item, station, state, and any warning.",
+    "All controls work by keyboard and switch access with visible focus.",
+    "Scenario time pauses while Rohan uses AAC; communication is not timed out.",
+    "Locked items remain visible and explain why they are locked.",
+    "Status is expressed with text and shape, never colour alone.",
+    "Rohan's AAC remains visible throughout the station workflow.",
+    "No response is recorded as wait or unknown, never incapacity."
+  ],
+  "centralScene": {
+    "title": "Central PICU scene — evidence incomplete",
+    "description": "Ventilator pressures are rising, right-sided air entry is reduced, ordinary suction retrieves little secretion, and Rohan reports RIGHT MIDDLE by auditory scanning. The tracheostomy is patent; the cause is not yet proven.",
+    "indicators": [
+      {
+        "id": "airway-evidence",
+        "label": "Airway",
+        "detail": "Patent tracheostomy; little secretion retrieved; possible distal obstruction remains uncertain."
+      },
+      {
+        "id": "breathing-evidence",
+        "label": "Breathing and equipment",
+        "detail": "Pressure trend rising; right-sided air entry reduced; circuit load, position, and power still need consideration."
+      },
+      {
+        "id": "circulation-evidence",
+        "label": "Circulation",
+        "detail": "Severe cardiomyopathy and ICD limit reserve; pressure changes can carry cardiac consequences."
+      },
+      {
+        "id": "communication-evidence",
+        "label": "Communication",
+        "detail": "AAC is available. Pause scenario time for auditory scanning; silence means wait or unknown."
+      }
+    ]
+  },
+  "stations": [
+    {
+      "id": "airway",
+      "label": "Airway",
+      "numberRange": [
+        1,
+        8
+      ],
+      "assetNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": "breathing-equipment",
+      "label": "Breathing + Equipment",
+      "numberRange": [
+        9,
+        17
+      ],
+      "assetNumbers": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ]
+    },
+    {
+      "id": "circulation",
+      "label": "Circulation",
+      "numberRange": [
+        18,
+        20
+      ],
+      "assetNumbers": [
+        18,
+        19,
+        20
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "number": 1,
+      "inventoryId": "kit-01-spare-tracheostomy-tube-same-size",
+      "stationId": "airway",
+      "title": "Spare Tracheostomy Tube Same Size",
+      "purpose": "Provides person-specific airway redundancy when current evidence and Rohan's airway plan support considering a tube change.",
+      "contextGate": {
+        "requiredEvidence": [
+          "External circuit load considered",
+          "Position and circuit alignment considered",
+          "Power continuity considered"
+        ],
+        "warning": "Do not infer tube change from the image or rising pressure alone; the tracheostomy is currently described as patent."
+      },
+      "initialState": "locked-by-evidence",
+      "altText": "Action Station asset 1, same-size spare tracheostomy tube, Airway station, locked by evidence."
+    },
+    {
+      "number": 2,
+      "inventoryId": "kit-02-smaller-rescue-tracheostomy-tube",
+      "stationId": "airway",
+      "title": "Smaller Rescue Tracheostomy Tube",
+      "purpose": "Provides the smaller person-specific rescue option identified by Rohan's current airway plan.",
+      "contextGate": {
+        "requiredEvidence": [
+          "External circuit load considered",
+          "Position and circuit alignment considered",
+          "Power continuity considered"
+        ],
+        "warning": "A rescue option is not evidence that reinsertion is required; interpret the scene and current plan first."
+      },
+      "initialState": "locked-by-evidence",
+      "altText": "Action Station asset 2, smaller rescue tracheostomy tube, Airway station, locked by evidence."
+    },
+    {
+      "number": 3,
+      "inventoryId": "kit-03-alternative-emergency-airway-as-specified",
+      "stationId": "airway",
+      "title": "Alternative Emergency Airway As Specified",
+      "purpose": "Represents the alternative airway named in Rohan's current plan without prescribing a device in the simulation.",
+      "contextGate": {
+        "requiredEvidence": [
+          "External circuit load considered",
+          "Position and circuit alignment considered",
+          "Power continuity considered"
+        ],
+        "warning": "The plan and evidence determine whether this option is relevant; the station does not teach an airway procedure."
+      },
+      "initialState": "locked-by-evidence",
+      "altText": "Action Station asset 3, alternative emergency airway as specified, Airway station, locked by evidence."
+    },
+    {
+      "number": 4,
+      "inventoryId": "kit-04-airway-plan-card-current-revision",
+      "stationId": "airway",
+      "title": "Airway Plan Card Current Revision",
+      "purpose": "Makes Rohan's current person-specific airway plan and revision status available to trained responders.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Current revision confirmed",
+          "Plan interpreted with the present scene"
+        ],
+        "warning": "A plan card informs judgement; it does not replace current assessment or Rohan's authorship."
+      },
+      "initialState": "available",
+      "altText": "Action Station asset 4, current airway plan card, Airway station, available."
+    },
+    {
+      "number": 5,
+      "inventoryId": "kit-05-tracheostomy-securing-ties",
+      "stationId": "airway",
+      "title": "Tracheostomy Securing Ties",
+      "purpose": "Supports secure person-specific tracheostomy positioning when evidence identifies a securing need.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Securing concern identified",
+          "Skin and position considered"
+        ],
+        "warning": "Availability does not establish that ties need changing."
+      },
+      "initialState": "available",
+      "altText": "Action Station asset 5, tracheostomy securing ties, Airway station, available."
+    },
+    {
+      "number": 6,
+      "inventoryId": "kit-06-dressings-and-airway-care-supplies",
+      "stationId": "airway",
+      "title": "Dressings and Airway Care Supplies",
+      "purpose": "Supports person-specific airway site care by trained responders when the scene shows a relevant care need.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Airway site care need identified",
+          "Immediate respiratory priorities considered"
+        ],
+        "warning": "Routine care supplies are not a substitute for interpreting the pressure rise."
+      },
+      "initialState": "available",
+      "altText": "Action Station asset 6, dressings and airway care supplies, Airway station, available."
+    },
+    {
+      "number": 7,
+      "inventoryId": "kit-07-suction-catheters-multiple-sizes",
+      "stationId": "airway",
+      "title": "Suction Catheters Multiple Sizes",
+      "purpose": "Supports assessment and secretion clearance while preserving a patent tracheostomy, within Rohan's plan.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Catheter passage and secretion yield considered",
+          "Possible distal obstruction remains in the differential"
+        ],
+        "warning": "Ordinary suction has retrieved little secretion; repeated selection is not proof of a proximal blockage."
+      },
+      "initialState": "relevant",
+      "altText": "Action Station asset 7, suction catheters in multiple sizes, Airway station, relevant."
+    },
+    {
+      "number": 8,
+      "inventoryId": "kit-08-portable-suction-unit-battery-powered",
+      "stationId": "airway",
+      "title": "Portable Suction Unit Battery Powered",
+      "purpose": "Provides suction continuity when wall suction is unavailable during community movement or transfer.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Suction source and battery state checked",
+          "Current location and transfer need considered"
+        ],
+        "warning": "In the PICU scene, availability does not make portable suction preferable to established equipment."
+      },
+      "initialState": "available",
+      "altText": "Action Station asset 8, battery-powered portable suction unit, Airway station, available."
+    },
+    {
+      "number": 9,
+      "inventoryId": "kit-09-spare-ventilator-circuit",
+      "stationId": "breathing-equipment",
+      "title": "Spare Ventilator Circuit",
+      "purpose": "Provides a known compatible circuit if evidence supports circuit failure or contamination.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Current circuit inspected",
+          "Compatibility and external load considered"
+        ],
+        "warning": "Rising pressure does not by itself prove circuit failure."
+      },
+      "initialState": "relevant",
+      "altText": "Action Station asset 9, spare ventilator circuit, Breathing and Equipment station, relevant."
+    },
+    {
+      "number": 10,
+      "inventoryId": "kit-10-connectors-and-adapters",
+      "stationId": "breathing-equipment",
+      "title": "Connectors and Adapters",
+      "purpose": "Maintains compatibility between Rohan's tracheostomy, circuit, and approved support equipment.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Connection mismatch or leak identified",
+          "Approved compatibility checked"
+        ],
+        "warning": "Do not add components without evidence; extra connections can change load and alignment."
+      },
+      "initialState": "available",
+      "altText": "Action Station asset 10, connectors and adapters, Breathing and Equipment station, available."
+    },
+    {
+      "number": 11,
+      "inventoryId": "kit-11-filters-and-hme-spare",
+      "stationId": "breathing-equipment",
+      "title": "Filters and HME Spare",
+      "purpose": "Provides a compatible spare filter or heat-moisture exchange component when its condition is relevant.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Existing component inspected",
+          "Humidification and resistance considered"
+        ],
+        "warning": "The station does not prescribe changing a filter or HME based on pressure alone."
+      },
+      "initialState": "relevant",
+      "altText": "Action Station asset 11, spare filters and HME, Breathing and Equipment station, relevant."
+    },
+    {
+      "number": 12,
+      "inventoryId": "kit-12-manual-resuscitator-bag-valve",
+      "stationId": "breathing-equipment",
+      "title": "Manual Resuscitator Bag Valve",
+      "purpose": "Provides trained responders with person-compatible backup ventilation if the supported ventilation pathway is interrupted.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Ventilation interruption or equipment failure identified",
+          "Cardiac and pressure consequences considered"
+        ],
+        "warning": "Ventilation is support, not a victory endpoint; pressure and cardiac risk remain branch consequences."
+      },
+      "initialState": "available",
+      "altText": "Action Station asset 12, manual resuscitator bag valve, Breathing and Equipment station, available."
+    },
+    {
+      "number": 13,
+      "inventoryId": "kit-13-oxygen-interface-if-required",
+      "stationId": "breathing-equipment",
+      "title": "Oxygen Interface If Required",
+      "purpose": "Represents Rohan's compatible oxygen interface when current clinical evidence and his plan require it.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Current oxygenation evidence considered",
+          "Person-specific plan checked"
+        ],
+        "warning": "No oxygen setting or prescription is taught by this station."
+      },
+      "initialState": "available",
+      "altText": "Action Station asset 13, oxygen interface if required, Breathing and Equipment station, available."
+    },
+    {
+      "number": 14,
+      "inventoryId": "kit-14-circuit-support-straps",
+      "stationId": "breathing-equipment",
+      "title": "Circuit Support Straps",
+      "purpose": "Supports the external circuit to reduce pull and preserve Rohan's chosen and clinically appropriate position.",
+      "contextGate": {
+        "requiredEvidence": [
+          "External circuit load considered",
+          "Position and skin pressure considered"
+        ],
+        "warning": "Support straps must respond to observed load, not immobilise Rohan or hide a circuit problem."
+      },
+      "initialState": "relevant",
+      "altText": "Action Station asset 14, circuit support straps, Breathing and Equipment station, relevant."
+    },
+    {
+      "number": 15,
+      "inventoryId": "kit-15-backup-batteries-charged",
+      "stationId": "breathing-equipment",
+      "title": "Backup Batteries Charged",
+      "purpose": "Maintains power continuity for ventilation, suction, and communication equipment during transfer or interruption.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Charge state checked",
+          "Equipment power demand and transfer duration considered"
+        ],
+        "warning": "A battery image is not evidence of charge; readiness must be verified."
+      },
+      "initialState": "relevant",
+      "altText": "Action Station asset 15, charged backup batteries, Breathing and Equipment station, relevant."
+    },
+    {
+      "number": 16,
+      "inventoryId": "kit-16-power-leads-and-chargers",
+      "stationId": "breathing-equipment",
+      "title": "Power Leads and Chargers",
+      "purpose": "Provides labelled, compatible power connections for Rohan's support and communication equipment.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Compatibility checked",
+          "Power source and cable routing considered"
+        ],
+        "warning": "Power leads must not create additional circuit pull or obstruct AAC access."
+      },
+      "initialState": "relevant",
+      "altText": "Action Station asset 16, power leads and chargers, Breathing and Equipment station, relevant."
+    },
+    {
+      "number": 17,
+      "inventoryId": "kit-17-chest-movement-indicator",
+      "stationId": "breathing-equipment",
+      "title": "Chest Movement Indicator",
+      "purpose": "Adds a visible observation cue to support interpretation of breathing movement without replacing clinical assessment.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Baseline movement and position considered",
+          "Other respiratory evidence compared"
+        ],
+        "warning": "A single indicator cannot diagnose the cause of reduced right-sided air entry."
+      },
+      "initialState": "relevant",
+      "altText": "Action Station asset 17, chest movement indicator, Breathing and Equipment station, relevant."
+    },
+    {
+      "number": 18,
+      "inventoryId": "kit-18-defibrillator-aed",
+      "stationId": "circulation",
+      "title": "Defibrillator AED",
+      "purpose": "Identifies access to defibrillation equipment for trained responders if the circulation branch supports its use.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Current circulation and rhythm evidence considered",
+          "Existing ICD context acknowledged"
+        ],
+        "warning": "An AED is not an automatic response to every alarm or pressure rise."
+      },
+      "initialState": "available",
+      "altText": "Action Station asset 18, defibrillator AED, Circulation station, available."
+    },
+    {
+      "number": 19,
+      "inventoryId": "kit-19-cardiac-monitor-portable",
+      "stationId": "circulation",
+      "title": "Cardiac Monitor Portable",
+      "purpose": "Supports observation of circulation and rhythm trends when Rohan's limited cardiac reserve is relevant.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Monitoring goal identified",
+          "Existing PICU monitoring and transfer context considered"
+        ],
+        "warning": "Monitoring informs interpretation; it does not make an intervention inevitable."
+      },
+      "initialState": "relevant",
+      "altText": "Action Station asset 19, portable cardiac monitor, Circulation station, relevant. The source image may visually show 10, but the canonical number is 19.",
+      "visualNumberMayRead": "10"
+    },
+    {
+      "number": 20,
+      "inventoryId": "kit-20-monitoring-leads-and-sensors",
+      "stationId": "circulation",
+      "title": "Monitoring Leads and Sensors",
+      "purpose": "Provides compatible leads and sensors for clinically relevant monitoring while preserving skin, position, and AAC access.",
+      "contextGate": {
+        "requiredEvidence": [
+          "Monitoring need and compatibility checked",
+          "Skin, positioning, and communication access considered"
+        ],
+        "warning": "More sensors do not equal better evidence if they obstruct communication or add unreliable signals."
+      },
+      "initialState": "available",
+      "altText": "Action Station asset 20, monitoring leads and sensors, Circulation station, available."
+    }
+  ]
+}

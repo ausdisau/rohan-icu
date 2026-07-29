@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import {
   episodeManifestSchema,
   formatContinuityFindings,
+  lintActionStations,
   lintChronologyLock,
   lintContinuityText,
   lintEmergencyKitInventory,
@@ -20,6 +21,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const contentRoot = path.join(root, "content");
 const publicRoot = path.join(root, "public");
 const KIT_INVENTORY_BASENAME = "emergency-kit-inventory.json";
+const ACTION_STATIONS_BASENAME = "action-stations.json";
 async function walkJsonFiles(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   const files: string[] = [];
@@ -153,6 +155,12 @@ async function main(): Promise<void> {
         ...(await lintEmergencyKitInventory(data, rel, publicRoot)),
       );
       // Still run banned-phrase continuity on framing / alt copy.
+      findings.push(...lintContinuityText({ path: rel, text }));
+      continue;
+    }
+
+    if (base === ACTION_STATIONS_BASENAME) {
+      findings.push(...lintActionStations(data, rel));
       findings.push(...lintContinuityText({ path: rel, text }));
       continue;
     }

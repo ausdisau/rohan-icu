@@ -42,3 +42,6 @@ next-env.d.ts
 
 .cursor
 
+# accidental nested clone of this repo
+/rohan-icu/
+
