@@ -1,0 +1,244 @@
+{
+  "id": "ep01-kit-readiness",
+  "phaseId": "phase-06-home-school-authorship",
+  "title": "Verify Rohan's personal emergency bag",
+  "openingNarrative": "Rohan is still in ICU. Discharge and community planning cannot wait until the bay door. The team must verify his personal emergency bag—the community transfer kit used at home, school, and DisabilityFour events—before continuity plans harden. Paid trained responders own the inventory; family and Jay are not unpaid clinicians stocking the bag. Redundancy is not excess: one worker handles the airway; another handles the rest of the emergency. Rohan is addressed first. The checklist and a curated strip of critical stills are on the table—not all fifty-six items at once.",
+  "clinicalState": "Still ICU. Physiology carries forward from sedation and airway branches. Community bag readiness is a planning domain mid-ICU: airway spares, suction and power, AAC access kit, and governance documents. No medication doses or prescribing. Sensitive medication compartments stay labelled only.",
+  "communicationMethod": "aac-board",
+  "choices": [
+    {
+      "id": "kit-prioritise-airway-power",
+      "label": "Prioritise airway and power redundancy — trach spares, suction, circuits, batteries, chargers",
+      "immediateConsequence": "Home readiness rises and airway obstruction risk falls because spare tubes, portable suction, circuits, and charged power are confirmed for transfer. Other kit domains may feel unfinished; family burden ticks up if fear of incompleteness elsewhere grows.",
+      "delayedConsequence": "Communication-access and governance packs still need a dated review before school return. Redundancy without docs or AAC is incomplete community readiness.",
+      "domainDeltas": {
+        "homeReadiness": 12,
+        "airwayObstructionRisk": -10,
+        "respiratoryStability": 4,
+        "familyBurden": 3,
+        "publicTrust": 2
+      },
+      "nextNodeId": "ep01-home-school",
+      "rohanAacLine": "EVERY ALARM STILL DESERVES AN ANSWER."
+    },
+    {
+      "id": "kit-prioritise-communication-access",
+      "label": "Prioritise communication-access kit — AAC offline, cheek switch, boards, vocabulary, large print",
+      "immediateConsequence": "Communication access, authorship control, and school access rise because offline AAC, spare cheek switch, and low-tech boards travel with Rohan. Airway hardware may still need a second pass before discharge.",
+      "delayedConsequence": "Access at wake and at school events depends on this kit; power and trach redundancy remain separate paid-responder checks.",
+      "domainDeltas": {
+        "communicationAccess": 14,
+        "authorshipControl": 10,
+        "schoolAccess": 8,
+        "homeReadiness": 4,
+        "familyBurden": -2
+      },
+      "nextNodeId": "ep01-home-school",
+      "rohanAacLine": "COMMUNICATION WHEN EYES OPEN."
+    },
+    {
+      "id": "kit-prioritise-governance-docs",
+      "label": "Prioritise governance docs — airway plan, contacts, handover, privacy/dignity, revision date",
+      "immediateConsequence": "Privacy protection and public trust rise; home readiness improves modestly because current airway plan, contacts, checklist, and dignity guidelines are verified for handover.",
+      "delayedConsequence": "Docs without charged batteries or offline AAC still fail a real transfer. Revision date must stay current before school membership plans lock.",
+      "domainDeltas": {
+        "privacyProtection": 12,
+        "publicTrust": 10,
+        "homeReadiness": 6,
+        "authorshipControl": 4,
+        "schoolAccess": 3
+      },
+      "nextNodeId": "ep01-home-school",
+      "rohanAacLine": "TELL ME BEFORE MEDICINE."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Rohan's personal emergency bag is for paid trained responders—not unpaid family labour.",
+    "Redundancy is not excess: one worker airway, one worker rest-of-emergency.",
+    "Communication access equipment is emergency equipment.",
+    "Privacy and dignity guidelines travel with the kit; crisis is not public property."
+  ],
+  "debriefNotes": [
+    "Kit prioritisation is a trade-off with no single correct answer.",
+    "Pairs with home/school continuity: staffing plans need a verified bag.",
+    "Sensitive medication cards stay non-prescriptive—labels only."
+  ],
+  "media": [
+    {
+      "id": "kit-40-equipment-inventory-checklist",
+      "kind": "image",
+      "src": "/media/emergency-kit/40-equipment-inventory-checklist.png",
+      "title": "Equipment Inventory Checklist",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 40: Equipment Inventory Checklist.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Equipment inventory checklist used to verify bag readiness before community discharge or school return."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-01-spare-tracheostomy-tube-same-size",
+      "kind": "image",
+      "src": "/media/emergency-kit/01-spare-tracheostomy-tube-same-size.png",
+      "title": "Spare Tracheostomy Tube Same Size",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 1: Spare Tracheostomy Tube Same Size.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Shows a spare tracheostomy tube matching Rohan's usual size, ready for emergency tube change in community settings."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-02-smaller-rescue-tracheostomy-tube",
+      "kind": "image",
+      "src": "/media/emergency-kit/02-smaller-rescue-tracheostomy-tube.png",
+      "title": "Smaller Rescue Tracheostomy Tube",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 2: Smaller Rescue Tracheostomy Tube.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Shows a smaller rescue tracheostomy tube for difficult reinsertion when the same-size tube will not pass."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-07-suction-catheters-multiple-sizes",
+      "kind": "image",
+      "src": "/media/emergency-kit/07-suction-catheters-multiple-sizes.png",
+      "title": "Suction Catheters Multiple Sizes",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 7: Suction Catheters Multiple Sizes.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Multiple suction catheter sizes for clearing secretions while keeping the trach patent; relevant when pressures rise from distal obstruction."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-08-portable-suction-unit-battery-powered",
+      "kind": "image",
+      "src": "/media/emergency-kit/08-portable-suction-unit-battery-powered.png",
+      "title": "Portable Suction Unit Battery Powered",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 8: Portable Suction Unit Battery Powered.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Battery-powered portable suction unit for community use when wall suction is unavailable."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-12-manual-resuscitator-bag-valve",
+      "kind": "image",
+      "src": "/media/emergency-kit/12-manual-resuscitator-bag-valve.png",
+      "title": "Manual Resuscitator Bag Valve",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 12: Manual Resuscitator Bag Valve.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Manual resuscitator (bag-valve) sized for trach connection—backup ventilation when the ventilator is offline."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-15-backup-batteries-charged",
+      "kind": "image",
+      "src": "/media/emergency-kit/15-backup-batteries-charged.png",
+      "title": "Backup Batteries Charged",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 15: Backup Batteries Charged.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Charged backup batteries for ventilator and suction—power continuity for home and school transfer."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-16-power-leads-and-chargers",
+      "kind": "image",
+      "src": "/media/emergency-kit/16-power-leads-and-chargers.png",
+      "title": "Power Leads and Chargers",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 16: Power Leads and Chargers.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Power leads and chargers matching Rohan's equipment, labelled for rapid grab from the bag."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-18-defibrillator-aed",
+      "kind": "image",
+      "src": "/media/emergency-kit/18-defibrillator-aed.png",
+      "title": "Defibrillator AED",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 18: Defibrillator AED.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. AED access card/reminder for school and community venues—locate nearest defibrillator; does not replace clinical training."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-27-aac-device-offline",
+      "kind": "image",
+      "src": "/media/emergency-kit/27-aac-device-offline.png",
+      "title": "AAC Device Offline",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 27: AAC Device Offline.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Rohan's AAC device configured for offline use so communication continues without network dependency when eyes open after sedation."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-28-cheek-switch-spare",
+      "kind": "image",
+      "src": "/media/emergency-kit/28-cheek-switch-spare.png",
+      "title": "Cheek Switch Spare",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 28: Cheek Switch Spare.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Spare cheek switch for access when primary switch fails—communication access is emergency equipment."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-29-low-tech-communication-board",
+      "kind": "image",
+      "src": "/media/emergency-kit/29-low-tech-communication-board.png",
+      "title": "Low Tech Communication Board",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 29: Low Tech Communication Board.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Low-tech communication board backup when devices fail or sedation limits fine motor control."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-36-airway-plan-full-document",
+      "kind": "image",
+      "src": "/media/emergency-kit/36-airway-plan-full-document.png",
+      "title": "Airway Plan Full Document",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 36: Airway Plan Full Document.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Full airway plan document (current revision) carried in the bag for handover and school transfer."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-37-iicrt-emergency-summary",
+      "kind": "image",
+      "src": "/media/emergency-kit/37-iicrt-emergency-summary.png",
+      "title": "IICRT Emergency Summary",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 37: IICRT Emergency Summary.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. IICRT emergency summary sheet—person-centred crisis information for first responders."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-38-emergency-contacts-list",
+      "kind": "image",
+      "src": "/media/emergency-kit/38-emergency-contacts-list.png",
+      "title": "Emergency Contacts List",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 38: Emergency Contacts List.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Emergency contacts list including paid support roster and clinical leads—not unpaid family as default clinicians."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-42-privacy-and-dignity-guidelines",
+      "kind": "image",
+      "src": "/media/emergency-kit/42-privacy-and-dignity-guidelines.png",
+      "title": "Privacy and Dignity Guidelines",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 42: Privacy and Dignity Guidelines.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Privacy and dignity guidelines for public-event and school response—crisis is not public property."
+      },
+      "autoplayForbidden": true
+    }
+  ]
+}

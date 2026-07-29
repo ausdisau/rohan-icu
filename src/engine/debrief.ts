@@ -217,12 +217,168 @@ function collectNotes(history: AppliedChoiceRecord[]): {
   return { debrief, rights };
 }
 
+type KitPriority = "airway-redundancy" | "communication-kit" | "privacy-governance";
+
+function isKitReadinessEntry(entry: AppliedChoiceRecord): boolean {
+  const nodeId = entry.nodeId.toLowerCase();
+  const choiceId = entry.choiceId.toLowerCase();
+  return (
+    nodeId.includes("kit-readiness") ||
+    choiceId.includes("kit-readiness") ||
+    choiceId.includes("kit-airway") ||
+    choiceId.includes("kit-communication") ||
+    choiceId.includes("kit-governance") ||
+    choiceId.includes("kit-privacy")
+  );
+}
+
+function classifyKitPriority(entry: AppliedChoiceRecord): KitPriority {
+  const id = `${entry.choiceId} ${entry.label}`.toLowerCase();
+  if (
+    /airway|power|suction|trach|redundan/.test(id)
+  ) {
+    return "airway-redundancy";
+  }
+  if (/communicat|aac|cheek|vocab|board/.test(id)) {
+    return "communication-kit";
+  }
+  if (/govern|privacy|handover|docs?|plan|dignity/.test(id)) {
+    return "privacy-governance";
+  }
+
+  const d = entry.domainDeltas;
+  const scores: Record<KitPriority, number> = {
+    "airway-redundancy":
+      (deltaFor(d, "airwayObstructionRisk") < 0 ? 3 : 0) +
+      (deltaFor(d, "homeReadiness") > 0 ? 1 : 0) +
+      (deltaFor(d, "respiratoryStability") > 0 ? 1 : 0),
+    "communication-kit":
+      (deltaFor(d, "communicationAccess") > 0 ? 3 : 0) +
+      (deltaFor(d, "authorshipControl") > 0 ? 2 : 0) +
+      (deltaFor(d, "schoolAccess") > 0 ? 1 : 0),
+    "privacy-governance":
+      (deltaFor(d, "privacyProtection") > 0 ? 3 : 0) +
+      (deltaFor(d, "publicTrust") > 0 ? 2 : 0) +
+      (deltaFor(d, "homeReadiness") > 0 ? 1 : 0),
+  };
+
+  let best: KitPriority = "airway-redundancy";
+  let bestScore = -Infinity;
+  for (const key of Object.keys(scores) as KitPriority[]) {
+    if (scores[key] > bestScore) {
+      bestScore = scores[key];
+      best = key;
+    }
+  }
+  return best;
+}
+
+function kitHomeSchoolSummary(kitEntries: AppliedChoiceRecord[]): string {
+  if (kitEntries.length === 0) {
+    return "Home readiness and school membership remain active concerns during ICU care.";
+  }
+  const priorities = new Set(kitEntries.map(classifyKitPriority));
+  const parts: string[] = [
+    "Kit-readiness choices shaped community transfer priorities for Rohan’s personal emergency bag.",
+  ];
+  if (priorities.has("airway-redundancy")) {
+    parts.push(
+      "Airway and power redundancy (spares, suction, circuits, batteries) were weighted for paid-responder readiness.",
+    );
+  }
+  if (priorities.has("communication-kit")) {
+    parts.push(
+      "Communication-access kit items (offline AAC, cheek switch, boards, vocabulary) were weighted for authorship at school and home.",
+    );
+  }
+  if (priorities.has("privacy-governance")) {
+    parts.push(
+      "Governance docs (airway plan, contacts, handover, privacy/dignity, revision date) were weighted for Evidence Trust continuity.",
+    );
+  }
+  return parts.join(" ");
+}
+
+function kitNoticedLines(kitEntries: AppliedChoiceRecord[]): string[] {
+  const lines: string[] = [];
+  const seen = new Set<KitPriority>();
+  for (const entry of kitEntries) {
+    const priority = classifyKitPriority(entry);
+    if (seen.has(priority)) continue;
+    seen.add(priority);
+    switch (priority) {
+      case "airway-redundancy":
+        lines.push(
+          `Kit readiness noticed airway redundancy — “${entry.label}” reduced transfer risk around trach spares, suction, and power.`,
+        );
+        break;
+      case "communication-kit":
+        lines.push(
+          `Kit readiness noticed communication access — “${entry.label}” kept AAC tools in the community bag for when eyes open.`,
+        );
+        break;
+      case "privacy-governance":
+        lines.push(
+          `Kit readiness noticed privacy governance — “${entry.label}” centred plans, contacts, and dignity docs for home/school handover.`,
+        );
+        break;
+      default: {
+        const _exhaustive: never = priority;
+        void _exhaustive;
+        break;
+      }
+    }
+  }
+  return lines;
+}
+
+function kitMissedLines(
+  history: AppliedChoiceRecord[],
+  kitEntries: AppliedChoiceRecord[],
+): string[] {
+  const lines: string[] = [];
+  if (kitEntries.length === 0) {
+    const pathMentionsHome =
+      history.some(
+        (h) =>
+          deltaFor(h.domainDeltas, "homeReadiness") !== 0 ||
+          deltaFor(h.domainDeltas, "schoolAccess") !== 0 ||
+          deltaFor(h.domainDeltas, "privacyProtection") !== 0,
+      ) || history.some((h) => /home|school/i.test(h.nodeId));
+    if (pathMentionsHome) {
+      lines.push(
+        "Emergency bag / kit readiness was not rehearsed — airway redundancy, communication kit, and privacy governance remain community-transfer gaps.",
+      );
+    }
+    return lines;
+  }
+
+  const priorities = new Set(kitEntries.map(classifyKitPriority));
+  if (!priorities.has("airway-redundancy")) {
+    lines.push(
+      "Kit readiness underweighted airway redundancy (trach spares, suction, circuits, batteries) relative to other bag priorities.",
+    );
+  }
+  if (!priorities.has("communication-kit")) {
+    lines.push(
+      "Kit readiness underweighted the communication-access kit (offline AAC, cheek switch, boards) for authorship after ICU.",
+    );
+  }
+  if (!priorities.has("privacy-governance")) {
+    lines.push(
+      "Kit readiness underweighted privacy / governance docs (airway plan, handover, dignity, revision date) for school transfer.",
+    );
+  }
+  return lines;
+}
+
 export function generateDebrief(
   session: SimulationSession,
 ): EnrichedDebriefPayload {
   const net = computeNetDeltas(session.initialState, session.state);
   const history = session.history;
   const notes = collectNotes(history);
+  const kitEntries = history.filter(isKitReadinessEntry);
 
   const strong = pickStrongClinical(history);
   const rights = pickRightsPreserving(history);
@@ -246,6 +402,7 @@ export function generateDebrief(
 
   const whatNoticed = [
     ...notes.debrief.slice(0, 3),
+    ...kitNoticedLines(kitEntries),
     ...(deltaFor(net, "communicationAccess") !== 0
       ? [
           `Communication access moved ${formatDelta(deltaFor(net, "communicationAccess"))} across the episode.`,
@@ -259,7 +416,7 @@ export function generateDebrief(
       : []),
   ];
 
-  const whatMissed: string[] = [];
+  const whatMissed: string[] = [...kitMissedLines(history, kitEntries)];
   if (deltaFor(net, "schoolAccess") === 0 && deltaFor(net, "homeReadiness") === 0) {
     whatMissed.push(
       "Home and school continuity domains did not move — later episodes will keep membership active mid-ICU.",
@@ -277,7 +434,9 @@ export function generateDebrief(
   }
   if (whatMissed.length === 0) {
     whatMissed.push(
-      "On this short stub path, the main gap is depth: fuller consent, pressure-rise, and sedation/AAC restore nodes are still arriving.",
+      kitEntries.length > 0
+        ? "Trade-offs remain: the emergency bag cannot weight every axis equally on one pass — revisit airway, AAC, and privacy together before discharge."
+        : "On this short stub path, the main gap is depth: fuller consent, pressure-rise, and sedation/AAC restore nodes are still arriving.",
     );
   }
 
@@ -311,7 +470,7 @@ export function generateDebrief(
       "home-and-school",
       history,
       net,
-      "Home readiness and school membership remain active concerns during ICU care.",
+      kitHomeSchoolSummary(kitEntries),
     ),
     buildCategory(
       "authorship-and-trust",

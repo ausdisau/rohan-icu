@@ -19,7 +19,15 @@ function isPlayableTimedSrc(src: string): boolean {
   return /\.(mp3|wav|ogg|m4a|aac|mp4|webm|ogv|mov)$/i.test(path);
 }
 
-export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
+export function AccessibleMediaPlayer({
+  media,
+  layout = "stack",
+}: {
+  media: MediaRef;
+  /** Gallery cells use a compact still frame; stack is full-width. */
+  layout?: "stack" | "gallery";
+}) {
+  const isGallery = layout === "gallery";
   const { settings } = useAccessibilitySettings();
   const reactId = useId();
   const mediaRef = useRef<HTMLVideoElement | HTMLAudioElement | null>(null);
@@ -127,10 +135,20 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
 
   return (
     <figure
-      className="rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-4"
+      className={
+        isGallery
+          ? "flex h-full flex-col rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-3"
+          : "rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-4"
+      }
       onKeyDown={onKeyDown}
     >
-      <figcaption className="mb-3 text-sm font-medium text-[var(--color-ink)]">
+      <figcaption
+        className={
+          isGallery
+            ? "mb-2 line-clamp-2 text-xs font-medium leading-snug text-[var(--color-ink)]"
+            : "mb-3 text-sm font-medium text-[var(--color-ink)]"
+        }
+      >
         {title}
       </figcaption>
 
@@ -152,7 +170,11 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
         <img
           src={media.src}
           alt={a11y.altText ?? title}
-          className="max-h-80 w-full object-contain"
+          className={
+            isGallery
+              ? "mx-auto max-h-36 w-full object-contain"
+              : "max-h-80 w-full object-contain"
+          }
         />
       ) : null}
 
@@ -327,7 +349,13 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
       ) : null}
 
       {a11y.extendedAltText ? (
-        <details className="mt-3 text-sm text-[var(--color-muted)]">
+        <details
+          className={
+            isGallery
+              ? "mt-2 text-xs text-[var(--color-muted)]"
+              : "mt-3 text-sm text-[var(--color-muted)]"
+          }
+        >
           <summary className="cursor-pointer text-[var(--color-ink)]">
             Extended description
           </summary>
@@ -335,14 +363,16 @@ export function AccessibleMediaPlayer({ media }: { media: MediaRef }) {
         </details>
       ) : null}
 
-      <p className="mt-3 text-xs text-[var(--color-muted)]">
-        {canPlayTimed
-          ? "Media never autoplays. Use Play when you are ready"
-          : isTimed
-            ? "Media never autoplays. Playback awaits a licensed media file; text access is available now"
-            : "Still media has no autoplay"}
-        {settings.reducedMotion ? " · reduced motion on" : ""}.
-      </p>
+      {!isGallery || isTimed ? (
+        <p className="mt-3 text-xs text-[var(--color-muted)]">
+          {canPlayTimed
+            ? "Media never autoplays. Use Play when you are ready"
+            : isTimed
+              ? "Media never autoplays. Playback awaits a licensed media file; text access is available now"
+              : "Still media has no autoplay"}
+          {settings.reducedMotion ? " · reduced motion on" : ""}.
+        </p>
+      ) : null}
     </figure>
   );
 }

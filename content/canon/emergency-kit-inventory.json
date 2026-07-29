@@ -1,0 +1,1099 @@
+{
+  "id": "emergency-kit-inventory",
+  "title": "Rohan's personal emergency bag / community transfer kit",
+  "version": "1.0.0",
+  "framing": "Rohan's personal emergency bag and community transfer kit for home, school, and public DisabilityFour events. Paid trained responders use the kit; family/Jay are not the inventory owners as unpaid clinicians. Not generic hospital stock.",
+  "itemCount": 56,
+  "categories": [
+    {
+      "id": "airway-trach-hardware",
+      "range": [
+        1,
+        6
+      ],
+      "label": "Airway / trach hardware"
+    },
+    {
+      "id": "suction-circuit-power",
+      "range": [
+        7,
+        16
+      ],
+      "label": "Suction, circuit, power"
+    },
+    {
+      "id": "assessment-aed-meds-timers",
+      "range": [
+        17,
+        26
+      ],
+      "label": "Assessment, AED, meds, timers"
+    },
+    {
+      "id": "aac-communication-access",
+      "range": [
+        27,
+        35
+      ],
+      "label": "AAC / communication access"
+    },
+    {
+      "id": "plans-handover-privacy-revision",
+      "range": [
+        36,
+        44
+      ],
+      "label": "Plans, handover, privacy, revision"
+    },
+    {
+      "id": "ppe-utility-notebook",
+      "range": [
+        45,
+        56
+      ],
+      "label": "PPE, utility, notebook"
+    }
+  ],
+  "curatedSets": {
+    "ep01-kit-readiness": [
+      1,
+      2,
+      7,
+      8,
+      12,
+      15,
+      16,
+      18,
+      27,
+      28,
+      29,
+      36,
+      37,
+      38,
+      40,
+      42
+    ],
+    "ep01-pressure-rise": [
+      7,
+      8,
+      9
+    ],
+    "ep01-sedation-delirium": [
+      27,
+      28,
+      29,
+      34
+    ],
+    "ep01-home-school": [
+      4,
+      18,
+      36,
+      40,
+      41,
+      42
+    ]
+  },
+  "auditFlagLegend": {
+    "ok": "Ready for use as-is",
+    "needs-crop": "May need crop for strip/gallery UI",
+    "text-heavy": "Document/card with dense text—prefer title + alt over full OCR reliance",
+    "sensitive-meds": "Medication-adjacent; non-prescriptive labels only"
+  },
+  "items": [
+    {
+      "id": "kit-01-spare-tracheostomy-tube-same-size",
+      "number": 1,
+      "slug": "spare-tracheostomy-tube-same-size",
+      "title": "Spare Tracheostomy Tube Same Size",
+      "category": "airway-trach-hardware",
+      "categoryLabel": "Airway / trach hardware",
+      "src": "/media/emergency-kit/01-spare-tracheostomy-tube-same-size.png",
+      "altText": "Rohan's personal emergency kit card 1: Spare Tracheostomy Tube Same Size.",
+      "scenarioTags": [
+        "library-code-pink",
+        "airway-redundancy"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Shows a spare tracheostomy tube matching Rohan's usual size, ready for emergency tube change in community settings."
+    },
+    {
+      "id": "kit-02-smaller-rescue-tracheostomy-tube",
+      "number": 2,
+      "slug": "smaller-rescue-tracheostomy-tube",
+      "title": "Smaller Rescue Tracheostomy Tube",
+      "category": "airway-trach-hardware",
+      "categoryLabel": "Airway / trach hardware",
+      "src": "/media/emergency-kit/02-smaller-rescue-tracheostomy-tube.png",
+      "altText": "Rohan's personal emergency kit card 2: Smaller Rescue Tracheostomy Tube.",
+      "scenarioTags": [
+        "library-code-pink",
+        "airway-redundancy"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Shows a smaller rescue tracheostomy tube for difficult reinsertion when the same-size tube will not pass."
+    },
+    {
+      "id": "kit-03-alternative-emergency-airway-as-specified",
+      "number": 3,
+      "slug": "alternative-emergency-airway-as-specified",
+      "title": "Alternative Emergency Airway As Specified",
+      "category": "airway-trach-hardware",
+      "categoryLabel": "Airway / trach hardware",
+      "src": "/media/emergency-kit/03-alternative-emergency-airway-as-specified.png",
+      "altText": "Rohan's personal emergency kit card 3: Alternative Emergency Airway As Specified.",
+      "scenarioTags": [
+        "library-code-pink",
+        "airway-redundancy"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Shows an alternative emergency airway option as specified on Rohan's current airway plan (device type per plan, not prescribed here)."
+    },
+    {
+      "id": "kit-04-airway-plan-card-current-revision",
+      "number": 4,
+      "slug": "airway-plan-card-current-revision",
+      "title": "Airway Plan Card Current Revision",
+      "category": "airway-trach-hardware",
+      "categoryLabel": "Airway / trach hardware",
+      "src": "/media/emergency-kit/04-airway-plan-card-current-revision.png",
+      "altText": "Rohan's personal emergency kit card 4: Airway Plan Card Current Revision.",
+      "scenarioTags": [
+        "library-code-pink",
+        "airway-redundancy",
+        "airway-plan",
+        "authorship"
+      ],
+      "episode01Bindings": [
+        "ep01-home-school"
+      ],
+      "auditFlag": "text-heavy",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Pocket airway plan card with current revision marker—quick reference for responders at home, school, or public events."
+    },
+    {
+      "id": "kit-05-tracheostomy-securing-ties",
+      "number": 5,
+      "slug": "tracheostomy-securing-ties",
+      "title": "Tracheostomy Securing Ties",
+      "category": "airway-trach-hardware",
+      "categoryLabel": "Airway / trach hardware",
+      "src": "/media/emergency-kit/05-tracheostomy-securing-ties.png",
+      "altText": "Rohan's personal emergency kit card 5: Tracheostomy Securing Ties.",
+      "scenarioTags": [
+        "library-code-pink",
+        "airway-redundancy"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-06-dressings-and-airway-care-supplies",
+      "number": 6,
+      "slug": "dressings-and-airway-care-supplies",
+      "title": "Dressings and Airway Care Supplies",
+      "category": "airway-trach-hardware",
+      "categoryLabel": "Airway / trach hardware",
+      "src": "/media/emergency-kit/06-dressings-and-airway-care-supplies.png",
+      "altText": "Rohan's personal emergency kit card 6: Dressings and Airway Care Supplies.",
+      "scenarioTags": [
+        "library-code-pink",
+        "airway-redundancy"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-07-suction-catheters-multiple-sizes",
+      "number": 7,
+      "slug": "suction-catheters-multiple-sizes",
+      "title": "Suction Catheters Multiple Sizes",
+      "category": "suction-circuit-power",
+      "categoryLabel": "Suction, circuit, power",
+      "src": "/media/emergency-kit/07-suction-catheters-multiple-sizes.png",
+      "altText": "Rohan's personal emergency kit card 7: Suction Catheters Multiple Sizes.",
+      "scenarioTags": [
+        "pressure-rise",
+        "home-backup-ventilation"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness",
+        "ep01-pressure-rise"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Multiple suction catheter sizes for clearing secretions while keeping the trach patent; relevant when pressures rise from distal obstruction."
+    },
+    {
+      "id": "kit-08-portable-suction-unit-battery-powered",
+      "number": 8,
+      "slug": "portable-suction-unit-battery-powered",
+      "title": "Portable Suction Unit Battery Powered",
+      "category": "suction-circuit-power",
+      "categoryLabel": "Suction, circuit, power",
+      "src": "/media/emergency-kit/08-portable-suction-unit-battery-powered.png",
+      "altText": "Rohan's personal emergency kit card 8: Portable Suction Unit Battery Powered.",
+      "scenarioTags": [
+        "pressure-rise",
+        "home-backup-ventilation"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness",
+        "ep01-pressure-rise"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Battery-powered portable suction unit for community use when wall suction is unavailable."
+    },
+    {
+      "id": "kit-09-spare-ventilator-circuit",
+      "number": 9,
+      "slug": "spare-ventilator-circuit",
+      "title": "Spare Ventilator Circuit",
+      "category": "suction-circuit-power",
+      "categoryLabel": "Suction, circuit, power",
+      "src": "/media/emergency-kit/09-spare-ventilator-circuit.png",
+      "altText": "Rohan's personal emergency kit card 9: Spare Ventilator Circuit.",
+      "scenarioTags": [
+        "pressure-rise",
+        "home-backup-ventilation"
+      ],
+      "episode01Bindings": [
+        "ep01-pressure-rise"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Spare ventilator circuit so circuit failure or contamination does not leave Rohan without a working connection."
+    },
+    {
+      "id": "kit-10-connectors-and-adapters",
+      "number": 10,
+      "slug": "connectors-and-adapters",
+      "title": "Connectors and Adapters",
+      "category": "suction-circuit-power",
+      "categoryLabel": "Suction, circuit, power",
+      "src": "/media/emergency-kit/10-connectors-and-adapters.png",
+      "altText": "Rohan's personal emergency kit card 10: Connectors and Adapters.",
+      "scenarioTags": [
+        "pressure-rise",
+        "home-backup-ventilation"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-11-filters-and-hme-spare",
+      "number": 11,
+      "slug": "filters-and-hme-spare",
+      "title": "Filters and HME Spare",
+      "category": "suction-circuit-power",
+      "categoryLabel": "Suction, circuit, power",
+      "src": "/media/emergency-kit/11-filters-and-hme-spare.png",
+      "altText": "Rohan's personal emergency kit card 11: Filters and HME Spare.",
+      "scenarioTags": [
+        "pressure-rise",
+        "home-backup-ventilation"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-12-manual-resuscitator-bag-valve",
+      "number": 12,
+      "slug": "manual-resuscitator-bag-valve",
+      "title": "Manual Resuscitator Bag Valve",
+      "category": "suction-circuit-power",
+      "categoryLabel": "Suction, circuit, power",
+      "src": "/media/emergency-kit/12-manual-resuscitator-bag-valve.png",
+      "altText": "Rohan's personal emergency kit card 12: Manual Resuscitator Bag Valve.",
+      "scenarioTags": [
+        "pressure-rise",
+        "home-backup-ventilation"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Manual resuscitator (bag-valve) sized for trach connection—backup ventilation when the ventilator is offline."
+    },
+    {
+      "id": "kit-13-oxygen-interface-if-required",
+      "number": 13,
+      "slug": "oxygen-interface-if-required",
+      "title": "Oxygen Interface If Required",
+      "category": "suction-circuit-power",
+      "categoryLabel": "Suction, circuit, power",
+      "src": "/media/emergency-kit/13-oxygen-interface-if-required.png",
+      "altText": "Rohan's personal emergency kit card 13: Oxygen Interface If Required.",
+      "scenarioTags": [
+        "pressure-rise",
+        "home-backup-ventilation"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-14-circuit-support-straps",
+      "number": 14,
+      "slug": "circuit-support-straps",
+      "title": "Circuit Support Straps",
+      "category": "suction-circuit-power",
+      "categoryLabel": "Suction, circuit, power",
+      "src": "/media/emergency-kit/14-circuit-support-straps.png",
+      "altText": "Rohan's personal emergency kit card 14: Circuit Support Straps.",
+      "scenarioTags": [
+        "pressure-rise",
+        "home-backup-ventilation"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-15-backup-batteries-charged",
+      "number": 15,
+      "slug": "backup-batteries-charged",
+      "title": "Backup Batteries Charged",
+      "category": "suction-circuit-power",
+      "categoryLabel": "Suction, circuit, power",
+      "src": "/media/emergency-kit/15-backup-batteries-charged.png",
+      "altText": "Rohan's personal emergency kit card 15: Backup Batteries Charged.",
+      "scenarioTags": [
+        "pressure-rise",
+        "home-backup-ventilation"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Charged backup batteries for ventilator and suction—power continuity for home and school transfer."
+    },
+    {
+      "id": "kit-16-power-leads-and-chargers",
+      "number": 16,
+      "slug": "power-leads-and-chargers",
+      "title": "Power Leads and Chargers",
+      "category": "suction-circuit-power",
+      "categoryLabel": "Suction, circuit, power",
+      "src": "/media/emergency-kit/16-power-leads-and-chargers.png",
+      "altText": "Rohan's personal emergency kit card 16: Power Leads and Chargers.",
+      "scenarioTags": [
+        "pressure-rise",
+        "home-backup-ventilation"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Power leads and chargers matching Rohan's equipment, labelled for rapid grab from the bag."
+    },
+    {
+      "id": "kit-17-chest-movement-indicator",
+      "number": 17,
+      "slug": "chest-movement-indicator",
+      "title": "Chest Movement Indicator",
+      "category": "assessment-aed-meds-timers",
+      "categoryLabel": "Assessment, AED, meds, timers",
+      "src": "/media/emergency-kit/17-chest-movement-indicator.png",
+      "altText": "Rohan's personal emergency kit card 17: Chest Movement Indicator.",
+      "scenarioTags": [
+        "cardiac-instability",
+        "school-aed"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "needs-crop"
+    },
+    {
+      "id": "kit-18-defibrillator-aed",
+      "number": 18,
+      "slug": "defibrillator-aed",
+      "title": "Defibrillator AED",
+      "category": "assessment-aed-meds-timers",
+      "categoryLabel": "Assessment, AED, meds, timers",
+      "src": "/media/emergency-kit/18-defibrillator-aed.png",
+      "altText": "Rohan's personal emergency kit card 18: Defibrillator AED.",
+      "scenarioTags": [
+        "cardiac-instability",
+        "school-aed",
+        "school-transfer"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness",
+        "ep01-home-school"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. AED access card/reminder for school and community venues—locate nearest defibrillator; does not replace clinical training."
+    },
+    {
+      "id": "kit-19-cardiac-monitor-portable",
+      "number": 19,
+      "slug": "cardiac-monitor-portable",
+      "title": "Cardiac Monitor Portable",
+      "category": "assessment-aed-meds-timers",
+      "categoryLabel": "Assessment, AED, meds, timers",
+      "src": "/media/emergency-kit/19-cardiac-monitor-portable.png",
+      "altText": "Rohan's personal emergency kit card 19: Cardiac Monitor Portable.",
+      "scenarioTags": [
+        "cardiac-instability",
+        "school-aed"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-20-monitoring-leads-and-sensors",
+      "number": 20,
+      "slug": "monitoring-leads-and-sensors",
+      "title": "Monitoring Leads and Sensors",
+      "category": "assessment-aed-meds-timers",
+      "categoryLabel": "Assessment, AED, meds, timers",
+      "src": "/media/emergency-kit/20-monitoring-leads-and-sensors.png",
+      "altText": "Rohan's personal emergency kit card 20: Monitoring Leads and Sensors.",
+      "scenarioTags": [
+        "cardiac-instability",
+        "school-aed"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-21-blood-pressure-cuff",
+      "number": 21,
+      "slug": "blood-pressure-cuff",
+      "title": "Blood Pressure Cuff",
+      "category": "assessment-aed-meds-timers",
+      "categoryLabel": "Assessment, AED, meds, timers",
+      "src": "/media/emergency-kit/21-blood-pressure-cuff.png",
+      "altText": "Rohan's personal emergency kit card 21: Blood Pressure Cuff.",
+      "scenarioTags": [
+        "cardiac-instability",
+        "school-aed"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-22-stethoscope",
+      "number": 22,
+      "slug": "stethoscope",
+      "title": "Stethoscope",
+      "category": "assessment-aed-meds-timers",
+      "categoryLabel": "Assessment, AED, meds, timers",
+      "src": "/media/emergency-kit/22-stethoscope.png",
+      "altText": "Rohan's personal emergency kit card 22: Stethoscope.",
+      "scenarioTags": [
+        "cardiac-instability",
+        "school-aed"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-23-emergency-medications-as-authorised",
+      "number": 23,
+      "slug": "emergency-medications-as-authorised",
+      "title": "Emergency Medications As Authorised",
+      "category": "assessment-aed-meds-timers",
+      "categoryLabel": "Assessment, AED, meds, timers",
+      "src": "/media/emergency-kit/23-emergency-medications-as-authorised.png",
+      "altText": "Rohan's personal emergency kit card 23: Emergency Medications As Authorised.",
+      "scenarioTags": [
+        "cardiac-instability",
+        "school-aed",
+        "authorised-meds-only"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "sensitive-meds",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Authorised emergency medications compartment labelled only—no drug names or doses shown in simulation copy; use as authorised for this person.",
+      "prescriptiveCopy": false,
+      "notes": "Non-prescriptive: labels/compartment only—no drug names, doses, volumes, or rates in simulation UI."
+    },
+    {
+      "id": "kit-24-syringes-and-needles",
+      "number": 24,
+      "slug": "syringes-and-needles",
+      "title": "Syringes and Needles",
+      "category": "assessment-aed-meds-timers",
+      "categoryLabel": "Assessment, AED, meds, timers",
+      "src": "/media/emergency-kit/24-syringes-and-needles.png",
+      "altText": "Rohan's personal emergency kit card 24: Syringes and Needles.",
+      "scenarioTags": [
+        "cardiac-instability",
+        "school-aed",
+        "authorised-meds-only"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "sensitive-meds",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Syringes and needles kit section for authorised administration by trained responders only—non-prescriptive.",
+      "prescriptiveCopy": false,
+      "notes": "Non-prescriptive: labels/compartment only—no drug names, doses, volumes, or rates in simulation UI."
+    },
+    {
+      "id": "kit-25-iv-fluids-if-authorised",
+      "number": 25,
+      "slug": "iv-fluids-if-authorised",
+      "title": "IV Fluids If Authorised",
+      "category": "assessment-aed-meds-timers",
+      "categoryLabel": "Assessment, AED, meds, timers",
+      "src": "/media/emergency-kit/25-iv-fluids-if-authorised.png",
+      "altText": "Rohan's personal emergency kit card 25: IV Fluids If Authorised.",
+      "scenarioTags": [
+        "cardiac-instability",
+        "school-aed",
+        "authorised-meds-only"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "sensitive-meds",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. IV fluids if authorised for this person—labels only; no volumes or rates in simulation assets.",
+      "prescriptiveCopy": false,
+      "notes": "Non-prescriptive: labels/compartment only—no drug names, doses, volumes, or rates in simulation UI."
+    },
+    {
+      "id": "kit-26-timers",
+      "number": 26,
+      "slug": "timers",
+      "title": "Timers",
+      "category": "assessment-aed-meds-timers",
+      "categoryLabel": "Assessment, AED, meds, timers",
+      "src": "/media/emergency-kit/26-timers.png",
+      "altText": "Rohan's personal emergency kit card 26: Timers.",
+      "scenarioTags": [
+        "cardiac-instability",
+        "school-aed"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "needs-crop"
+    },
+    {
+      "id": "kit-27-aac-device-offline",
+      "number": 27,
+      "slug": "aac-device-offline",
+      "title": "AAC Device Offline",
+      "category": "aac-communication-access",
+      "categoryLabel": "AAC / communication access",
+      "src": "/media/emergency-kit/27-aac-device-offline.png",
+      "altText": "Rohan's personal emergency kit card 27: AAC Device Offline.",
+      "scenarioTags": [
+        "sedation-aac",
+        "communication-when-eyes-open"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness",
+        "ep01-sedation-delirium"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Rohan's AAC device configured for offline use so communication continues without network dependency when eyes open after sedation."
+    },
+    {
+      "id": "kit-28-cheek-switch-spare",
+      "number": 28,
+      "slug": "cheek-switch-spare",
+      "title": "Cheek Switch Spare",
+      "category": "aac-communication-access",
+      "categoryLabel": "AAC / communication access",
+      "src": "/media/emergency-kit/28-cheek-switch-spare.png",
+      "altText": "Rohan's personal emergency kit card 28: Cheek Switch Spare.",
+      "scenarioTags": [
+        "sedation-aac",
+        "communication-when-eyes-open"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness",
+        "ep01-sedation-delirium"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Spare cheek switch for access when primary switch fails—communication access is emergency equipment."
+    },
+    {
+      "id": "kit-29-low-tech-communication-board",
+      "number": 29,
+      "slug": "low-tech-communication-board",
+      "title": "Low Tech Communication Board",
+      "category": "aac-communication-access",
+      "categoryLabel": "AAC / communication access",
+      "src": "/media/emergency-kit/29-low-tech-communication-board.png",
+      "altText": "Rohan's personal emergency kit card 29: Low Tech Communication Board.",
+      "scenarioTags": [
+        "sedation-aac",
+        "communication-when-eyes-open"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness",
+        "ep01-sedation-delirium"
+      ],
+      "auditFlag": "ok",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Low-tech communication board backup when devices fail or sedation limits fine motor control."
+    },
+    {
+      "id": "kit-30-communication-cards",
+      "number": 30,
+      "slug": "communication-cards",
+      "title": "Communication Cards",
+      "category": "aac-communication-access",
+      "categoryLabel": "AAC / communication access",
+      "src": "/media/emergency-kit/30-communication-cards.png",
+      "altText": "Rohan's personal emergency kit card 30: Communication Cards.",
+      "scenarioTags": [
+        "sedation-aac",
+        "communication-when-eyes-open"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-31-large-print-instructions",
+      "number": 31,
+      "slug": "large-print-instructions",
+      "title": "Large Print Instructions",
+      "category": "aac-communication-access",
+      "categoryLabel": "AAC / communication access",
+      "src": "/media/emergency-kit/31-large-print-instructions.png",
+      "altText": "Rohan's personal emergency kit card 31: Large Print Instructions.",
+      "scenarioTags": [
+        "sedation-aac",
+        "communication-when-eyes-open"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "text-heavy"
+    },
+    {
+      "id": "kit-32-sensory-regulation-items",
+      "number": 32,
+      "slug": "sensory-regulation-items",
+      "title": "Sensory Regulation Items",
+      "category": "aac-communication-access",
+      "categoryLabel": "AAC / communication access",
+      "src": "/media/emergency-kit/32-sensory-regulation-items.png",
+      "altText": "Rohan's personal emergency kit card 32: Sensory Regulation Items.",
+      "scenarioTags": [
+        "sedation-aac",
+        "communication-when-eyes-open"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-33-positioning-supports",
+      "number": 33,
+      "slug": "positioning-supports",
+      "title": "Positioning Supports",
+      "category": "aac-communication-access",
+      "categoryLabel": "AAC / communication access",
+      "src": "/media/emergency-kit/33-positioning-supports.png",
+      "altText": "Rohan's personal emergency kit card 33: Positioning Supports.",
+      "scenarioTags": [
+        "sedation-aac",
+        "communication-when-eyes-open"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-34-emergency-vocabulary",
+      "number": 34,
+      "slug": "emergency-vocabulary",
+      "title": "Emergency Vocabulary",
+      "category": "aac-communication-access",
+      "categoryLabel": "AAC / communication access",
+      "src": "/media/emergency-kit/34-emergency-vocabulary.png",
+      "altText": "Rohan's personal emergency kit card 34: Emergency Vocabulary.",
+      "scenarioTags": [
+        "sedation-aac",
+        "communication-when-eyes-open"
+      ],
+      "episode01Bindings": [
+        "ep01-sedation-delirium"
+      ],
+      "auditFlag": "text-heavy",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Emergency vocabulary set (yes/no, pain, suction, stop, wait) for rapid AAC partner-assisted scanning."
+    },
+    {
+      "id": "kit-35-offline-emergency-communication-guide",
+      "number": 35,
+      "slug": "offline-emergency-communication-guide",
+      "title": "Offline Emergency Communication Guide",
+      "category": "aac-communication-access",
+      "categoryLabel": "AAC / communication access",
+      "src": "/media/emergency-kit/35-offline-emergency-communication-guide.png",
+      "altText": "Rohan's personal emergency kit card 35: Offline Emergency Communication Guide.",
+      "scenarioTags": [
+        "sedation-aac",
+        "communication-when-eyes-open"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "text-heavy",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Offline emergency communication guide for responders unfamiliar with Rohan's AAC setup."
+    },
+    {
+      "id": "kit-36-airway-plan-full-document",
+      "number": 36,
+      "slug": "airway-plan-full-document",
+      "title": "Airway Plan Full Document",
+      "category": "plans-handover-privacy-revision",
+      "categoryLabel": "Plans, handover, privacy, revision",
+      "src": "/media/emergency-kit/36-airway-plan-full-document.png",
+      "altText": "Rohan's personal emergency kit card 36: Airway Plan Full Document.",
+      "scenarioTags": [
+        "home-staffing",
+        "school-transfer",
+        "privacy-governance",
+        "airway-plan",
+        "authorship"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness",
+        "ep01-home-school"
+      ],
+      "auditFlag": "text-heavy",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Full airway plan document (current revision) carried in the bag for handover and school transfer."
+    },
+    {
+      "id": "kit-37-iicrt-emergency-summary",
+      "number": 37,
+      "slug": "iicrt-emergency-summary",
+      "title": "IICRT Emergency Summary",
+      "category": "plans-handover-privacy-revision",
+      "categoryLabel": "Plans, handover, privacy, revision",
+      "src": "/media/emergency-kit/37-iicrt-emergency-summary.png",
+      "altText": "Rohan's personal emergency kit card 37: IICRT Emergency Summary.",
+      "scenarioTags": [
+        "home-staffing",
+        "school-transfer",
+        "privacy-governance"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness"
+      ],
+      "auditFlag": "text-heavy",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. IICRT emergency summary sheet—person-centred crisis information for first responders."
+    },
+    {
+      "id": "kit-38-emergency-contacts-list",
+      "number": 38,
+      "slug": "emergency-contacts-list",
+      "title": "Emergency Contacts List",
+      "category": "plans-handover-privacy-revision",
+      "categoryLabel": "Plans, handover, privacy, revision",
+      "src": "/media/emergency-kit/38-emergency-contacts-list.png",
+      "altText": "Rohan's personal emergency kit card 38: Emergency Contacts List.",
+      "scenarioTags": [
+        "home-staffing",
+        "school-transfer",
+        "privacy-governance"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness"
+      ],
+      "auditFlag": "text-heavy",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Emergency contacts list including paid support roster and clinical leads—not unpaid family as default clinicians."
+    },
+    {
+      "id": "kit-39-hospital-handover-summary",
+      "number": 39,
+      "slug": "hospital-handover-summary",
+      "title": "Hospital Handover Summary",
+      "category": "plans-handover-privacy-revision",
+      "categoryLabel": "Plans, handover, privacy, revision",
+      "src": "/media/emergency-kit/39-hospital-handover-summary.png",
+      "altText": "Rohan's personal emergency kit card 39: Hospital Handover Summary.",
+      "scenarioTags": [
+        "home-staffing",
+        "school-transfer",
+        "privacy-governance"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "text-heavy"
+    },
+    {
+      "id": "kit-40-equipment-inventory-checklist",
+      "number": 40,
+      "slug": "equipment-inventory-checklist",
+      "title": "Equipment Inventory Checklist",
+      "category": "plans-handover-privacy-revision",
+      "categoryLabel": "Plans, handover, privacy, revision",
+      "src": "/media/emergency-kit/40-equipment-inventory-checklist.png",
+      "altText": "Rohan's personal emergency kit card 40: Equipment Inventory Checklist.",
+      "scenarioTags": [
+        "home-staffing",
+        "school-transfer",
+        "privacy-governance",
+        "kit-checklist"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness",
+        "ep01-home-school"
+      ],
+      "auditFlag": "text-heavy",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Equipment inventory checklist used to verify bag readiness before community discharge or school return."
+    },
+    {
+      "id": "kit-41-roles-and-responsibilities-card",
+      "number": 41,
+      "slug": "roles-and-responsibilities-card",
+      "title": "Roles and Responsibilities Card",
+      "category": "plans-handover-privacy-revision",
+      "categoryLabel": "Plans, handover, privacy, revision",
+      "src": "/media/emergency-kit/41-roles-and-responsibilities-card.png",
+      "altText": "Rohan's personal emergency kit card 41: Roles and Responsibilities Card.",
+      "scenarioTags": [
+        "home-staffing",
+        "school-transfer",
+        "privacy-governance",
+        "roles"
+      ],
+      "episode01Bindings": [
+        "ep01-home-school"
+      ],
+      "auditFlag": "text-heavy",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Roles and responsibilities card clarifying who owns airway vs rest-of-emergency tasks in a two-person response."
+    },
+    {
+      "id": "kit-42-privacy-and-dignity-guidelines",
+      "number": 42,
+      "slug": "privacy-and-dignity-guidelines",
+      "title": "Privacy and Dignity Guidelines",
+      "category": "plans-handover-privacy-revision",
+      "categoryLabel": "Plans, handover, privacy, revision",
+      "src": "/media/emergency-kit/42-privacy-and-dignity-guidelines.png",
+      "altText": "Rohan's personal emergency kit card 42: Privacy and Dignity Guidelines.",
+      "scenarioTags": [
+        "home-staffing",
+        "school-transfer",
+        "privacy-governance"
+      ],
+      "episode01Bindings": [
+        "ep01-kit-readiness",
+        "ep01-home-school"
+      ],
+      "auditFlag": "text-heavy",
+      "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Privacy and dignity guidelines for public-event and school response—crisis is not public property."
+    },
+    {
+      "id": "kit-43-incident-report-forms",
+      "number": 43,
+      "slug": "incident-report-forms",
+      "title": "Incident Report Forms",
+      "category": "plans-handover-privacy-revision",
+      "categoryLabel": "Plans, handover, privacy, revision",
+      "src": "/media/emergency-kit/43-incident-report-forms.png",
+      "altText": "Rohan's personal emergency kit card 43: Incident Report Forms.",
+      "scenarioTags": [
+        "home-staffing",
+        "school-transfer",
+        "privacy-governance"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "text-heavy"
+    },
+    {
+      "id": "kit-44-current-revision-and-review-date",
+      "number": 44,
+      "slug": "current-revision-and-review-date",
+      "title": "Current Revision and Review Date",
+      "category": "plans-handover-privacy-revision",
+      "categoryLabel": "Plans, handover, privacy, revision",
+      "src": "/media/emergency-kit/44-current-revision-and-review-date.png",
+      "altText": "Rohan's personal emergency kit card 44: Current Revision and Review Date.",
+      "scenarioTags": [
+        "home-staffing",
+        "school-transfer",
+        "privacy-governance"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "text-heavy"
+    },
+    {
+      "id": "kit-45-gloves-non-sterile",
+      "number": 45,
+      "slug": "gloves-non-sterile",
+      "title": "Gloves Non Sterile",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/45-gloves-non-sterile.png",
+      "altText": "Rohan's personal emergency kit card 45: Gloves Non Sterile.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-46-hand-sanitiser-and-wipes",
+      "number": 46,
+      "slug": "hand-sanitiser-and-wipes",
+      "title": "Hand Sanitiser and Wipes",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/46-hand-sanitiser-and-wipes.png",
+      "altText": "Rohan's personal emergency kit card 46: Hand Sanitiser and Wipes.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-47-disinfectant-wipes",
+      "number": 47,
+      "slug": "disinfectant-wipes",
+      "title": "Disinfectant Wipes",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/47-disinfectant-wipes.png",
+      "altText": "Rohan's personal emergency kit card 47: Disinfectant Wipes.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-48-aprons",
+      "number": 48,
+      "slug": "aprons",
+      "title": "Aprons",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/48-aprons.png",
+      "altText": "Rohan's personal emergency kit card 48: Aprons.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-49-waste-disposal-bags",
+      "number": 49,
+      "slug": "waste-disposal-bags",
+      "title": "Waste Disposal Bags",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/49-waste-disposal-bags.png",
+      "altText": "Rohan's personal emergency kit card 49: Waste Disposal Bags.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-50-medical-tape",
+      "number": 50,
+      "slug": "medical-tape",
+      "title": "Medical Tape",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/50-medical-tape.png",
+      "altText": "Rohan's personal emergency kit card 50: Medical Tape.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-51-scissors",
+      "number": 51,
+      "slug": "scissors",
+      "title": "Scissors",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/51-scissors.png",
+      "altText": "Rohan's personal emergency kit card 51: Scissors.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-52-torch-flashlight",
+      "number": 52,
+      "slug": "torch-flashlight",
+      "title": "Torch Flashlight",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/52-torch-flashlight.png",
+      "altText": "Rohan's personal emergency kit card 52: Torch Flashlight.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-53-notebook-and-pen",
+      "number": 53,
+      "slug": "notebook-and-pen",
+      "title": "Notebook and Pen",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/53-notebook-and-pen.png",
+      "altText": "Rohan's personal emergency kit card 53: Notebook and Pen.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-54-power-bank-backup",
+      "number": 54,
+      "slug": "power-bank-backup",
+      "title": "Power Bank Backup",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/54-power-bank-backup.png",
+      "altText": "Rohan's personal emergency kit card 54: Power Bank Backup.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-55-emergency-blanket",
+      "number": 55,
+      "slug": "emergency-blanket",
+      "title": "Emergency Blanket",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/55-emergency-blanket.png",
+      "altText": "Rohan's personal emergency kit card 55: Emergency Blanket.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    },
+    {
+      "id": "kit-56-multi-tool",
+      "number": 56,
+      "slug": "multi-tool",
+      "title": "Multi Tool",
+      "category": "ppe-utility-notebook",
+      "categoryLabel": "PPE, utility, notebook",
+      "src": "/media/emergency-kit/56-multi-tool.png",
+      "altText": "Rohan's personal emergency kit card 56: Multi Tool.",
+      "scenarioTags": [
+        "two-person-response",
+        "public-event-bag"
+      ],
+      "episode01Bindings": [],
+      "auditFlag": "ok"
+    }
+  ]
+}

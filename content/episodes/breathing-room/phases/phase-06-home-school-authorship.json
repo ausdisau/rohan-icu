@@ -2,7 +2,7 @@
   "phaseId": "phase-06-home-school-authorship",
   "phaseNumber": 6,
   "title": "Home, school, privacy and authorship",
-  "synopsis": "Two-person paid home staffing, school membership, telemetry versus privacy, and ownership of lived-experience training content. Episode 01 playable: ep01-home-school and ep01-debrief-hook.",
+  "synopsis": "Personal emergency-bag readiness mid-ICU, two-person paid home staffing, school membership, telemetry versus privacy, and ownership of lived-experience training content. Episode 01 playable: ep01-kit-readiness, ep01-home-school, and ep01-debrief-hook.",
   "openingNarrative": "Instability changes calendars. It does not erase educational membership, privacy rights, or authorship. Government funding models that treated a family member as the second airway worker were rejected. Jay remains a friend and creative collaborator outside the clinical roster. Rohan’s principle: the emergency may teach mechanics; his identity and framing require consent.",
   "clinicalState": "Still critically ill or recovering in ICU. Planning domains remain active.",
   "communicationMethod": "voice-output",
@@ -17,6 +17,7 @@
     "Debrief hook continues beyond ROSC."
   ],
   "playableEpisode01NodeIds": [
+    "ep01-kit-readiness",
     "ep01-home-school",
     "ep01-debrief-hook"
   ],

@@ -11,13 +11,15 @@ import {
   formatContinuityFindings,
   lintChronologyLock,
   lintContinuityText,
+  lintEmergencyKitInventory,
   simulationNodeSchema,
   type ContinuityFinding,
 } from "../src/schemas/index";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const contentRoot = path.join(root, "content");
-
+const publicRoot = path.join(root, "public");
+const KIT_INVENTORY_BASENAME = "emergency-kit-inventory.json";
 async function walkJsonFiles(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   const files: string[] = [];
@@ -145,6 +147,15 @@ async function main(): Promise<void> {
     const textParts: string[] = [];
     collectTextFromUnknown(data, textParts);
     const text = textParts.join("\n");
+
+    if (base === KIT_INVENTORY_BASENAME) {
+      findings.push(
+        ...(await lintEmergencyKitInventory(data, rel, publicRoot)),
+      );
+      // Still run banned-phrase continuity on framing / alt copy.
+      findings.push(...lintContinuityText({ path: rel, text }));
+      continue;
+    }
 
     if (
       base === "episode.json" ||

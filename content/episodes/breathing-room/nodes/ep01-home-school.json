@@ -65,5 +65,73 @@
     "Home and school rights remain active mid-ICU—core acceptance criterion.",
     "Privacy versus fear is a live trade-off without vilifying Samira.",
     "Hook into debrief: rights domains are scored alongside physiology."
+  ],
+  "media": [
+    {
+      "id": "kit-04-airway-plan-card-current-revision",
+      "kind": "image",
+      "src": "/media/emergency-kit/04-airway-plan-card-current-revision.png",
+      "title": "Airway Plan Card Current Revision",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 4: Airway Plan Card Current Revision.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Pocket airway plan card with current revision marker—quick reference for responders at home, school, or public events."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-18-defibrillator-aed",
+      "kind": "image",
+      "src": "/media/emergency-kit/18-defibrillator-aed.png",
+      "title": "Defibrillator AED",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 18: Defibrillator AED.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. AED access card/reminder for school and community venues—locate nearest defibrillator; does not replace clinical training."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-36-airway-plan-full-document",
+      "kind": "image",
+      "src": "/media/emergency-kit/36-airway-plan-full-document.png",
+      "title": "Airway Plan Full Document",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 36: Airway Plan Full Document.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Full airway plan document (current revision) carried in the bag for handover and school transfer."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-40-equipment-inventory-checklist",
+      "kind": "image",
+      "src": "/media/emergency-kit/40-equipment-inventory-checklist.png",
+      "title": "Equipment Inventory Checklist",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 40: Equipment Inventory Checklist.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Equipment inventory checklist used to verify bag readiness before community discharge or school return."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-41-roles-and-responsibilities-card",
+      "kind": "image",
+      "src": "/media/emergency-kit/41-roles-and-responsibilities-card.png",
+      "title": "Roles and Responsibilities Card",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 41: Roles and Responsibilities Card.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Roles and responsibilities card clarifying who owns airway vs rest-of-emergency tasks in a two-person response."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-42-privacy-and-dignity-guidelines",
+      "kind": "image",
+      "src": "/media/emergency-kit/42-privacy-and-dignity-guidelines.png",
+      "title": "Privacy and Dignity Guidelines",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 42: Privacy and Dignity Guidelines.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Privacy and dignity guidelines for public-event and school response—crisis is not public property."
+      },
+      "autoplayForbidden": true
+    }
   ]
 }

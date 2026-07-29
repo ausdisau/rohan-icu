@@ -89,6 +89,39 @@
         "extendedAltText": "Educational overlay matching Prompt 4: tracheostomy entry, open central airway, distal plug with hatch pattern, reduced aeration beyond plug, no pneumothorax."
       },
       "autoplayForbidden": true
+    },
+    {
+      "id": "kit-07-suction-catheters-multiple-sizes",
+      "kind": "image",
+      "src": "/media/emergency-kit/07-suction-catheters-multiple-sizes.png",
+      "title": "Suction Catheters Multiple Sizes",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 7: Suction Catheters Multiple Sizes.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Multiple suction catheter sizes for clearing secretions while keeping the trach patent; relevant when pressures rise from distal obstruction."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-08-portable-suction-unit-battery-powered",
+      "kind": "image",
+      "src": "/media/emergency-kit/08-portable-suction-unit-battery-powered.png",
+      "title": "Portable Suction Unit Battery Powered",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 8: Portable Suction Unit Battery Powered.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Battery-powered portable suction unit for community use when wall suction is unavailable."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-09-spare-ventilator-circuit",
+      "kind": "image",
+      "src": "/media/emergency-kit/09-spare-ventilator-circuit.png",
+      "title": "Spare Ventilator Circuit",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 9: Spare Ventilator Circuit.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Spare ventilator circuit so circuit failure or contamination does not leave Rohan without a working connection."
+      },
+      "autoplayForbidden": true
     }
   ]
 }

@@ -6,6 +6,10 @@ import { AccessibleMediaPlayer } from "@/components/AccessibleMediaPlayer";
 import { ChoiceCard } from "@/components/ChoiceCard";
 import { CommunicationStatusPanel } from "@/components/CommunicationStatusPanel";
 import { DomainMeters } from "@/components/DomainMeters";
+import {
+  KitGallery,
+  shouldUseKitGallery,
+} from "@/components/KitGallery";
 import { RohanAacPanel } from "@/components/RohanAacPanel";
 import { methodDisplayLabel } from "@/engine/communication";
 import type { AppliedChoiceRecord } from "@/engine/session";
@@ -84,11 +88,17 @@ export function DecisionNodeView({
                 id="media-heading"
                 className="font-[family-name:var(--font-display)] text-xl text-[var(--color-ink)]"
               >
-                Media
+                {shouldUseKitGallery(node.media)
+                  ? "Emergency kit"
+                  : "Media"}
               </h2>
-              {node.media.map((item) => (
-                <AccessibleMediaPlayer key={item.id} media={item} />
-              ))}
+              {shouldUseKitGallery(node.media) ? (
+                <KitGallery media={node.media} />
+              ) : (
+                node.media.map((item) => (
+                  <AccessibleMediaPlayer key={item.id} media={item} />
+                ))
+              )}
             </section>
           ) : null}
 

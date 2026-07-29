@@ -21,7 +21,7 @@
         "familyBurden": -5,
         "authorshipControl": 6
       },
-      "nextNodeId": "ep01-home-school",
+      "nextNodeId": "ep01-kit-readiness",
       "rohanAacLine": "COMMUNICATION WHEN EYES OPEN."
     },
     {
@@ -38,7 +38,7 @@
         "painControl": -4,
         "restraintExposure": 2
       },
-      "nextNodeId": "ep01-home-school",
+      "nextNodeId": "ep01-kit-readiness",
       "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
     },
     {
@@ -55,7 +55,7 @@
         "authorshipControl": 8,
         "restraintExposure": -4
       },
-      "nextNodeId": "ep01-home-school",
+      "nextNodeId": "ep01-kit-readiness",
       "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
     }
   ],
@@ -92,6 +92,50 @@
       "accessibility": {
         "altText": "Twelve-year-old Rohan in paediatric ICU, awake, tracheostomy to ventilator, cheek switch and AAC in reach; clinician at eye level; Samira nearby not speaking for him.",
         "extendedAltText": "Commission placeholder for Prompt 5. Daylit ICU. Rohan South Asian, twelve, awake and directing conversation. Power wheelchair referenced when out of bed. Tracheostomy connected to ventilator. Cheek switch and AAC display within reach. Clinician seated at eye level. Samira present but not speaking for him. Serious calm tone; no pity; no heroic glow."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-27-aac-device-offline",
+      "kind": "image",
+      "src": "/media/emergency-kit/27-aac-device-offline.png",
+      "title": "AAC Device Offline",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 27: AAC Device Offline.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Rohan's AAC device configured for offline use so communication continues without network dependency when eyes open after sedation."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-28-cheek-switch-spare",
+      "kind": "image",
+      "src": "/media/emergency-kit/28-cheek-switch-spare.png",
+      "title": "Cheek Switch Spare",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 28: Cheek Switch Spare.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Spare cheek switch for access when primary switch fails—communication access is emergency equipment."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-29-low-tech-communication-board",
+      "kind": "image",
+      "src": "/media/emergency-kit/29-low-tech-communication-board.png",
+      "title": "Low Tech Communication Board",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 29: Low Tech Communication Board.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Low-tech communication board backup when devices fail or sedation limits fine motor control."
+      },
+      "autoplayForbidden": true
+    },
+    {
+      "id": "kit-34-emergency-vocabulary",
+      "kind": "image",
+      "src": "/media/emergency-kit/34-emergency-vocabulary.png",
+      "title": "Emergency Vocabulary",
+      "accessibility": {
+        "altText": "Rohan's personal emergency kit card 34: Emergency Vocabulary.",
+        "extendedAltText": "Part of Rohan's personal community emergency bag / transfer kit used by paid trained responders—not hospital ward stock. Emergency vocabulary set (yes/no, pain, suction, stop, wait) for rapid AAC partner-assisted scanning."
       },
       "autoplayForbidden": true
     }
