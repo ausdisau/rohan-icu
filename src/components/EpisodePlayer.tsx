@@ -16,11 +16,20 @@ import {
   applyChoiceToSession,
   applyStationActionToSession,
   createSession,
+  loadSession,
   saveSession,
   type SimulationSession,
 } from "@/engine/session";
 import type { ActionStationsParsed } from "@/schemas/action-stations";
 import type { EpisodeManifest, SimulationChoice, SimulationNode } from "@/types/node";
+
+function initialSession(manifest: EpisodeManifest): SimulationSession {
+  const stored = loadSession();
+  if (stored && stored.episodeId === manifest.id) {
+    return stored;
+  }
+  return createSession(manifest);
+}
 
 export function EpisodePlayer({
   manifest,
@@ -46,11 +55,14 @@ export function EpisodePlayer({
   );
 
   const [session, setSession] = useState<SimulationSession>(() =>
-    createSession(manifest),
+    initialSession(manifest),
   );
-  const [showChronology, setShowChronology] = useState(true);
+  const [showChronology, setShowChronology] = useState(() => {
+    const stored = loadSession();
+    return !(stored && stored.episodeId === manifest.id);
+  });
   const [stateBeforeChoice, setStateBeforeChoice] = useState(
-    () => createSession(manifest).state,
+    () => initialSession(manifest).state,
   );
 
   const currentNode = nodeMap.get(session.currentNodeId);

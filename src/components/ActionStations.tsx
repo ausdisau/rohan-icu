@@ -547,6 +547,7 @@ export function ActionStations({
                           type="button"
                           onClick={() => selectAsset(asset)}
                           aria-pressed={selected}
+                          aria-label={describe(asset, state)}
                           aria-describedby={`asset-${asset.number}-state`}
                           className={`group flex h-full w-full flex-col overflow-hidden rounded-xl border bg-white text-left transition duration-300 motion-safe:hover:-translate-y-0.5 ${
                             selected
@@ -559,23 +560,20 @@ export function ActionStations({
                           <span className="relative block aspect-[5/4] w-full bg-white">
                             <Image
                               src={imageSrc(asset)}
-                              alt={asset.altText}
+                              alt=""
                               fill
                               sizes="(min-width: 1280px) 12vw, (min-width: 640px) 20vw, 40vw"
                               className="object-contain p-2"
                             />
                             {warnings.length > 0 ? (
                               <span
+                                aria-hidden="true"
                                 className="absolute right-2 top-2 inline-flex size-6 items-center justify-center rounded-md border border-[var(--color-warning)] bg-white text-[0.65rem] font-bold text-[var(--color-warning)]"
                                 title={warnings
                                   .map((id) => warningLabel(reference, id))
                                   .join(", ")}
                               >
-                                <span aria-hidden="true">!</span>
-                                <span className="sr-only">
-                                  {warnings.length} operational warning
-                                  {warnings.length === 1 ? "" : "s"}
-                                </span>
+                                !
                               </span>
                             ) : null}
                           </span>
