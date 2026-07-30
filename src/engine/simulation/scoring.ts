@@ -1,4 +1,8 @@
-import type { CrisisDebtLevel, RichSimulationState } from "./types";
+import type {
+  CrisisDebtLevel,
+  RichSimulationState,
+  ScoreState,
+} from "./types";
 
 function levelFromReasonCount(count: number): CrisisDebtLevel {
   if (count <= 1) return "low";
@@ -6,6 +10,54 @@ function levelFromReasonCount(count: number): CrisisDebtLevel {
   if (count === 3) return "high";
   if (count === 4) return "critical";
   return "extreme";
+}
+
+function bump(
+  score: ScoreState,
+  key: keyof ScoreState,
+  amount: number,
+): ScoreState {
+  return {
+    ...score,
+    [key]: Math.max(0, Math.min(12, score[key] + amount)),
+  };
+}
+
+/** Live score nudges when an action is accepted — debrief recomputes full pathway. */
+export function scoreForCommittedAction(
+  state: RichSimulationState,
+  actionId: string,
+): RichSimulationState {
+  let score = state.score;
+  switch (actionId) {
+    case "protect-aac":
+      score = bump(score, "communicationAccess", 2);
+      score = bump(score, "authorityDignity", 1);
+      break;
+    case "prepare-defibrillator":
+      score = bump(score, "timingCoordination", 1);
+      score = bump(score, "equipmentReasoning", 1);
+      break;
+    case "assess-chest-movement":
+    case "correct-external-circuit-load":
+      score = bump(score, "clinicalReasoning", 1);
+      break;
+    case "assess-borrowed-circuit":
+    case "assign-suction-bedside-reserve":
+      score = bump(score, "equipmentReasoning", 2);
+      score = bump(score, "clinicalReasoning", 1);
+      break;
+    case "assign-paid-support-continuity":
+      score = bump(score, "systemSustainability", 2);
+      score = bump(score, "communicationAccess", 1);
+      break;
+    case "replace-airway":
+      score = bump(score, "clinicalReasoning", 1);
+      break;
+    default:
+      break;
+  }
+  return { ...state, score };
 }
 
 export function raiseCrisisDebt(

@@ -1,6 +1,10 @@
 import { withRestoredAacAfterRescue } from "./communication";
 import { withEvidenceSatisfied } from "./evidence";
-import { raiseCrisisDebt, scoreAuthorityHit } from "./scoring";
+import {
+  raiseCrisisDebt,
+  scoreAuthorityHit,
+  scoreForCommittedAction,
+} from "./scoring";
 import type {
   BundleCommitResult,
   RichSimulationState,
@@ -325,13 +329,31 @@ export function reduceSimulation(
       );
     }
     case "RESTORE_AAC_AFTER_RESCUE": {
-      return appendEvent(withRestoredAacAfterRescue(state), {
-        kind: "aac-restored",
-        summary: "AAC restored after immediate rescue permitted",
-        visibleEvidenceIds: [],
-        clinicalTruthChanged: false,
-        remainingUnknown: [],
-      });
+      const restored = withRestoredAacAfterRescue(state);
+      return appendEvent(
+        {
+          ...restored,
+          flags: { ...restored.flags, aacRestoredAfterRescue: true },
+          score: {
+            ...restored.score,
+            communicationAccess: Math.min(
+              12,
+              restored.score.communicationAccess + 2,
+            ),
+            authorityDignity: Math.min(
+              12,
+              restored.score.authorityDignity + 1,
+            ),
+          },
+        },
+        {
+          kind: "aac-restored",
+          summary: "AAC restored after immediate rescue permitted",
+          visibleEvidenceIds: [],
+          clinicalTruthChanged: false,
+          remainingUnknown: [],
+        },
+      );
     }
     case "ACKNOWLEDGE_DUPLICATE": {
       return appendEvent(state, {
@@ -400,6 +422,7 @@ export function commitActionBundle(
       };
     }
     next = applyActionEffects(next, action);
+    next = scoreForCommittedAction(next, actionId);
     next = appendEvent(next, {
       kind: "action-committed",
       summary: `Committed ${action.label}`,

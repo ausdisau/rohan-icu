@@ -27,6 +27,9 @@ import type {
 
 export const CODE_BLUE_STORAGE_KEY = "breathing-room-code-blue-session";
 
+/** Default kit soft-gate selection (UI evidence only — not indication). */
+export const DEFAULT_CODE_BLUE_KIT_ASSETS = [3, 18, 19, 27];
+
 export interface CodeBluePlaySession {
   version: 1;
   currentNodeId: string;
@@ -35,6 +38,10 @@ export interface CodeBluePlaySession {
   firedEvents: string[];
   /** Actions successfully committed this run (for exitConditions). */
   committedActionIds: string[];
+  /** Kit asset numbers selected on the evidence board (soft UI gate). */
+  selectedKitAssets: number[];
+  /** Optional PlayShell layout mode (kit drill deep-link). */
+  uiMode?: "standard" | "kit";
   completed: boolean;
   statusMessage: string;
   lastCommit?: {
@@ -45,6 +52,7 @@ export interface CodeBluePlaySession {
 
 export function createCodeBlueSession(
   manifest: CodeBlueManifest,
+  options?: { uiMode?: "standard" | "kit"; selectedKitAssets?: number[] },
 ): CodeBluePlaySession {
   return {
     version: 1,
@@ -52,6 +60,9 @@ export function createCodeBlueSession(
     richState: createInitialRichState(manifest.id),
     firedEvents: [],
     committedActionIds: [],
+    selectedKitAssets:
+      options?.selectedKitAssets ?? [...DEFAULT_CODE_BLUE_KIT_ASSETS],
+    uiMode: options?.uiMode ?? "standard",
     completed: false,
     statusMessage: "Draft actions do not change clinical state until you commit.",
   };
@@ -81,6 +92,8 @@ export function loadCodeBlueSession(): CodeBluePlaySession | null {
       richState?: RichSimulationState;
       firedEvents: string[];
       committedActionIds: string[];
+      selectedKitAssets?: number[];
+      uiMode?: "standard" | "kit";
       completed: boolean;
       statusMessage: string;
       lastCommit?: CodeBluePlaySession["lastCommit"];
@@ -98,6 +111,10 @@ export function loadCodeBlueSession(): CodeBluePlaySession | null {
       richState,
       firedEvents: parsed.firedEvents ?? [],
       committedActionIds: parsed.committedActionIds ?? [],
+      selectedKitAssets: Array.isArray(parsed.selectedKitAssets)
+        ? parsed.selectedKitAssets
+        : [...DEFAULT_CODE_BLUE_KIT_ASSETS],
+      uiMode: parsed.uiMode === "kit" ? "kit" : "standard",
       completed: Boolean(parsed.completed),
       statusMessage: parsed.statusMessage ?? "",
       lastCommit: parsed.lastCommit,
@@ -106,6 +123,34 @@ export function loadCodeBlueSession(): CodeBluePlaySession | null {
     if (err instanceof SimulationPersistenceError) return null;
     return null;
   }
+}
+
+/** Soft kit gate — UI only; never invents clinical indication. */
+export function kitGateBlocksCommit(
+  draftActionIds: string[],
+  selectedKitAssets: number[],
+  requirements: Record<string, number[]>,
+): number[] {
+  const missing = new Set<number>();
+  for (const actionId of draftActionIds) {
+    const required = requirements[actionId] ?? [];
+    for (const asset of required) {
+      if (!selectedKitAssets.includes(asset)) missing.add(asset);
+    }
+  }
+  return [...missing].sort((a, b) => a - b);
+}
+
+export function withSelectedKitAssets(
+  session: CodeBluePlaySession,
+  selectedKitAssets: number[],
+): CodeBluePlaySession {
+  return {
+    ...session,
+    selectedKitAssets: [...new Set(selectedKitAssets)].sort((a, b) => a - b),
+    statusMessage:
+      "Kit evidence updated. Soft gate only — readiness is not indication.",
+  };
 }
 
 export function defaultRoleForAction(

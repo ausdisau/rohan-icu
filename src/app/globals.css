@@ -87,3 +87,9 @@ body {
   clip: auto;
   white-space: normal;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe\:hover\:-translate-y-0\.5:hover {
+    transform: none;
+  }
+}

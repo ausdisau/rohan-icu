@@ -9,7 +9,14 @@ import {
 } from "@/lib/content";
 import { getStoryLlmMode, isLlmNarrationConfigured } from "@/story";
 
-export default async function CodeBluePage() {
+export default async function CodeBluePage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ mode?: string }>;
+}) {
+  const params = searchParams ? await searchParams : {};
+  const uiMode = params.mode === "kit" ? "kit" : "standard";
+
   const [manifest, nodes, actions, events, debrief, directorCues] =
     await Promise.all([
       loadCodeBlueManifest(),
@@ -30,6 +37,7 @@ export default async function CodeBluePage() {
       directorCues={directorCues}
       llmNarrationConfigured={isLlmNarrationConfigured()}
       storyLlmMode={getStoryLlmMode()}
+      initialUiMode={uiMode}
     />
   );
 }

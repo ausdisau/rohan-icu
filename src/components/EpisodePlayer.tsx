@@ -6,6 +6,8 @@ import { useMemo, useState } from "react";
 import { ActionStations } from "@/components/ActionStations";
 import { DecisionNodeView } from "@/components/DecisionNodeView";
 import {
+  createStationEngineState,
+  stationEngineCompact,
   stationsVisibleForNode,
   type StationActionRecord,
 } from "@/engine/action-stations";
@@ -14,11 +16,20 @@ import {
   applyChoiceToSession,
   applyStationActionToSession,
   createSession,
+  loadSession,
   saveSession,
   type SimulationSession,
 } from "@/engine/session";
 import type { ActionStationsParsed } from "@/schemas/action-stations";
 import type { EpisodeManifest, SimulationChoice, SimulationNode } from "@/types/node";
+
+function initialSession(manifest: EpisodeManifest): SimulationSession {
+  const stored = loadSession();
+  if (stored && stored.episodeId === manifest.id) {
+    return stored;
+  }
+  return createSession(manifest);
+}
 
 export function EpisodePlayer({
   manifest,
@@ -34,13 +45,24 @@ export function EpisodePlayer({
     () => new Map(nodes.map((node) => [node.id, node])),
     [nodes],
   );
+  const stationEngine = useMemo(
+    () => createStationEngineState("pressure-rise-action-stations"),
+    [],
+  );
+  const stationCompact = useMemo(
+    () => stationEngineCompact(stationEngine),
+    [stationEngine],
+  );
 
   const [session, setSession] = useState<SimulationSession>(() =>
-    createSession(manifest),
+    initialSession(manifest),
   );
-  const [showChronology, setShowChronology] = useState(true);
+  const [showChronology, setShowChronology] = useState(() => {
+    const stored = loadSession();
+    return !(stored && stored.episodeId === manifest.id);
+  });
   const [stateBeforeChoice, setStateBeforeChoice] = useState(
-    () => createSession(manifest).state,
+    () => initialSession(manifest).state,
   );
 
   const currentNode = nodeMap.get(session.currentNodeId);
@@ -94,7 +116,11 @@ export function EpisodePlayer({
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div
+      className={`flex flex-col gap-8 ${
+        showActionStations && !showChronology ? "max-w-none" : ""
+      }`}
+    >
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <div>
           <p className="text-sm uppercase tracking-wide text-[var(--color-accent)]">
@@ -149,6 +175,8 @@ export function EpisodePlayer({
               reference={actionStations}
               nodeId={currentNode.id}
               onStationAction={handleStationAction}
+              engineCompact={stationCompact}
+              equipment={stationEngine.equipment}
             />
           ) : null}
           <DecisionNodeView

@@ -9,11 +9,15 @@ import {
   applySpecialCommand,
   commitDraftBundle,
   createCodeBlueSession,
+  exportCodeBlueDebriefJson,
   fireEvent,
+  generateCodeBlueDebrief,
+  kitGateBlocksCommit,
   listAdvanceOptions,
   loadCodeBlueSession,
   saveCodeBlueSession,
   selectEmergencyCompactView,
+  withSelectedKitAssets,
   type CodeBluePlaySession,
 } from "@/engine/simulation";
 import type {
@@ -47,6 +51,100 @@ function subscribeNoop() {
   return () => {};
 }
 
+function CodeBlueEndDebrief({
+  session,
+  debrief,
+  onRestart,
+}: {
+  session: CodeBluePlaySession;
+  debrief: CodeBlueDebriefFile;
+  onRestart: () => void;
+}) {
+  const result = generateCodeBlueDebrief(session, debrief);
+
+  function handleExport() {
+    const blob = new Blob([exportCodeBlueDebriefJson(result)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `code-blue-debrief-${result.episodeId}.json`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <section
+      aria-labelledby="cb-debrief-heading"
+      className="rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-5"
+    >
+      <h2
+        id="cb-debrief-heading"
+        className="font-[family-name:var(--font-display)] text-xl"
+      >
+        Scored debrief ({debrief.id})
+      </h2>
+      <p className="mt-2 text-sm text-[var(--color-muted)]">
+        {result.pathwaySummary} No single perfect path.
+      </p>
+      <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+        {result.dimensions.map((dim) => (
+          <li
+            key={dim.id}
+            className="border border-[var(--color-line)] px-3 py-2 text-sm"
+          >
+            <span className="font-medium text-[var(--color-ink)]">
+              {dim.label}
+            </span>
+            <span className="ml-2 tabular-nums text-[var(--color-accent)]">
+              {dim.score}/{dim.max}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-3 text-xs text-[var(--color-muted)]">
+        Tags: {result.debriefTags.join(" · ")}
+      </p>
+      <ol className="mt-4 list-decimal space-y-3 pl-5 text-[var(--color-ink)]">
+        {debrief.reflectionPrompts.map((prompt) => (
+          <li key={prompt} className="leading-relaxed">
+            {prompt}
+          </li>
+        ))}
+      </ol>
+      <div className="mt-5 flex flex-wrap gap-3">
+        <Link
+          href="/code-blue/debrief"
+          className="rounded-sm bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-focus)]"
+        >
+          Open full scored debrief
+        </Link>
+        <button
+          type="button"
+          onClick={handleExport}
+          className="rounded-sm border border-[var(--color-line)] px-4 py-2 text-sm hover:bg-[var(--color-wash)]"
+        >
+          Export JSON
+        </button>
+        <Link
+          href="/debrief"
+          className="rounded-sm border border-[var(--color-line)] px-4 py-2 text-sm hover:bg-[var(--color-wash)]"
+        >
+          Episode 01 debrief shell
+        </Link>
+        <button
+          type="button"
+          onClick={onRestart}
+          className="rounded-sm border border-[var(--color-line)] px-4 py-2 text-sm hover:bg-[var(--color-wash)]"
+        >
+          Run slice again
+        </button>
+      </div>
+    </section>
+  );
+}
+
 export function PlayShell({
   manifest,
   nodes,
@@ -56,6 +154,7 @@ export function PlayShell({
   directorCues = null,
   llmNarrationConfigured = false,
   storyLlmMode = "off",
+  initialUiMode = "standard",
 }: {
   manifest: CodeBlueManifest;
   nodes: CodeBlueScenarioNode[];
@@ -65,6 +164,7 @@ export function PlayShell({
   directorCues?: DirectorCuesFile | null;
   llmNarrationConfigured?: boolean;
   storyLlmMode?: StoryLlmMode;
+  initialUiMode?: "standard" | "kit";
 }) {
   const nodeMap = useMemo(
     () => new Map(nodes.map((node) => [node.id, node])),
@@ -73,7 +173,7 @@ export function PlayShell({
 
   const isClient = useSyncExternalStore(subscribeNoop, () => true, () => false);
   const [session, setSession] = useState<CodeBluePlaySession>(() =>
-    createCodeBlueSession(manifest),
+    createCodeBlueSession(manifest, { uiMode: initialUiMode }),
   );
   const [storageHydrated, setStorageHydrated] = useState(false);
   const [showChronology, setShowChronology] = useState(true);
@@ -84,19 +184,25 @@ export function PlayShell({
   >({});
   const [enrichBusy, setEnrichBusy] = useState(false);
   const [enrichError, setEnrichError] = useState("");
-  const [selectedKitAssets, setSelectedKitAssets] = useState<number[]>(
-    DEFAULT_SELECTED_KIT_ASSETS,
-  );
 
   // Restore sessionStorage on the client during render (React-approved adjust pattern).
   if (isClient && !storageHydrated) {
     setStorageHydrated(true);
     const existing = loadCodeBlueSession();
     if (existing && existing.richState.scenarioId === manifest.id) {
-      setSession(existing);
+      setSession({
+        ...existing,
+        uiMode: initialUiMode === "kit" ? "kit" : existing.uiMode ?? "standard",
+      });
       setShowChronology(false);
+    } else if (initialUiMode === "kit") {
+      setSession(createCodeBlueSession(manifest, { uiMode: "kit" }));
     }
   }
+
+  const selectedKitAssets =
+    session.selectedKitAssets ?? DEFAULT_SELECTED_KIT_ASSETS;
+  const kitMode = session.uiMode === "kit" || initialUiMode === "kit";
 
   const currentNode = nodeMap.get(session.currentNodeId);
   const compact = selectEmergencyCompactView(session.richState);
@@ -157,7 +263,11 @@ export function PlayShell({
 
   function handleCommit() {
     if (draft.length === 0 || emergency) return;
-    const missing = missingKitAssetsForActions(draft, selectedKitAssets);
+    const missing = kitGateBlocksCommit(
+      draft,
+      selectedKitAssets,
+      ACTION_KIT_REQUIREMENTS,
+    );
     if (missing.length > 0) {
       setLiveMessage(
         `Commit blocked. Select or verify kit assets ${formatKitAssetIds(missing)}. Readiness still does not create indication.`,
@@ -170,21 +280,21 @@ export function PlayShell({
   }
 
   function handleRestart() {
-    const fresh = createCodeBlueSession(manifest);
+    const fresh = createCodeBlueSession(manifest, {
+      uiMode: kitMode ? "kit" : "standard",
+    });
     setDraft([]);
     setEnrichedByNode({});
     setEnrichError("");
-    setSelectedKitAssets(DEFAULT_SELECTED_KIT_ASSETS);
     setShowChronology(true);
     update(fresh, "Session restarted.");
   }
 
   function toggleKitAsset(assetNumber: number) {
-    setSelectedKitAssets((current) =>
-      current.includes(assetNumber)
-        ? current.filter((item) => item !== assetNumber)
-        : [...current, assetNumber],
-    );
+    const nextAssets = selectedKitAssets.includes(assetNumber)
+      ? selectedKitAssets.filter((item) => item !== assetNumber)
+      : [...selectedKitAssets, assetNumber];
+    update(withSelectedKitAssets(session, nextAssets));
   }
 
   async function handleEnrichNarration() {
@@ -250,16 +360,33 @@ export function PlayShell({
           <p className="mt-1 text-sm text-[var(--color-muted)]">
             Engine r{manifest.simulationEngineRevision} · v{manifest.version} ·
             revision {session.richState.revision}
+            {kitMode ? " · kit evidence mode" : ""}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={handleRestart}
-          className="rounded-sm border border-[var(--color-line)] px-3 py-2 text-sm text-[var(--color-ink)] hover:bg-[var(--color-wash)]"
-        >
-          Restart slice
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href={kitMode ? "/code-blue" : "/code-blue?mode=kit"}
+            className="rounded-sm border border-[var(--color-line)] px-3 py-2 text-sm text-[var(--color-ink)] hover:bg-[var(--color-wash)]"
+          >
+            {kitMode ? "Standard layout" : "Kit evidence focus"}
+          </Link>
+          <button
+            type="button"
+            onClick={handleRestart}
+            className="rounded-sm border border-[var(--color-line)] px-3 py-2 text-sm text-[var(--color-ink)] hover:bg-[var(--color-wash)]"
+          >
+            Restart slice
+          </button>
+        </div>
       </div>
+
+      {kitMode && !showChronology ? (
+        <p className="rounded-sm border border-[var(--color-line)] bg-[var(--color-wash)] px-4 py-3 text-sm text-[var(--color-muted)]">
+          Kit evidence mode shares the same Code Blue session. Asset selection is
+          a soft UI gate only — readiness never creates indication. H5 emergency
+          override still hides the planning board.
+        </p>
+      ) : null}
 
       {showChronology ? (
         <section
@@ -293,10 +420,10 @@ export function PlayShell({
               Enter The Alarm After ROSC
             </button>
             <Link
-              href="/code-blue/interactive"
+              href="/code-blue?mode=kit"
               className="inline-flex rounded-sm border border-[var(--color-line)] px-5 py-2.5 text-sm font-medium text-[var(--color-ink)] hover:bg-[var(--color-wash)]"
             >
-              Open ChatGPT kit drill
+              Enter with kit evidence focus
             </Link>
           </div>
         </section>
@@ -877,43 +1004,11 @@ export function PlayShell({
           </section>
 
           {session.completed || currentNode.phase === "reflect" ? (
-            <section
-              aria-labelledby="cb-debrief-heading"
-              className="rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-5"
-            >
-              <h2
-                id="cb-debrief-heading"
-                className="font-[family-name:var(--font-display)] text-xl"
-              >
-                Reflection ({debrief.id})
-              </h2>
-              <p className="mt-2 text-sm text-[var(--color-muted)]">
-                Dimensions: {debrief.dimensions.join(" · ")}. No single perfect
-                path.
-              </p>
-              <ol className="mt-4 list-decimal space-y-3 pl-5 text-[var(--color-ink)]">
-                {debrief.reflectionPrompts.map((prompt) => (
-                  <li key={prompt} className="leading-relaxed">
-                    {prompt}
-                  </li>
-                ))}
-              </ol>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link
-                  href="/debrief"
-                  className="rounded-sm bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-focus)]"
-                >
-                  Open episode debrief shell
-                </Link>
-                <button
-                  type="button"
-                  onClick={handleRestart}
-                  className="rounded-sm border border-[var(--color-line)] px-4 py-2 text-sm hover:bg-[var(--color-wash)]"
-                >
-                  Run slice again
-                </button>
-              </div>
-            </section>
+            <CodeBlueEndDebrief
+              session={session}
+              debrief={debrief}
+              onRestart={handleRestart}
+            />
           ) : null}
         </>
       )}

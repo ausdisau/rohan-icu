@@ -1,6 +1,9 @@
-import { CodeBlueInterface } from "@/components/CodeBlueInterface";
+import { redirect } from "next/navigation";
 
-/** Standalone kit drill from the ChatGPT interactive Code Blue push. */
+/**
+ * Phase 8 — kit drill deep-links into PlayShell (shared CodeBluePlaySession).
+ * Legacy standalone toy state retired.
+ */
 export default function CodeBlueInteractivePage() {
-  return <CodeBlueInterface />;
+  redirect("/code-blue?mode=kit");
 }

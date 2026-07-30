@@ -43,11 +43,11 @@ export default function RootLayout({
             Skip to main content
           </a>
           <SiteHeader />
-          <main id="main" className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:px-6">
+          <main id="main" className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6">
             {children}
           </main>
           <footer className="border-t border-[var(--color-line)] bg-[var(--color-surface)]">
-            <div className="mx-auto max-w-5xl px-4 py-4 text-sm text-[var(--color-muted)] sm:px-6">
+            <div className="mx-auto max-w-7xl px-4 py-4 text-sm text-[var(--color-muted)] sm:px-6">
               Between the Lines / Breathing Room — ICU simulation. No exact drug
               names or doses.
             </div>
