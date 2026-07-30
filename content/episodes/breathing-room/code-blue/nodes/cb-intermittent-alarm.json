@@ -1,0 +1,84 @@
+{
+  "id": "cb-intermittent-alarm",
+  "phase": "observe",
+  "title": "Intermittent alarm",
+  "scene": {
+    "location": "PICU bay — cardiac monitor focus",
+    "summary": "An intermittent alarm cuts the quiet. It asks what changed; it does not authorise a shock or an airway swap.",
+    "lens": "cardiac-monitor",
+    "dialogue": [
+      {
+        "speaker": "Circulation lead",
+        "line": "Alarm first. Indication second. Readiness is not a green light."
+      }
+    ],
+    "captions": [
+      "Intermittent tone. Fragile pulse still present. No energy values displayed."
+    ]
+  },
+  "clinicalTruth": {
+    "airway": "Route unchanged and dependable.",
+    "breathing": "Ventilation continues; chest movement still needs deliberate check against the alarm context.",
+    "circulation": "Frequent ectopy with intermittent alarm; defibrillator may be prepared without creating indication.",
+    "communicationAccess": "WAIT still active; emergency vocabulary available if access later becomes contested."
+  },
+  "visibleEvidence": [
+    {
+      "id": "alarm-as-question",
+      "label": "Alarm as question",
+      "detail": "The tone starts a workup. It does not name the cause."
+    },
+    {
+      "id": "transport-held",
+      "label": "Transport held",
+      "detail": "Movement off the bay remains held while suction endurance is unresolved."
+    },
+    {
+      "id": "defib-readiness-optional",
+      "label": "Defibrillator may be prepared",
+      "detail": "Preparing equipment is not the same as deciding to use it."
+    }
+  ],
+  "hiddenState": {
+    "primaryCause": "Still unproven. External load and circuit geometry remain candidates.",
+    "notes": [
+      "Keep cause hidden through the first alarm window."
+    ]
+  },
+  "availableActions": [
+    "protect-aac",
+    "assess-chest-movement",
+    "prepare-defibrillator",
+    "correct-external-circuit-load"
+  ],
+  "interruptEvents": ["intermittent-monitor-alarm"],
+  "communicationBeat": {
+    "instruction": "WAIT",
+    "questionActive": false,
+    "note": "Alarm pressure does not cancel WAIT for non-emergency questions."
+  },
+  "familyBeat": {
+    "members": ["samira", "arvind"],
+    "roles": [
+      "comfort-presence",
+      "privacy-dignity-observer",
+      "question-tracking"
+    ],
+    "clinicalAssignmentForbidden": true,
+    "note": "Family may track questions aloud; they do not interpret clinical signals as staff."
+  },
+  "exitConditions": [
+    {
+      "id": "open-resource-window",
+      "description": "Pressure opens a short resource-allocation window while transport stays held.",
+      "nextNodeId": "cb-resource-allocation",
+      "requiresEvent": "pressure-resource-window"
+    }
+  ],
+  "debriefTags": [
+    "alarm-as-question",
+    "readiness-not-indication",
+    "transport-held"
+  ],
+  "canonDecisionCodes": ["D2"]
+}

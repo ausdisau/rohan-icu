@@ -1,0 +1,68 @@
+{
+  "id": "cb-debrief-hook",
+  "phase": "reflect",
+  "title": "Debrief hook",
+  "scene": {
+    "location": "PICU teaching space — post-event reflection",
+    "summary": "The slice closes on reflection, not on a pulse. Score the six dimensions; there is no single perfect path.",
+    "lens": "post-event-reflection",
+    "dialogue": [
+      {
+        "speaker": "Facilitator",
+        "line": "What stayed a question? What stayed protected? Who was never asked to become clinical staff?"
+      }
+    ],
+    "captions": [
+      "Debrief opens. Survival was never the victory condition."
+    ]
+  },
+  "clinicalTruth": {
+    "airway": "Educational boundary: no procedure trainer claims.",
+    "breathing": "Equipment reasoning belongs in debrief, not in invented settings.",
+    "circulation": "Provisional and confirmed phases are available for discussion.",
+    "communicationAccess": "Access, WAIT, and paid-support boundaries are primary reflection themes."
+  },
+  "visibleEvidence": [
+    {
+      "id": "six-dimensions",
+      "label": "Six scoring dimensions",
+      "detail": "Clinical reasoning, timing, equipment, communication access, authority/dignity, system sustainability."
+    },
+    {
+      "id": "no-perfect-path",
+      "label": "No single perfect path",
+      "detail": "Partial G1, interrupt timing, and restore quality all matter."
+    }
+  ],
+  "availableActions": [],
+  "interruptEvents": [],
+  "communicationBeat": {
+    "instruction": null,
+    "questionActive": false,
+    "note": "Debrief is facilitated reflection; Rohan's access remains respected if he is present."
+  },
+  "familyBeat": {
+    "members": ["samira", "arvind", "leela"],
+    "roles": [
+      "values-witness",
+      "privacy-dignity-observer"
+    ],
+    "clinicalAssignmentForbidden": true,
+    "note": "Debrief may name Save Our Sons paid-support sustainability without turning family into clinical labour."
+  },
+  "exitConditions": [
+    {
+      "id": "end-slice",
+      "description": "Code Blue content pack ends at the debrief hook. UI route arrives in Phase 4.",
+      "nextNodeId": null
+    }
+  ],
+  "debriefTags": [
+    "debrief-hook",
+    "six-dimensions",
+    "no-single-perfect-path",
+    "save-our-sons",
+    "phase-3-content-complete"
+  ],
+  "canonDecisionCodes": ["D2", "G1", "H5"]
+}

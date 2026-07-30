@@ -1,0 +1,85 @@
+{
+  "id": "cb-code-blue",
+  "phase": "emergency-override",
+  "title": "Code Blue",
+  "scene": {
+    "location": "PICU bay — emergency override",
+    "summary": "Pulseless VT. No clinical questions. AAC protected in place. No airway replacement. Clinician-controlled rescue only — no doses, energies, or gesture CPR in this content.",
+    "lens": "cardiac-monitor",
+    "dialogue": [
+      {
+        "speaker": "Team lead",
+        "line": "Override. Protect the device. Do not replace the airway. Work the circulation pathway."
+      }
+    ],
+    "captions": [
+      "Emergency override active. Non-urgent planning hidden. Educational boundary: no shock energy values."
+    ]
+  },
+  "clinicalTruth": {
+    "airway": "Current route remains; replacement is forbidden during this override without separate indication.",
+    "breathing": "Ventilation support continues under clinical control; circuit swap is not the rescue action.",
+    "circulation": "Pulseless VT pathway under clinician-controlled defibrillation readiness only.",
+    "communicationAccess": "Device protected and visible; no new questions during rescue."
+  },
+  "visibleEvidence": [
+    {
+      "id": "pulseless-vt-pathway",
+      "label": "Pulseless VT pathway",
+      "detail": "Emergency override engaged. No medication doses or energy figures are shown."
+    },
+    {
+      "id": "aac-protected",
+      "label": "AAC protected",
+      "detail": "Access equipment stays in place even while questions are deferred."
+    },
+    {
+      "id": "no-airway-replacement",
+      "label": "No airway replacement",
+      "detail": "Override does not unlock replace-airway."
+    }
+  ],
+  "hiddenState": {
+    "primaryCause": "Deferred until after provisional ROSC and reassessment.",
+    "notes": [
+      "Rescue success is provisional until independently confirmed."
+    ]
+  },
+  "availableActions": [
+    "protect-aac",
+    "prepare-defibrillator"
+  ],
+  "interruptEvents": ["h5-emergency-override"],
+  "communicationBeat": {
+    "instruction": null,
+    "questionActive": false,
+    "note": "No questions during rescue. Protection is not the same as asking.",
+    "pauseScenarioForAac": false
+  },
+  "familyBeat": {
+    "members": ["samira", "arvind"],
+    "roles": [
+      "comfort-presence",
+      "privacy-dignity-observer"
+    ],
+    "clinicalAssignmentForbidden": true,
+    "note": "Family are not assigned compressions, airway, or monitoring tasks."
+  },
+  "exitConditions": [
+    {
+      "id": "to-provisional-rosc",
+      "description": "Rescue yields a provisional return of circulation.",
+      "nextNodeId": "cb-provisional-rosc",
+      "requiresEvent": "provisional-rosc-signal",
+      "emergencyOverride": true
+    }
+  ],
+  "debriefTags": [
+    "H5-code-blue",
+    "no-questions-during-rescue",
+    "aac-protected",
+    "no-airway-replacement",
+    "no-doses-or-energies"
+  ],
+  "canonDecisionCodes": ["H5"]
+}

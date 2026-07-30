@@ -1,0 +1,36 @@
+{
+  "id": "alarm-after-rosc",
+  "slug": "code-blue",
+  "title": "The Alarm After ROSC",
+  "subtitle": "Code Blue vertical slice — quiet stabilisation to provisional ROSC and AAC restore",
+  "version": "1.0.0-code-blue",
+  "simulationEngineRevision": 2,
+  "startNodeId": "cb-quiet-stabilisation",
+  "nodeIds": [
+    "cb-quiet-stabilisation",
+    "cb-intermittent-alarm",
+    "cb-resource-allocation",
+    "cb-further-alarm",
+    "cb-code-blue",
+    "cb-provisional-rosc",
+    "cb-post-rosc-reassess",
+    "cb-aac-restore-family",
+    "cb-debrief-hook"
+  ],
+  "chronologyLock": [
+    "The library called help.",
+    "The ambulance performed CPR.",
+    "The resuscitation bay restored sustained circulation.",
+    "ICU care begins after sustained ROSC."
+  ],
+  "controlContract": {
+    "draftDoesNotMutate": true,
+    "commitAdvancesRevision": true,
+    "duplicatesAreConfirmation": true
+  },
+  "educationalBoundary": "No medication doses, shock energy, ventilator settings, or gesture CPR. Readiness is not indication. Family and paid support remain non-clinical for airway, ventilation, and suction.",
+  "estimatedMinutes": {
+    "min": 15,
+    "max": 25
+  }
+}

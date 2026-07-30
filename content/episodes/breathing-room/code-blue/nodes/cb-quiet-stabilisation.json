@@ -1,0 +1,84 @@
+{
+  "id": "cb-quiet-stabilisation",
+  "phase": "observe",
+  "title": "Quiet stabilisation",
+  "scene": {
+    "location": "PICU bay — post-ROSC stabilisation",
+    "summary": "Rohan is settled after sustained circulation was restored in the resuscitation bay. The bay is quiet enough to plan, not quiet enough to assume the work is finished.",
+    "lens": "bedside-clinical",
+    "dialogue": [
+      {
+        "speaker": "Bedside nurse",
+        "line": "Circulation is holding. AAC is powered. We still treat every new alarm as a question."
+      }
+    ],
+    "captions": [
+      "Monitor soft. Ventilator circuit verified. Communication device visible at the bedside."
+    ]
+  },
+  "clinicalTruth": {
+    "airway": "Current acute ET route remains dependable; replacement is not indicated.",
+    "breathing": "Chest movement matches full controlled ventilation on a verified primary circuit.",
+    "circulation": "Pulse is fragile with frequent ectopy; defibrillator readiness is unset.",
+    "communicationAccess": "Device powered and visible; WAIT is active; no clinical question is open."
+  },
+  "visibleEvidence": [
+    {
+      "id": "post-rosc-quiet",
+      "label": "Quiet post-ROSC window",
+      "detail": "Sustained circulation was already restored before ICU play began."
+    },
+    {
+      "id": "aac-visible",
+      "label": "AAC visible",
+      "detail": "Communication device is powered and in reach; silence is not consent."
+    },
+    {
+      "id": "suction-battery-arrived",
+      "label": "Portable suction battery arrived",
+      "detail": "Degraded endurance unit is present. Assignment is not yet decided."
+    }
+  ],
+  "hiddenState": {
+    "primaryCause": "Not yet established. External circuit load remains a candidate, not a verdict.",
+    "notes": [
+      "Do not reveal a single cause during quiet stabilisation."
+    ]
+  },
+  "availableActions": [
+    "protect-aac",
+    "assess-chest-movement",
+    "prepare-defibrillator"
+  ],
+  "interruptEvents": [],
+  "communicationBeat": {
+    "instruction": "WAIT",
+    "questionActive": false,
+    "note": "Respect WAIT. Do not ask non-emergency questions while the instruction stands.",
+    "pauseScenarioForAac": true
+  },
+  "familyBeat": {
+    "members": ["samira", "arvind"],
+    "roles": [
+      "comfort-presence",
+      "values-witness",
+      "equipment-continuity-nonclinical"
+    ],
+    "clinicalAssignmentForbidden": true,
+    "note": "Family remain present for comfort and continuity, never as clinical workforce."
+  },
+  "exitConditions": [
+    {
+      "id": "enter-alarm-window",
+      "description": "An intermittent monitor alarm opens the next clinical question.",
+      "nextNodeId": "cb-intermittent-alarm",
+      "requiresEvent": "intermittent-monitor-alarm"
+    }
+  ],
+  "debriefTags": [
+    "quiet-stabilisation",
+    "wait-respected",
+    "post-rosc-not-finished"
+  ],
+  "canonDecisionCodes": ["D2"]
+}

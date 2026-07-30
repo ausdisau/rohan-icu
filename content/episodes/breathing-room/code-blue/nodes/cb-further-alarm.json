@@ -1,0 +1,81 @@
+{
+  "id": "cb-further-alarm",
+  "phase": "commit",
+  "title": "Further alarm",
+  "scene": {
+    "location": "PICU bay — escalating monitor alarm",
+    "summary": "The alarm pattern worsens. Non-urgent planning must yield. H5 emergency override is the interrupt path into Code Blue.",
+    "lens": "cardiac-monitor",
+    "dialogue": [
+      {
+        "speaker": "Circulation lead",
+        "line": "This is no longer a planning window. Protect AAC in place. No questions during rescue."
+      }
+    ],
+    "captions": [
+      "Escalating tone. Planning UI should hide. No shock energy shown."
+    ]
+  },
+  "clinicalTruth": {
+    "airway": "Route still dependable; replacement is not the emergency move.",
+    "breathing": "Ventilation pathway remains; external corrections pause if override engages.",
+    "circulation": "Rhythm deteriorating toward a pulseless VT pathway.",
+    "communicationAccess": "AAC stays protected in place; rescue does not wait on new questions."
+  },
+  "visibleEvidence": [
+    {
+      "id": "escalating-alarm",
+      "label": "Escalating alarm",
+      "detail": "Further alarm hides non-urgent planning and opens H5 override."
+    },
+    {
+      "id": "aac-must-stay",
+      "label": "AAC must stay protected",
+      "detail": "Device remains at the bedside; do not clear the bay of access equipment."
+    }
+  ],
+  "hiddenState": {
+    "primaryCause": "Still not the priority once pulseless VT declares itself.",
+    "notes": [
+      "H5 suppresses clinical questions and airway-replacement planning."
+    ]
+  },
+  "availableActions": [
+    "protect-aac",
+    "prepare-defibrillator"
+  ],
+  "interruptEvents": [
+    "further-alarm-escalation",
+    "h5-emergency-override"
+  ],
+  "communicationBeat": {
+    "instruction": null,
+    "questionActive": false,
+    "note": "Emergency rescue does not wait for AAC answers. Keep the device protected without asking new questions.",
+    "pauseScenarioForAac": false
+  },
+  "familyBeat": {
+    "members": ["samira", "arvind"],
+    "roles": [
+      "comfort-presence",
+      "privacy-dignity-observer"
+    ],
+    "clinicalAssignmentForbidden": true,
+    "note": "Family are supported to stay clear of clinical tasking during override."
+  },
+  "exitConditions": [
+    {
+      "id": "h5-to-code-blue",
+      "description": "H5 emergency override enters the Code Blue node.",
+      "nextNodeId": "cb-code-blue",
+      "requiresEvent": "h5-emergency-override",
+      "emergencyOverride": true
+    }
+  ],
+  "debriefTags": [
+    "H5-entry",
+    "planning-yields",
+    "aac-protected-in-place"
+  ],
+  "canonDecisionCodes": ["H5"]
+}

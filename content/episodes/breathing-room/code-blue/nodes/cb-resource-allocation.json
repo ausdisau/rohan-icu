@@ -1,0 +1,111 @@
+{
+  "id": "cb-resource-allocation",
+  "phase": "plan",
+  "title": "Resource allocation",
+  "scene": {
+    "location": "PICU bay — equipment and continuity planning",
+    "summary": "D2 context is on the table: suction battery arrived, transport held, alarm still a question. G1 offers F1, F2, and F6 as a partial-capable bundle.",
+    "lens": "airway-equipment",
+    "dialogue": [
+      {
+        "speaker": "Biomedical engineering",
+        "line": "Borrowed circuit can be a conditional backup. It is not an active replacement without rehearsal."
+      },
+      {
+        "speaker": "IICRT coordinator",
+        "line": "Paid support stays inside non-medical boundaries — continuity, not clinical coverage."
+      }
+    ],
+    "captions": [
+      "Draft plans do not mutate state. Commit advances revision. Duplicates confirm."
+    ]
+  },
+  "clinicalTruth": {
+    "airway": "Still dependable; replace-airway remains gated and not indicated by planning alone.",
+    "breathing": "Primary circuit verified; borrowed circuit available only as conditional backup after assessment.",
+    "circulation": "Fragile pulse continues; planning must not invent shock indication.",
+    "communicationAccess": "AAC protected; paid support may be assigned for non-medical continuity only."
+  },
+  "visibleEvidence": [
+    {
+      "id": "suction-battery-arrived",
+      "label": "Suction battery arrived",
+      "detail": "Degraded endurance supports bedside reserve or transport, not both."
+    },
+    {
+      "id": "transport-held",
+      "label": "Transport held",
+      "detail": "Until suction assignment is settled, transport stays held."
+    },
+    {
+      "id": "borrowed-circuit-present",
+      "label": "Borrowed circuit present",
+      "detail": "Adapter and circuit need bench assessment before any role beyond conditional backup."
+    },
+    {
+      "id": "paid-support-available",
+      "label": "Paid support available",
+      "detail": "Save Our Sons framing: paid support sustainability is a system issue, not unpaid family labour."
+    }
+  ],
+  "hiddenState": {
+    "primaryCause": "Still not revealed. Allocation protects reserve while the cause stays open.",
+    "notes": [
+      "G1 may be committed partially; missing pieces remain visible debt."
+    ]
+  },
+  "availableActions": [
+    "assess-borrowed-circuit",
+    "assign-suction-bedside-reserve",
+    "assign-paid-support-continuity",
+    "protect-aac",
+    "prepare-defibrillator",
+    "assess-chest-movement",
+    "correct-external-circuit-load"
+  ],
+  "interruptEvents": ["pressure-resource-window"],
+  "communicationBeat": {
+    "instruction": "WAIT",
+    "questionActive": false,
+    "note": "Planning language stays out of Rohan's clinical question queue while WAIT holds."
+  },
+  "familyBeat": {
+    "members": ["samira", "arvind", "leela"],
+    "roles": [
+      "comfort-presence",
+      "values-witness",
+      "approved-contact-coordination",
+      "logistics"
+    ],
+    "clinicalAssignmentForbidden": true,
+    "note": "Family logistics and presence are welcome. Airway, ventilation, and suction stay with clinical roles. Paid support is the sustainable non-medical continuity path."
+  },
+  "exitConditions": [
+    {
+      "id": "g1-committed-or-partial",
+      "description": "After G1 planning (full or partial), further alarm pressure can interrupt.",
+      "nextNodeId": "cb-further-alarm",
+      "requiresActions": [
+        "assess-borrowed-circuit",
+        "assign-suction-bedside-reserve",
+        "assign-paid-support-continuity"
+      ]
+    },
+    {
+      "id": "interrupt-before-full-g1",
+      "description": "Further alarm may interrupt even if the G1 bundle is only partially committed.",
+      "nextNodeId": "cb-further-alarm",
+      "requiresEvent": "further-alarm-escalation"
+    }
+  ],
+  "debriefTags": [
+    "D2-context",
+    "G1-resource-allocation",
+    "F1-borrowed-circuit",
+    "F2-suction-reserve",
+    "F6-paid-support",
+    "save-our-sons",
+    "draft-vs-commit"
+  ],
+  "canonDecisionCodes": ["D2", "G1", "F1", "F2", "F6"]
+}

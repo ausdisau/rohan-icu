@@ -6,11 +6,13 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { PHASE2_ACTION_CATALOG } from "../src/engine/simulation/catalog";
 import {
   episodeManifestSchema,
   formatContinuityFindings,
   lintActionStations,
   lintChronologyLock,
+  lintCodeBluePack,
   lintContinuityText,
   lintEmergencyKitInventory,
   simulationNodeSchema,
@@ -22,6 +24,92 @@ const contentRoot = path.join(root, "content");
 const publicRoot = path.join(root, "public");
 const KIT_INVENTORY_BASENAME = "emergency-kit-inventory.json";
 const ACTION_STATIONS_BASENAME = "action-stations.json";
+const CODE_BLUE_DIR = path.join(
+  contentRoot,
+  "episodes",
+  "breathing-room",
+  "code-blue",
+);
+
+function isCodeBluePath(filePath: string): boolean {
+  const rel = path.relative(CODE_BLUE_DIR, filePath);
+  return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel));
+}
+
+async function lintCodeBlueContentPack(): Promise<ContinuityFinding[]> {
+  const findings: ContinuityFinding[] = [];
+  const manifestPath = path.join(CODE_BLUE_DIR, "manifest.json");
+  const actionsPath = path.join(CODE_BLUE_DIR, "actions.json");
+  const eventsPath = path.join(CODE_BLUE_DIR, "events.json");
+  const debriefPath = path.join(CODE_BLUE_DIR, "debrief.json");
+  const nodesDir = path.join(CODE_BLUE_DIR, "nodes");
+
+  async function readJson(filePath: string): Promise<unknown> {
+    return JSON.parse(await readFile(filePath, "utf8")) as unknown;
+  }
+
+  let manifest: unknown;
+  let actions: unknown;
+  let events: unknown;
+  let debrief: unknown;
+  try {
+    manifest = await readJson(manifestPath);
+    actions = await readJson(actionsPath);
+    events = await readJson(eventsPath);
+    debrief = await readJson(debriefPath);
+  } catch (err) {
+    findings.push({
+      ruleId: "code-blue-pack-missing",
+      severity: "error",
+      message: `Unable to read code-blue pack files: ${(err as Error).message}`,
+      path: path.relative(root, CODE_BLUE_DIR),
+    });
+    return findings;
+  }
+
+  const nodeEntries = await readdir(nodesDir, { withFileTypes: true });
+  const nodes: Array<{ id: string; data: unknown; path: string }> = [];
+  for (const entry of nodeEntries) {
+    if (!entry.isFile() || !entry.name.endsWith(".json")) continue;
+    const full = path.join(nodesDir, entry.name);
+    const id = entry.name.replace(/\.json$/, "");
+    nodes.push({
+      id,
+      data: await readJson(full),
+      path: path.relative(root, full),
+    });
+  }
+
+  findings.push(
+    ...lintCodeBluePack({
+      manifest,
+      actions,
+      events,
+      debrief,
+      nodes,
+      catalogActionIds: Object.keys(PHASE2_ACTION_CATALOG),
+      manifestPath: path.relative(root, manifestPath),
+      actionsPath: path.relative(root, actionsPath),
+      eventsPath: path.relative(root, eventsPath),
+      debriefPath: path.relative(root, debriefPath),
+    }),
+  );
+
+  const chronology =
+    manifest &&
+    typeof manifest === "object" &&
+    Array.isArray((manifest as { chronologyLock?: unknown }).chronologyLock)
+      ? ((manifest as { chronologyLock: string[] }).chronologyLock)
+      : null;
+  if (chronology) {
+    findings.push(
+      ...lintChronologyLock(chronology, path.relative(root, manifestPath)),
+    );
+  }
+
+  return findings;
+}
+
 async function walkJsonFiles(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   const files: string[] = [];
@@ -133,6 +221,10 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
+  // Code Blue pack uses its own Zod schemas — validate as a unit, then
+  // still run continuity text rules on each file below.
+  findings.push(...(await lintCodeBlueContentPack()));
+
   for (const file of jsonFiles) {
     const rel = path.relative(root, file);
     const raw = await readFile(file, "utf8");
@@ -149,6 +241,7 @@ async function main(): Promise<void> {
     const textParts: string[] = [];
     collectTextFromUnknown(data, textParts);
     const text = textParts.join("\n");
+    const inCodeBlue = isCodeBluePath(file);
 
     if (base === KIT_INVENTORY_BASENAME) {
       findings.push(
@@ -162,6 +255,19 @@ async function main(): Promise<void> {
     if (base === ACTION_STATIONS_BASENAME) {
       findings.push(...lintActionStations(data, rel));
       findings.push(...lintContinuityText({ path: rel, text }));
+      continue;
+    }
+
+    if (inCodeBlue) {
+      findings.push(
+        ...lintContinuityText({
+          path: rel,
+          text,
+          meta: {
+            mentionsAac: textParts.some((t) => /\baac\b/i.test(t)),
+          },
+        }),
+      );
       continue;
     }
 

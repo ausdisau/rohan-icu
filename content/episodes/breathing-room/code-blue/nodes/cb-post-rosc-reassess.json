@@ -1,0 +1,82 @@
+{
+  "id": "cb-post-rosc-reassess",
+  "phase": "resolve",
+  "title": "Post-ROSC reassessment",
+  "scene": {
+    "location": "PICU bay — structured reassessment",
+    "summary": "Independent confirmation, airway and breathing re-check, and communication-access restore planning. Survival of the pulse is not the victory condition.",
+    "lens": "handover",
+    "dialogue": [
+      {
+        "speaker": "Respiratory",
+        "line": "Reassess chest movement against the circuit. Do not invent replacement indication from readiness alone."
+      },
+      {
+        "speaker": "AAC access specialist",
+        "line": "We restore access deliberately after rescue — device, switch, and low-stimulation setup."
+      }
+    ]
+  },
+  "clinicalTruth": {
+    "airway": "Still dependable after override; replacement remains gated.",
+    "breathing": "Chest movement and circuit verification are active reassessment tasks.",
+    "circulation": "Independent confirmation clears provisional uncertainty when recorded.",
+    "communicationAccess": "Restore pathway is open; WAIT may return once questions are safe again."
+  },
+  "visibleEvidence": [
+    {
+      "id": "reassessment-required",
+      "label": "Reassessment required",
+      "detail": "Post-event checks are mandatory after provisional ROSC."
+    },
+    {
+      "id": "circuit-recheck",
+      "label": "Circuit recheck",
+      "detail": "External load and chest movement deserve another look now that rescue pressure eased."
+    }
+  ],
+  "hiddenState": {
+    "primaryCause": "Working interpretation may now surface external circuit load if evidence supports it.",
+    "notes": [
+      "Cause language stays provisional and educational — not a dosing or settings tutorial."
+    ]
+  },
+  "availableActions": [
+    "assess-chest-movement",
+    "correct-external-circuit-load",
+    "protect-aac",
+    "assess-borrowed-circuit",
+    "assign-suction-bedside-reserve"
+  ],
+  "interruptEvents": ["clock-post-event-window"],
+  "communicationBeat": {
+    "instruction": "WAIT",
+    "questionActive": false,
+    "note": "Restore access before opening new non-emergency questions.",
+    "pauseScenarioForAac": true
+  },
+  "familyBeat": {
+    "members": ["samira", "arvind", "leela"],
+    "roles": [
+      "comfort-presence",
+      "baseline-communication-informant",
+      "privacy-dignity-observer"
+    ],
+    "clinicalAssignmentForbidden": true,
+    "note": "Family may inform baseline communication preferences; they do not replace access specialists."
+  },
+  "exitConditions": [
+    {
+      "id": "to-aac-restore-family",
+      "description": "After reassessment tasks, restore AAC and family framing.",
+      "nextNodeId": "cb-aac-restore-family",
+      "requiresActions": ["protect-aac", "assess-chest-movement"]
+    }
+  ],
+  "debriefTags": [
+    "post-rosc-reassess",
+    "independent-confirmation",
+    "readiness-not-indication"
+  ],
+  "canonDecisionCodes": ["H5", "D2"]
+}
