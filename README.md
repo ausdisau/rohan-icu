@@ -47,8 +47,12 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Clinical truth lives in `src/engine/simulation`. The story layer (`src/story`) only shapes display narration:
 
-1. **Phase 5** — deterministic director composes authored scene text with read-only engine framing (WAIT, readiness≠indication, provisional ROSC, family non-clinical).
-2. **Phase 6** — optional OpenAI enrichment via `POST /api/narration` when `OPENAI_API_KEY` is set. Output is lock-validated; failures fall back to Phase 5. LLM text never mutates `RichSimulationState`.
+1. **Phase 5** — deterministic director uses `director-cues.json` + canon phrases + read-only engine framing (WAIT, readiness≠indication, provisional ROSC, family non-clinical). Authored `clinicalTruth` panels are never rewritten.
+2. **Phase 6** — optional enrichment via `POST /api/narration`:
+   - `STORY_LLM_MODE=mock` for offline demos
+   - `STORY_LLM_MODE=openai` / `OPENAI_API_KEY` for live enrichment
+   - Output is lock-validated and merged with required engine anchors; failures fall back to Phase 5
+   - LLM text never mutates `RichSimulationState`
 
 ## Locked chronology
 

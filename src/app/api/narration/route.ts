@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { loadCodeBlueDirectorCues } from "@/lib/content";
 import {
   enrichNarration,
+  getStoryLlmMode,
   isLlmNarrationConfigured,
   type StoryDirectorInput,
 } from "@/story";
@@ -64,6 +66,7 @@ const requestSchema = z.object({
 export async function GET() {
   return NextResponse.json({
     configured: isLlmNarrationConfigured(),
+    mode: getStoryLlmMode(),
     layer: "story-director",
     phases: ["5-deterministic", "6-optional-llm"],
     clinicalTruth: "engine-owned",
@@ -86,11 +89,13 @@ export async function POST(request: Request) {
     );
   }
 
+  const cues = await loadCodeBlueDirectorCues();
   const input = parsed.data as StoryDirectorInput;
-  const narration = await enrichNarration(input);
+  const narration = await enrichNarration(input, { cues });
 
   return NextResponse.json({
     narration,
     llmConfigured: isLlmNarrationConfigured(),
+    mode: getStoryLlmMode(),
   });
 }

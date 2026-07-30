@@ -21,6 +21,10 @@ import {
   type CodeBlueManifest,
   type CodeBlueScenarioNode,
 } from "@/schemas/code-blue";
+import {
+  directorCuesFileSchema,
+  type DirectorCuesFile,
+} from "@/schemas/director-cues";
 import type { EpisodeManifest, SimulationNode } from "@/types/node";
 
 const episodeDir = path.join(
@@ -91,4 +95,12 @@ export async function loadCodeBlueEvents(): Promise<CodeBlueEventsFile> {
 export async function loadCodeBlueDebrief(): Promise<CodeBlueDebriefFile> {
   const raw = await readFile(path.join(codeBlueDir, "debrief.json"), "utf8");
   return codeBlueDebriefFileSchema.parse(JSON.parse(raw));
+}
+
+export async function loadCodeBlueDirectorCues(): Promise<DirectorCuesFile> {
+  const raw = await readFile(
+    path.join(codeBlueDir, "director-cues.json"),
+    "utf8",
+  );
+  return directorCuesFileSchema.parse(JSON.parse(raw));
 }

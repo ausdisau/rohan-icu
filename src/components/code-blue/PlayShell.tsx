@@ -23,10 +23,12 @@ import type {
   CodeBlueManifest,
   CodeBlueScenarioNode,
 } from "@/schemas/code-blue";
+import type { DirectorCuesFile } from "@/schemas/director-cues";
 import {
   buildDirectorInputFromPlayShell,
   directSceneDeterministic,
   type NarrationViewModel,
+  type StoryLlmMode,
 } from "@/story";
 
 import { KitEvidenceBoard } from "./KitEvidenceBoard";
@@ -51,14 +53,18 @@ export function PlayShell({
   actions,
   events,
   debrief,
+  directorCues = null,
   llmNarrationConfigured = false,
+  storyLlmMode = "off",
 }: {
   manifest: CodeBlueManifest;
   nodes: CodeBlueScenarioNode[];
   actions: CodeBlueActionsFile;
   events: CodeBlueEventsFile;
   debrief: CodeBlueDebriefFile;
+  directorCues?: DirectorCuesFile | null;
   llmNarrationConfigured?: boolean;
+  storyLlmMode?: StoryLlmMode;
 }) {
   const nodeMap = useMemo(
     () => new Map(nodes.map((node) => [node.id, node])),
@@ -124,8 +130,12 @@ export function PlayShell({
     : null;
 
   const deterministicNarration = directorInput
-    ? directSceneDeterministic(directorInput)
+    ? directSceneDeterministic(directorInput, { cues: directorCues })
     : null;
+
+  const directorCue = currentNode
+    ? directorCues?.nodes[currentNode.id]
+    : undefined;
 
   const narration =
     (currentNode && enrichedByNode[currentNode.id]) || deterministicNarration;
@@ -325,7 +335,8 @@ export function PlayShell({
                 </div>
                 <div className="flex flex-col items-end gap-2">
                   <span className="rounded-sm bg-[var(--color-wash)] px-2 py-1 text-xs text-[var(--color-muted)]">
-                    Narration: {narration?.source ?? "authored"}
+                    Narration: {narration?.source ?? "authored"} · LLM{" "}
+                    {storyLlmMode}
                   </span>
                   <button
                     type="button"
@@ -338,11 +349,21 @@ export function PlayShell({
                     {enrichBusy
                       ? "Directing…"
                       : llmNarrationConfigured
-                        ? "Enrich narration (LLM)"
-                        : "Refresh director framing"}
+                        ? storyLlmMode === "mock"
+                          ? "Enrich narration (mock)"
+                          : "Enrich narration (LLM)"
+                        : "Apply Phase 5 director"}
                   </button>
                 </div>
               </div>
+              {directorCue ? (
+                <p className="mt-3 text-sm text-[var(--color-muted)]">
+                  <span className="font-medium text-[var(--color-ink)]">
+                    Director intent:
+                  </span>{" "}
+                  {directorCue.intent}
+                </p>
+              ) : null}
               <p className="mt-4 leading-relaxed text-[var(--color-ink)]">
                 {narration?.summary ?? currentNode.scene.summary}
               </p>

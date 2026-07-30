@@ -13,7 +13,9 @@ const DOSE_OR_ENERGY =
 const VENT_SETTINGS =
   /\b(peep|fio2|fiO2|tidal\s+volume|pip|pressure\s+support)\s*[:=]?\s*\d/i;
 
-const GESTURE_CPR = /\b(gesture|mime|pretend|simulated)\s+cpr\b/i;
+/** Affirmative gesture-CPR instruction — not “no gesture CPR” educational bans. */
+const GESTURE_CPR =
+  /\b(perform|do|use|practice|start|begin)\b.{0,20}\b(gesture|mime|pretend|simulated)\s+cpr\b/i;
 
 const FAMILY_CLINICAL =
   /\b(samira|arvind|leela|parents?|family)\b.{0,50}\b(compress|suction|ventilat|shock|intubat|replace\s+airway|interpret\s+aac\s+clinically)\b/i;
@@ -70,9 +72,12 @@ export function lintNarrationAgainstCompact(
       path,
     });
   }
+  // Block delivered-shock narratives, not educational phrases like "shock energy".
   if (
     !compact.defibrillatorReady &&
-    /\b(shock(ed|ing)?|deliver(ed|ing)?\s+(a\s+)?shock)\b/i.test(text)
+    /\b(deliver(ed|ing)?|give|gave|giving|apply|applied|applying)\b.{0,24}\bshock/i.test(
+      text,
+    )
   ) {
     findings.push({
       ruleId: "narration-shock-without-readiness-claim",

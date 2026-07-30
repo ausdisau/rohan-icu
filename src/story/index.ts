@@ -4,12 +4,23 @@
  */
 
 export {
+  formatCanonCaption,
+  getCanonPhrase,
+  resolveCanonPhrases,
+} from "./canon";
+export {
   buildDirectorInputFromPlayShell,
   directScene,
   directSceneDeterministic,
 } from "./director";
 export { lintNarrationAgainstCompact, lintNarrationViewModel } from "./locks";
-export { enrichNarration, isLlmNarrationConfigured } from "./llm";
+export {
+  enrichNarration,
+  getStoryLlmMode,
+  isLlmNarrationConfigured,
+  type StoryLlmMode,
+} from "./llm";
+export { mergeWithDeterministicAnchors, requiredAnchors } from "./merge";
 export type {
   LlmNarrationRequest,
   LlmNarrationResponse,

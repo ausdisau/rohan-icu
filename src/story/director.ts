@@ -1,64 +1,18 @@
 /**
  * Phase 5 — Deterministic story director.
- * Composes authored scene text with read-only engine snapshots for display.
+ * Composes authored scene text, director cues, and read-only engine snapshots.
  * Never mutates RichSimulationState and never invents clinical truth.
  */
 
+import type { DirectorCuesFile, DirectorNodeCue } from "@/schemas/director-cues";
+
+import { formatCanonCaption, resolveCanonPhrases } from "./canon";
+import { requiredAnchors } from "./merge";
 import type {
+  NarrationDialogueLine,
   NarrationViewModel,
   StoryDirectorInput,
 } from "./types";
-
-function phaseFraming(input: StoryDirectorInput): string[] {
-  const notes: string[] = [];
-  const { compact, emergencyOverride, communicationBeat } = input;
-
-  if (emergencyOverride || compact.playPhase === "emergency-override") {
-    notes.push(
-      "Emergency override framing: protect AAC in place, no new clinical questions, no airway replacement, no doses or energies.",
-    );
-  }
-
-  if (communicationBeat?.instruction === "WAIT") {
-    notes.push(
-      "Rohan's AAC instruction is WAIT. Silence is not consent; do not open non-emergency questions.",
-    );
-  } else if (communicationBeat?.instruction === "STOP") {
-    notes.push(
-      "Rohan's AAC instruction is STOP. Pause non-emergency interaction and protect access.",
-    );
-  }
-
-  if (compact.defibrillatorReady) {
-    notes.push(
-      "Defibrillator readiness is recorded by the engine. Readiness is not an indication to shock.",
-    );
-  }
-
-  if (compact.provisionalRoscNeedsConfirm) {
-    notes.push(
-      "Circulation remains provisional until independent confirmation — the story does not end at a pulse.",
-    );
-  }
-
-  if (compact.postRoscReassessmentDue) {
-    notes.push(
-      "Post-event reassessment is still due after provisional ROSC.",
-    );
-  }
-
-  if (input.familyBeat?.clinicalAssignmentForbidden) {
-    notes.push(
-      "Family and paid support stay non-clinical for airway, ventilation, and suction.",
-    );
-  }
-
-  notes.push(
-    `Monitor (engine): pulse ${compact.pulse}; rhythm ${compact.rhythm}; phase ${compact.playPhase}.`,
-  );
-
-  return notes;
-}
 
 function lensBeat(lens: string, emergencyOverride: boolean): string | null {
   if (emergencyOverride) {
@@ -86,31 +40,109 @@ function lensBeat(lens: string, emergencyOverride: boolean): string | null {
   }
 }
 
-/**
- * Pure deterministic director. Authored scene text is the base; framing notes
- * mirror engine state without replacing clinicalTruth panels.
- */
-export function directScene(input: StoryDirectorInput): NarrationViewModel {
+function buildDirectedSummary(
+  input: StoryDirectorInput,
+  cue: DirectorNodeCue | undefined,
+): string {
+  const authored = input.scene.summary.trim();
+  if (!cue?.bridge) return authored;
+  // Bridge first, then authored detail — flavour only; clinicalTruth panels unchanged.
+  if (authored.includes(cue.bridge)) return authored;
+  return `${cue.bridge} ${authored}`;
+}
+
+function buildDirectedDialogue(
+  input: StoryDirectorInput,
+  cue: DirectorNodeCue | undefined,
+): NarrationDialogueLine[] {
+  const dialogue = input.scene.dialogue ? [...input.scene.dialogue] : [];
+  if (!cue) return dialogue;
+
+  const phrases = resolveCanonPhrases(cue.canonPhraseIds);
+  for (const phrase of phrases) {
+    const already = dialogue.some((line) => line.line.includes(phrase.text));
+    if (already) continue;
+    // Only inject as AAC-visible canon when access lens / restore / quiet nodes.
+    if (
+      input.scene.lens === "aac-access" ||
+      input.nodeId === "cb-aac-restore-family" ||
+      input.nodeId === "cb-debrief-hook"
+    ) {
+      dialogue.push({
+        speaker: "Rohan",
+        line: phrase.text,
+        aac: true,
+      });
+    }
+  }
+  return dialogue;
+}
+
+function buildDirectedCaptions(
+  input: StoryDirectorInput,
+  cue: DirectorNodeCue | undefined,
+  cuesFile: DirectorCuesFile | null,
+): string[] {
+  const captions = input.scene.captions ? [...input.scene.captions] : [];
+  const phraseIds = [
+    ...(cuesFile?.globalCanonPhraseIds ?? []),
+    ...(cue?.canonPhraseIds ?? []),
+  ];
+  for (const phrase of resolveCanonPhrases(phraseIds)) {
+    const caption = formatCanonCaption(phrase);
+    if (!captions.some((line) => line.includes(phrase.text))) {
+      captions.push(caption);
+    }
+  }
+  return captions.slice(0, 8);
+}
+
+function buildFramingNotes(
+  input: StoryDirectorInput,
+  cue: DirectorNodeCue | undefined,
+): string[] {
+  const notes: string[] = [];
   const lens = lensBeat(input.scene.lens, input.emergencyOverride);
-  const framingNotes = phaseFraming(input);
-  if (lens) framingNotes.unshift(lens);
+  if (lens) notes.push(lens);
+  if (cue?.intent) notes.push(`Director intent: ${cue.intent}`);
+  if (cue?.mustRetain?.length) {
+    notes.push(`Must retain in any enrichment: ${cue.mustRetain.join(", ")}.`);
+  }
+  notes.push(...requiredAnchors(input));
+  return notes;
+}
+
+export interface DirectSceneOptions {
+  cues?: DirectorCuesFile | null;
+}
+
+/**
+ * Pure deterministic director. Authored scene text + cues + engine framing.
+ */
+export function directScene(
+  input: StoryDirectorInput,
+  options: DirectSceneOptions = {},
+): NarrationViewModel {
+  const cuesFile = options.cues ?? null;
+  const cue = cuesFile?.nodes[input.nodeId];
 
   return {
     source: "authored",
-    summary: input.scene.summary,
-    dialogue: input.scene.dialogue ? [...input.scene.dialogue] : [],
-    captions: input.scene.captions ? [...input.scene.captions] : [],
-    framingNotes,
+    summary: buildDirectedSummary(input, cue),
+    dialogue: buildDirectedDialogue(input, cue),
+    captions: buildDirectedCaptions(input, cue, cuesFile),
+    framingNotes: buildFramingNotes(input, cue),
     clinicalTruthUnchanged: true,
-    providerNote: "Phase 5 deterministic director (authored scene + engine framing).",
+    providerNote:
+      "Phase 5 deterministic director (authored scene + cues + engine framing).",
   };
 }
 
-/** Alias used when we want the source tag to read as directed framing. */
 export function directSceneDeterministic(
   input: StoryDirectorInput,
+  options: DirectSceneOptions = {},
 ): NarrationViewModel {
-  const base = directScene(input);
+  const base = directScene(input, options);
   return {
     ...base,
     source: "deterministic",

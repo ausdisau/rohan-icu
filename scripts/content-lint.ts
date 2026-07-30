@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 
 import { PHASE2_ACTION_CATALOG } from "../src/engine/simulation/catalog";
 import {
+  directorCuesFileSchema,
   episodeManifestSchema,
   formatContinuityFindings,
   lintActionStations,
@@ -107,7 +108,50 @@ async function lintCodeBlueContentPack(): Promise<ContinuityFinding[]> {
     );
   }
 
+  const cuesPath = path.join(CODE_BLUE_DIR, "director-cues.json");
+  try {
+    const cuesRaw = JSON.parse(await readFile(cuesPath, "utf8")) as unknown;
+    const cuesParsed = directorCuesFileSchema.safeParse(cuesRaw);
+    if (!cuesParsed.success) {
+      findings.push({
+        ruleId: "code-blue-director-cues-schema",
+        severity: "error",
+        message: `director-cues failed Zod: ${cuesParsed.error.message}`,
+        path: path.relative(root, cuesPath),
+      });
+    } else if (manifestParsedSuccess(manifest)) {
+      const manifestNodes = (
+        manifest as { nodeIds: string[] }
+      ).nodeIds;
+      for (const nodeId of manifestNodes) {
+        if (!cuesParsed.data.nodes[nodeId]) {
+          findings.push({
+            ruleId: "code-blue-director-cue-missing",
+            severity: "error",
+            message: `director-cues missing node "${nodeId}".`,
+            path: path.relative(root, cuesPath),
+          });
+        }
+      }
+    }
+  } catch (err) {
+    findings.push({
+      ruleId: "code-blue-director-cues-missing",
+      severity: "error",
+      message: `Unable to read director-cues.json: ${(err as Error).message}`,
+      path: path.relative(root, cuesPath),
+    });
+  }
+
   return findings;
+}
+
+function manifestParsedSuccess(manifest: unknown): boolean {
+  return Boolean(
+    manifest &&
+      typeof manifest === "object" &&
+      Array.isArray((manifest as { nodeIds?: unknown }).nodeIds),
+  );
 }
 
 async function walkJsonFiles(dir: string): Promise<string[]> {
