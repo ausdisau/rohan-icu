@@ -27,5 +27,6 @@
     "min": 20,
     "max": 30
   },
-  "version": "1.0.0-ep01"
+  "version": "1.0.0-ep01",
+  "simulationEngineRevision": 2
 }
