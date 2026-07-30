@@ -6,6 +6,8 @@ import { useMemo, useState } from "react";
 import { ActionStations } from "@/components/ActionStations";
 import { DecisionNodeView } from "@/components/DecisionNodeView";
 import {
+  createStationEngineState,
+  stationEngineCompact,
   stationsVisibleForNode,
   type StationActionRecord,
 } from "@/engine/action-stations";
@@ -33,6 +35,14 @@ export function EpisodePlayer({
   const nodeMap = useMemo(
     () => new Map(nodes.map((node) => [node.id, node])),
     [nodes],
+  );
+  const stationEngine = useMemo(
+    () => createStationEngineState("pressure-rise-action-stations"),
+    [],
+  );
+  const stationCompact = useMemo(
+    () => stationEngineCompact(stationEngine),
+    [stationEngine],
   );
 
   const [session, setSession] = useState<SimulationSession>(() =>
@@ -94,7 +104,11 @@ export function EpisodePlayer({
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div
+      className={`flex flex-col gap-8 ${
+        showActionStations && !showChronology ? "max-w-none" : ""
+      }`}
+    >
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <div>
           <p className="text-sm uppercase tracking-wide text-[var(--color-accent)]">
@@ -149,6 +163,8 @@ export function EpisodePlayer({
               reference={actionStations}
               nodeId={currentNode.id}
               onStationAction={handleStationAction}
+              engineCompact={stationCompact}
+              equipment={stationEngine.equipment}
             />
           ) : null}
           <DecisionNodeView

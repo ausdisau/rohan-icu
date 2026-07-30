@@ -16,6 +16,17 @@ const actionStationIdSchema = z.enum([
   "circulation",
 ]);
 
+export const operationalWarningIdSchema = z.enum([
+  "battery-uncertain",
+  "outside-room",
+  "incompatible-connector",
+  "plan-revision-unverified",
+  "second-responder-required",
+  "authorised-responder-unavailable",
+  "may-displace-aac",
+  "signal-attachment-unverified",
+]);
+
 export const actionStationAssetSchema = z.object({
   number: z.number().int().min(1).max(20),
   inventoryId: z.string().min(1),
@@ -29,6 +40,10 @@ export const actionStationAssetSchema = z.object({
   initialState: actionStationStateSchema,
   altText: z.string().min(8),
   visualNumberMayRead: z.string().optional(),
+  /** Optional link into Phase 2 rich equipment ledger. */
+  engineEquipmentId: z.string().min(1).optional(),
+  /** Reference-manual operational warnings (text + shape in UI). */
+  warningIds: z.array(operationalWarningIdSchema).default([]),
 });
 
 export const actionStationsSchema = z.object({
@@ -38,13 +53,15 @@ export const actionStationsSchema = z.object({
   framing: z.string().min(1),
   educationalBoundary: z.string().min(1),
   episodeNodeIds: z.array(z.string().min(1)).min(1),
-  states: z.array(
-    z.object({
-      id: actionStationStateSchema,
-      label: z.string().min(1),
-      meaning: z.string().min(1),
-    }),
-  ).length(5),
+  states: z
+    .array(
+      z.object({
+        id: actionStationStateSchema,
+        label: z.string().min(1),
+        meaning: z.string().min(1),
+      }),
+    )
+    .length(5),
   workflow: z.array(z.string().min(1)).length(6),
   evidenceGate: z.object({
     assetNumbers: z.array(z.number().int()).length(3),
@@ -54,29 +71,43 @@ export const actionStationsSchema = z.object({
   decisionPrompts: z.array(z.string().min(1)).length(7),
   accessibilityRequirements: z.array(z.string().min(1)).min(7),
   workedSequence: z.string().min(1).optional(),
+  operationalWarnings: z
+    .array(
+      z.object({
+        id: operationalWarningIdSchema,
+        label: z.string().min(1),
+        meaning: z.string().min(1),
+      }),
+    )
+    .min(6),
   centralScene: z.object({
     title: z.string().min(1),
     description: z.string().min(1),
-    indicators: z.array(
-      z.object({
-        id: z.string().min(1),
-        label: z.string().min(1),
-        detail: z.string().min(1),
-      }),
-    ).min(3),
+    indicators: z
+      .array(
+        z.object({
+          id: z.string().min(1),
+          label: z.string().min(1),
+          detail: z.string().min(1),
+        }),
+      )
+      .min(3),
   }),
-  stations: z.array(
-    z.object({
-      id: actionStationIdSchema,
-      label: z.string().min(1),
-      numberRange: z.tuple([z.number().int(), z.number().int()]),
-      assetNumbers: z.array(z.number().int()).min(1),
-    }),
-  ).length(3),
+  stations: z
+    .array(
+      z.object({
+        id: actionStationIdSchema,
+        label: z.string().min(1),
+        numberRange: z.tuple([z.number().int(), z.number().int()]),
+        assetNumbers: z.array(z.number().int()).min(1),
+      }),
+    )
+    .length(3),
   assets: z.array(actionStationAssetSchema).length(20),
 });
 
 export type ActionStationsParsed = z.infer<typeof actionStationsSchema>;
+export type OperationalWarningId = z.infer<typeof operationalWarningIdSchema>;
 
 export function lintActionStations(
   data: unknown,
@@ -84,17 +115,24 @@ export function lintActionStations(
 ): ContinuityFinding[] {
   const parsed = actionStationsSchema.safeParse(data);
   if (!parsed.success) {
-    return [{
-      ruleId: "action-stations-schema",
-      severity: "error",
-      message: `action-stations failed Zod validation: ${parsed.error.message}`,
-      path: filePath,
-    }];
+    return [
+      {
+        ruleId: "action-stations-schema",
+        severity: "error",
+        message: `action-stations failed Zod validation: ${parsed.error.message}`,
+        path: filePath,
+      },
+    ];
   }
 
   const findings: ContinuityFinding[] = [];
   const reference = parsed.data;
-  const numbers = reference.assets.map((asset) => asset.number).sort((a, b) => a - b);
+  const numbers = reference.assets
+    .map((asset) => asset.number)
+    .sort((a, b) => a - b);
+  const warningCatalog = new Set(
+    reference.operationalWarnings.map((warning) => warning.id),
+  );
 
   for (let expected = 1; expected <= 20; expected += 1) {
     if (numbers[expected - 1] !== expected) {
@@ -134,16 +172,23 @@ export function lintActionStations(
         path: `${filePath}#asset-${asset.number}`,
       });
     }
-    if (
-      asset.number <= 3 &&
-      asset.initialState !== "locked-by-evidence"
-    ) {
+    if (asset.number <= 3 && asset.initialState !== "locked-by-evidence") {
       findings.push({
         ruleId: "action-stations-evidence-lock",
         severity: "error",
         message: `Asset ${asset.number} must begin locked by evidence.`,
         path: `${filePath}#asset-${asset.number}`,
       });
+    }
+    for (const warningId of asset.warningIds) {
+      if (!warningCatalog.has(warningId)) {
+        findings.push({
+          ruleId: "action-stations-warning-catalog",
+          severity: "error",
+          message: `Asset ${asset.number} references unknown operational warning “${warningId}”.`,
+          path: `${filePath}#asset-${asset.number}`,
+        });
+      }
     }
   }
 
@@ -152,7 +197,8 @@ export function lintActionStations(
     findings.push({
       ruleId: "action-stations-asset-19",
       severity: "error",
-      message: "Asset 19 must record that its source image may visually read “10”; canonical UI and assistive output remain 19.",
+      message:
+        "Asset 19 must record that its source image may visually read “10”; canonical UI and assistive output remain 19.",
       path: `${filePath}#asset-19`,
     });
   }

@@ -1,5 +1,15 @@
-import type { ActionStationsParsed } from "@/schemas/action-stations";
+import type {
+  ActionStationsParsed,
+  OperationalWarningId,
+} from "@/schemas/action-stations";
 import type { SimulationStateDelta } from "@/types/simulation";
+
+import {
+  createInitialRichState,
+  selectEmergencyCompactView,
+  type RichSimulationState,
+} from "./simulation";
+import type { EquipmentState, EquipmentWarning } from "./simulation/types";
 
 export interface StationActionRecord {
   nodeId: string;
@@ -11,6 +21,25 @@ export interface StationActionRecord {
   evidenceGateOpen: boolean;
   timestampIso: string;
 }
+
+export type StationEngineCompact = ReturnType<
+  typeof selectEmergencyCompactView
+>;
+
+const EQUIPMENT_WARNING_TO_STATION: Partial<
+  Record<EquipmentWarning, OperationalWarningId>
+> = {
+  "battery-uncertain": "battery-uncertain",
+  "degraded-battery": "battery-uncertain",
+  "outside-room": "outside-room",
+  "incompatible-connector": "incompatible-connector",
+  "unverified-adapter": "incompatible-connector",
+  "plan-revision-unverified": "plan-revision-unverified",
+  "second-responder-required": "second-responder-required",
+  "authorised-responder-unavailable": "authorised-responder-unavailable",
+  "may-displace-aac": "may-displace-aac",
+  "conditional-backup-only": "plan-revision-unverified",
+};
 
 /** Soft domain nudge when a station asset is committed — never a magic-object win. */
 export function domainDeltasForStationCommit(
@@ -78,7 +107,9 @@ export function summarizeStationHistory(
     ];
   }
 
-  const committed = history.filter((entry) => entry.workflowStep === "committed");
+  const committed = history.filter(
+    (entry) => entry.workflowStep === "committed",
+  );
   const lines: string[] = [
     `Action Stations workup recorded ${history.length} step(s) across ${
       new Set(history.map((entry) => entry.stationId)).size
@@ -100,11 +131,69 @@ export function summarizeStationHistory(
     );
   }
 
-  if (history.some((entry) => !entry.evidenceGateOpen && entry.assetNumber <= 3)) {
+  if (
+    history.some((entry) => !entry.evidenceGateOpen && entry.assetNumber <= 3)
+  ) {
     lines.push(
       "An airway-route asset was advanced while the evidence gate was still incomplete — early selection should stay explanatory, not decisive.",
     );
   }
 
   return lines;
+}
+
+/** Opening rich-engine snapshot used to drive station warnings and scene strip. */
+export function createStationEngineState(
+  scenarioId = "instrumental-action-stations",
+): RichSimulationState {
+  return createInitialRichState(scenarioId);
+}
+
+export function stationEngineCompact(
+  state: RichSimulationState,
+): StationEngineCompact {
+  return selectEmergencyCompactView(state);
+}
+
+export function resolveAssetWarnings(
+  reference: ActionStationsParsed,
+  assetNumber: number,
+  equipment?: Record<string, EquipmentState>,
+): OperationalWarningId[] {
+  const asset = reference.assets.find((item) => item.number === assetNumber);
+  if (!asset) return [];
+
+  const merged = new Set<OperationalWarningId>(asset.warningIds);
+  if (asset.engineEquipmentId && equipment?.[asset.engineEquipmentId]) {
+    for (const warning of equipment[asset.engineEquipmentId].warnings) {
+      const mapped = EQUIPMENT_WARNING_TO_STATION[warning];
+      if (mapped) merged.add(mapped);
+    }
+    const item = equipment[asset.engineEquipmentId];
+    if (item.location === "outside-room") merged.add("outside-room");
+    if (item.battery === "unknown" || item.battery === "degraded") {
+      merged.add("battery-uncertain");
+    }
+  }
+  return [...merged];
+}
+
+export function warningLabel(
+  reference: ActionStationsParsed,
+  warningId: OperationalWarningId,
+): string {
+  return (
+    reference.operationalWarnings.find((warning) => warning.id === warningId)
+      ?.label ?? warningId
+  );
+}
+
+export function warningMeaning(
+  reference: ActionStationsParsed,
+  warningId: OperationalWarningId,
+): string {
+  return (
+    reference.operationalWarnings.find((warning) => warning.id === warningId)
+      ?.meaning ?? warningId
+  );
 }

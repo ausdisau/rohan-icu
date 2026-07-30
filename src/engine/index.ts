@@ -1,9 +1,15 @@
 export {
+  createStationEngineState,
   domainDeltasForStationCommit,
+  resolveAssetWarnings,
+  stationEngineCompact,
   stationsVisibleForNode,
   summarizeStationHistory,
+  warningLabel,
+  warningMeaning,
   workedSequenceNote,
   type StationActionRecord,
+  type StationEngineCompact,
 } from "./action-stations";
 export {
   buildCanonHeldChecklist,
