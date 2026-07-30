@@ -1,9 +1,15 @@
 import Link from "next/link";
 
-import { loadEpisodeManifest } from "@/lib/content";
+import {
+  loadCodeBlueManifest,
+  loadEpisodeManifest,
+} from "@/lib/content";
 
 export default async function HomePage() {
-  const episode = await loadEpisodeManifest();
+  const [episode, codeBlue] = await Promise.all([
+    loadEpisodeManifest(),
+    loadCodeBlueManifest(),
+  ]);
 
   return (
     <div className="flex flex-col gap-10">
@@ -34,6 +40,12 @@ export default async function HomePage() {
               className="inline-flex items-center justify-center rounded-sm bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[var(--color-focus)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
               Open episode player
+            </Link>
+            <Link
+              href="/code-blue"
+              className="inline-flex items-center justify-center rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] px-5 py-2.5 text-sm font-medium text-[var(--color-ink)] transition-colors hover:bg-[var(--color-wash)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+            >
+              {codeBlue.title}
             </Link>
             <Link
               href="/accessibility"
