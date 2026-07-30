@@ -53,6 +53,7 @@ export const actionStationsSchema = z.object({
   }),
   decisionPrompts: z.array(z.string().min(1)).length(7),
   accessibilityRequirements: z.array(z.string().min(1)).min(7),
+  workedSequence: z.string().min(1).optional(),
   centralScene: z.object({
     title: z.string().min(1),
     description: z.string().min(1),

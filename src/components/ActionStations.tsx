@@ -3,6 +3,10 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 
+import {
+  workedSequenceNote,
+  type StationActionRecord,
+} from "@/engine/action-stations";
 import type { ActionStationsParsed } from "@/schemas/action-stations";
 
 type StationState = ActionStationsParsed["states"][number]["id"];
@@ -22,8 +26,12 @@ function imageSrc(asset: StationAsset): string {
 
 export function ActionStations({
   reference,
+  nodeId,
+  onStationAction,
 }: {
   reference: ActionStationsParsed;
+  nodeId: string;
+  onStationAction?: (record: StationActionRecord) => void;
 }) {
   const [assetStates, setAssetStates] = useState<Record<number, StationState>>(
     () =>
@@ -35,6 +43,7 @@ export function ActionStations({
   const [consideredEvidence, setConsideredEvidence] = useState<boolean[]>(
     () => reference.evidenceGate.evidenceToConsider.map(() => false),
   );
+  const [localHistory, setLocalHistory] = useState<StationActionRecord[]>([]);
   const [announcement, setAnnouncement] = useState(
     "Action Stations ready. Central PICU evidence is incomplete.",
   );
@@ -60,6 +69,25 @@ export function ActionStations({
     return `Asset ${asset.number}, ${asset.title}, ${reference.stations.find((station) => station.id === asset.stationId)?.label ?? asset.stationId} station, ${stateLabels.get(state) ?? state}.`;
   }
 
+  function emitAction(
+    asset: StationAsset,
+    workflowStep: StationActionRecord["workflowStep"],
+  ) {
+    const record: StationActionRecord = {
+      nodeId,
+      assetNumber: asset.number,
+      inventoryId: asset.inventoryId,
+      title: asset.title,
+      stationId: asset.stationId,
+      workflowStep,
+      evidenceGateOpen,
+      timestampIso: new Date().toISOString(),
+    };
+    setLocalHistory((current) => [...current, record]);
+    onStationAction?.(record);
+    return record;
+  }
+
   function selectAsset(asset: StationAsset) {
     const state = effectiveState(asset);
     setSelectedNumber(asset.number);
@@ -69,7 +97,9 @@ export function ActionStations({
       );
       return;
     }
-    setAnnouncement(`${describe(asset, state)} Interpret the image and evidence.`);
+    setAnnouncement(
+      `${describe(asset, state)} Interpret the image and evidence.`,
+    );
   }
 
   function advanceAsset(asset: StationAsset) {
@@ -82,13 +112,26 @@ export function ActionStations({
           : state === "assigned"
             ? "committed"
             : state;
+    if (
+      nextState !== "relevant" &&
+      nextState !== "assigned" &&
+      nextState !== "committed"
+    ) {
+      return;
+    }
+
     setAssetStates((current) => ({ ...current, [asset.number]: nextState }));
+    const record = emitAction(asset, nextState);
+    const sequenceNote =
+      nextState === "committed"
+        ? workedSequenceNote([...localHistory, record], asset.number)
+        : null;
     setAnnouncement(
       `${describe(asset, nextState)} ${
         nextState === "committed"
           ? "Committed to the branch consequence; success is not assumed."
           : "Scenario time remains paused for Rohan's AAC."
-      }`,
+      }${sequenceNote ? ` ${sequenceNote}` : ""}`,
     );
   }
 
@@ -108,7 +151,7 @@ export function ActionStations({
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-accent)]">
-            Select → interpret → assign → commit
+            Select → interpret → preconditions → assign → commit
           </p>
           <h2
             id="action-stations-heading"
@@ -149,6 +192,12 @@ export function ActionStations({
             </li>
           ))}
         </ul>
+        {reference.workedSequence ? (
+          <p className="mt-3 text-sm text-[var(--color-ink)]">
+            <span className="font-semibold">Worked airway sequence: </span>
+            {reference.workedSequence}
+          </p>
+        ) : null}
       </div>
 
       <fieldset className="mt-5 rounded-sm border border-[var(--color-warning)] p-4">
@@ -186,7 +235,8 @@ export function ActionStations({
           ))}
         </div>
         <p className="mt-3 text-sm font-medium text-[var(--color-warning)]">
-          Gate status: {evidenceGateOpen ? "open for interpretation" : "locked by evidence"}
+          Gate status:{" "}
+          {evidenceGateOpen ? "open for interpretation" : "locked by evidence"}
         </p>
       </fieldset>
 
@@ -238,6 +288,9 @@ export function ActionStations({
                         <span className="flex flex-1 flex-col p-2.5">
                           <span className="text-xs font-bold text-[var(--color-accent)]">
                             {String(asset.number).padStart(2, "0")}
+                            {asset.visualNumberMayRead
+                              ? ` (label may read ${asset.visualNumberMayRead})`
+                              : ""}
                           </span>
                           <span className="mt-1 text-sm font-semibold leading-snug text-[var(--color-ink)]">
                             {asset.title}
@@ -343,7 +396,10 @@ export function ActionStations({
         </div>
       ) : null}
 
-      <div className="mt-5 flex flex-wrap gap-2" aria-label="Action Station state legend">
+      <div
+        className="mt-5 flex flex-wrap gap-2"
+        aria-label="Action Station state legend"
+      >
         {reference.states.map((state) => (
           <span
             key={state.id}

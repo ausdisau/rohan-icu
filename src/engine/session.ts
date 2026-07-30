@@ -10,6 +10,8 @@ import {
   type SimulationStateDelta,
 } from "@/types/simulation";
 
+import type { StationActionRecord } from "./action-stations";
+import { domainDeltasForStationCommit } from "./action-stations";
 import { applyDomainDeltas } from "./state";
 
 export const SESSION_STORAGE_KEY = "breathing-room-episode-session";
@@ -31,6 +33,8 @@ export interface SimulationSession {
   initialState: SimulationState;
   state: SimulationState;
   history: AppliedChoiceRecord[];
+  /** Instrumental Action Stations workup on pressure-rise and related beats. */
+  stationHistory: StationActionRecord[];
   /** Last choice consequence awaiting learner acknowledgement before advance. */
   pendingConsequence: AppliedChoiceRecord | null;
   completed: boolean;
@@ -49,8 +53,29 @@ export function createSession(
     initialState,
     state: initialState,
     history: [],
+    stationHistory: [],
     pendingConsequence: null,
     completed: false,
+    updatedAtIso: new Date().toISOString(),
+  };
+}
+
+export function applyStationActionToSession(
+  session: SimulationSession,
+  record: StationActionRecord,
+): SimulationSession {
+  let nextState = session.state;
+  if (record.workflowStep === "committed") {
+    nextState = applyDomainDeltas(
+      nextState,
+      domainDeltasForStationCommit(record.assetNumber),
+    );
+  }
+
+  return {
+    ...session,
+    state: nextState,
+    stationHistory: [...session.stationHistory, record],
     updatedAtIso: new Date().toISOString(),
   };
 }
@@ -137,7 +162,11 @@ export function loadSession(): SimulationSession | null {
   try {
     const raw = window.sessionStorage.getItem(SESSION_STORAGE_KEY);
     if (!raw) return null;
-    return JSON.parse(raw) as SimulationSession;
+    const parsed = JSON.parse(raw) as SimulationSession;
+    return {
+      ...parsed,
+      stationHistory: parsed.stationHistory ?? [],
+    };
   } catch {
     return null;
   }

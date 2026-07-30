@@ -7,6 +7,7 @@
   "episodeNodeIds": [
     "ep01-pressure-rise"
   ],
+  "workedSequence": "04 then 01 — verify the current Airway Plan Card before committing the same-size spare tracheostomy tube. Improved airflow alone does not close the Code.",
   "states": [
     {
       "id": "available",
@@ -76,27 +77,47 @@
   ],
   "centralScene": {
     "title": "Central PICU scene — evidence incomplete",
-    "description": "Ventilator pressures are rising, right-sided air entry is reduced, ordinary suction retrieves little secretion, and Rohan reports RIGHT MIDDLE by auditory scanning. The tracheostomy is patent; the cause is not yet proven.",
+    "description": "Illustrative opening: intermittent ventilator alarm, reduced visible chest movement, increasing ectopy, Rohan's hand moving toward his neck, and an unreliable cheek switch. Pressures are climbing; right-sided air entry is reduced; ordinary suction retrieves little. Rohan reports RIGHT MIDDLE by auditory scanning. The tracheostomy is patent; the cause is not yet proven. Action stations investigate — they do not hand you a diagnosis.",
     "indicators": [
       {
-        "id": "airway-evidence",
-        "label": "Airway",
-        "detail": "Patent tracheostomy; little secretion retrieved; possible distal obstruction remains uncertain."
+        "id": "position",
+        "label": "Rohan's position",
+        "detail": "Hand toward neck; positioning may load the circuit — check before assuming tube failure."
       },
       {
-        "id": "breathing-evidence",
-        "label": "Breathing and equipment",
-        "detail": "Pressure trend rising; right-sided air entry reduced; circuit load, position, and power still need consideration."
+        "id": "ventilator-circuit",
+        "label": "Ventilator and circuit",
+        "detail": "Intermittent alarm with rising pressures; circuit pull, connector fit, and power continuity still unresolved."
       },
       {
-        "id": "circulation-evidence",
-        "label": "Circulation",
-        "detail": "Severe cardiomyopathy and ICD limit reserve; pressure changes can carry cardiac consequences."
+        "id": "phase",
+        "label": "Current phase",
+        "detail": "Phase 03 airway / bronchoscopy decision — incomplete evidence, three imperfect pathway options ahead."
       },
       {
-        "id": "communication-evidence",
-        "label": "Communication",
-        "detail": "AAC is available. Pause scenario time for auditory scanning; silence means wait or unknown."
+        "id": "communication-method",
+        "label": "Communication method",
+        "detail": "Auditory scanning available; cheek switch currently unreliable. Pause scenario time for AAC. No response means wait or unknown."
+      },
+      {
+        "id": "latest-alarm",
+        "label": "Latest alarm",
+        "detail": "Ventilator pressure / ineffective ventilation pattern — not yet mapped to a single cause."
+      },
+      {
+        "id": "unresolved-evidence",
+        "label": "Unresolved evidence",
+        "detail": "Distal plug versus atelectasis versus secretion burden versus inflammation; pneumothorax not diagnosed without findings."
+      },
+      {
+        "id": "physiological-reserve",
+        "label": "Physiological reserve",
+        "detail": "Severe cardiomyopathy with ICD; aggressive recruitment has previously linked to ventricular instability."
+      },
+      {
+        "id": "crisis-debt",
+        "label": "Crisis debt",
+        "detail": "Prior emergency labour and family load sit outside unpaid clinical expectation — paid responders own the station workstreams."
       }
     ]
   },

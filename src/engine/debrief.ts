@@ -6,6 +6,7 @@ import type {
 } from "@/types/debrief";
 import type { SimulationStateKey } from "@/types/simulation";
 
+import { summarizeStationHistory } from "./action-stations";
 import type { AppliedChoiceRecord, SimulationSession } from "./session";
 import { toChoiceHistory } from "./session";
 import {
@@ -400,9 +401,12 @@ export function generateDebrief(
       "Rohan would ask: “Did you wait for my answer — slow answer, still answer — or did you fill the silence with someone else’s voice?”",
   };
 
+  const stationLines = summarizeStationHistory(session.stationHistory ?? []);
+
   const whatNoticed = [
     ...notes.debrief.slice(0, 3),
     ...kitNoticedLines(kitEntries),
+    ...stationLines.filter((line) => !line.includes("no station assets")),
     ...(deltaFor(net, "communicationAccess") !== 0
       ? [
           `Communication access moved ${formatDelta(deltaFor(net, "communicationAccess"))} across the episode.`,
@@ -417,6 +421,11 @@ export function generateDebrief(
   ];
 
   const whatMissed: string[] = [...kitMissedLines(history, kitEntries)];
+  if ((session.stationHistory ?? []).length === 0) {
+    whatMissed.push(
+      ...stationLines.filter((line) => line.includes("no station assets")),
+    );
+  }
   if (deltaFor(net, "schoolAccess") === 0 && deltaFor(net, "homeReadiness") === 0) {
     whatMissed.push(
       "Home and school continuity domains did not move — later episodes will keep membership active mid-ICU.",

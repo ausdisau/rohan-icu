@@ -1,4 +1,11 @@
 export {
+  domainDeltasForStationCommit,
+  stationsVisibleForNode,
+  summarizeStationHistory,
+  workedSequenceNote,
+  type StationActionRecord,
+} from "./action-stations";
+export {
   buildCanonHeldChecklist,
   evaluateCanonContext,
   getCanonPhrases,
@@ -29,6 +36,7 @@ export {
   SESSION_STORAGE_KEY,
   advanceAfterConsequence,
   applyChoiceToSession,
+  applyStationActionToSession,
   clearSession,
   createSession,
   loadSession,

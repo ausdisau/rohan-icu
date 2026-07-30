@@ -6,8 +6,13 @@ import { useMemo, useState } from "react";
 import { ActionStations } from "@/components/ActionStations";
 import { DecisionNodeView } from "@/components/DecisionNodeView";
 import {
+  stationsVisibleForNode,
+  type StationActionRecord,
+} from "@/engine/action-stations";
+import {
   advanceAfterConsequence,
   applyChoiceToSession,
+  applyStationActionToSession,
   createSession,
   saveSession,
   type SimulationSession,
@@ -39,6 +44,9 @@ export function EpisodePlayer({
   );
 
   const currentNode = nodeMap.get(session.currentNodeId);
+  const showActionStations =
+    Boolean(currentNode) &&
+    stationsVisibleForNode(actionStations, session.currentNodeId);
 
   function persist(next: SimulationSession) {
     setSession(next);
@@ -65,6 +73,10 @@ export function EpisodePlayer({
     if (next.completed) {
       router.push("/debrief");
     }
+  }
+
+  function handleStationAction(record: StationActionRecord) {
+    persist(applyStationActionToSession(session, record));
   }
 
   if (!currentNode) {
@@ -132,6 +144,13 @@ export function EpisodePlayer({
         </section>
       ) : (
         <>
+          {showActionStations ? (
+            <ActionStations
+              reference={actionStations}
+              nodeId={currentNode.id}
+              onStationAction={handleStationAction}
+            />
+          ) : null}
           <DecisionNodeView
             node={currentNode}
             state={session.state}
@@ -142,7 +161,6 @@ export function EpisodePlayer({
             onSelectChoice={handleSelect}
             onContinue={handleContinue}
           />
-          <ActionStations reference={actionStations} />
         </>
       )}
     </div>
