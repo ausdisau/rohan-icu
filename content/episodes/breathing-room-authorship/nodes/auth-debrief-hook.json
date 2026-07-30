@@ -1,0 +1,29 @@
+{
+  "id": "auth-debrief-hook",
+  "phaseId": "phase-06-home-school-authorship",
+  "title": "Authorship reflection",
+  "openingNarrative": "The season map holds: Episode 01 → Code Blue → Episode 02 → authorship. Reflect on who owns framing when emergencies become teaching materials. Clinical domains remain active; membership at home and school was never erased.",
+  "clinicalState": "Planning / media aftermath. Domains remain for debrief.",
+  "communicationMethod": "mixed",
+  "choices": [
+    {
+      "id": "auth-finish-reflect",
+      "label": "Open season debrief reflection",
+      "immediateConsequence": "Pathway completes into the shared debrief shell.",
+      "delayedConsequence": "Further season polish and media work remain post-play.",
+      "domainDeltas": {
+        "authorshipControl": 2,
+        "publicTrust": 1
+      },
+      "nextNodeId": null,
+      "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Authorship conflict is not resolved by clinical survival metrics."
+  ],
+  "debriefNotes": [
+    "Season continuity beat complete."
+  ],
+  "isEpisodeEnd": true
+}

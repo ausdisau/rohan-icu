@@ -1,0 +1,73 @@
+{
+  "id": "code-blue-director-cues",
+  "version": "1.0.0",
+  "phase": 5,
+  "notes": "Deterministic story-director cues. Clinical truth remains in node clinicalTruth + engine state. LLM (Phase 6) may rephrase display flavour only.",
+  "globalCanonPhraseIds": [
+    "not-every-alarm-is-a-code",
+    "every-alarm-still-deserves-an-answer",
+    "last-emergency-is-history"
+  ],
+  "nodes": {
+    "cb-quiet-stabilisation": {
+      "intent": "Hold the quiet without declaring the work finished.",
+      "bridge": "The bay is quiet enough to plan — not quiet enough to assume the emergency is over.",
+      "canonPhraseIds": ["last-emergency-is-history"],
+      "mustRetain": ["WAIT", "AAC"]
+    },
+    "cb-intermittent-alarm": {
+      "intent": "Treat the alarm as a question, not an automatic code.",
+      "bridge": "An intermittent alarm opens a clinical question. It does not authorise a ritual response.",
+      "canonPhraseIds": [
+        "not-every-alarm-is-a-code",
+        "every-alarm-still-deserves-an-answer"
+      ],
+      "mustRetain": ["readiness", "indication"]
+    },
+    "cb-resource-allocation": {
+      "intent": "Stage G1 reserve without inventing indication.",
+      "bridge": "Resource allocation protects reserve: borrowed circuit as conditional backup, suction endurance assigned once, paid support kept non-medical.",
+      "canonPhraseIds": ["last-emergency-is-history"],
+      "mustRetain": ["transport", "non-medical"]
+    },
+    "cb-further-alarm": {
+      "intent": "Yield planning before H5 override.",
+      "bridge": "Further alarm pressure ends the planning window. Protect AAC in place; do not open new questions.",
+      "canonPhraseIds": ["every-alarm-still-deserves-an-answer"],
+      "mustRetain": ["AAC", "override"]
+    },
+    "cb-code-blue": {
+      "intent": "Emergency override without doses, energies, or airway replacement.",
+      "bridge": "Override is for circulation work under clinician control. Communication access stays protected; airway replacement stays locked.",
+      "canonPhraseIds": [],
+      "mustRetain": ["no questions", "AAC"]
+    },
+    "cb-provisional-rosc": {
+      "intent": "Name provisional return without ending the story.",
+      "bridge": "A pulse returns and remains provisional. Independent confirmation and reassessment still follow.",
+      "canonPhraseIds": ["resuscitation-bay-got-the-pulse-back"],
+      "mustRetain": ["provisional"]
+    },
+    "cb-post-rosc-reassess": {
+      "intent": "Reassess without inventing replacement indication.",
+      "bridge": "Post-event reassessment checks circuit, chest movement, and access restore — readiness still is not indication.",
+      "canonPhraseIds": ["slow-answer-still-answer"],
+      "mustRetain": ["reassessment"]
+    },
+    "cb-aac-restore-family": {
+      "intent": "Restore AAC and keep family/paid support non-clinical.",
+      "bridge": "Access is restored on purpose. Family remain presence and values; paid support stays inside non-medical continuity.",
+      "canonPhraseIds": [
+        "communication-when-eyes-open",
+        "slow-answer-still-answer"
+      ],
+      "mustRetain": ["WAIT", "non-clinical"]
+    },
+    "cb-debrief-hook": {
+      "intent": "Close on reflection and authorship, not on a pulse.",
+      "bridge": "The slice ends in reflection. Survival was never the victory condition.",
+      "canonPhraseIds": ["now-ask-me-what-happens-next"],
+      "mustRetain": ["no single perfect path"]
+    }
+  }
+}

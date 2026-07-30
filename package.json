@@ -11,6 +11,9 @@
     "prognosis-smoke": "tsx scripts/prognosis-smoke.ts",
     "simulation-test": "tsx scripts/simulation-test.ts",
     "simulation-lint": "tsx scripts/simulation-test.ts",
+    "story-director-test": "tsx scripts/story-director-test.ts",
+    "episode02-smoke": "tsx scripts/episode02-smoke.ts",
+    "git-watch": "bash scripts/watch-git-pushes.sh",
     "chronology-lint": "tsx scripts/content-lint.ts",
     "access-lint": "tsx scripts/content-lint.ts"
   },

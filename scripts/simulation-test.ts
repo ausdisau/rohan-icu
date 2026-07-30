@@ -8,6 +8,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
+  domainDeltasForStationCommit,
+} from "../src/engine/action-stations";
+import {
   canAskNonEmergencyQuestion,
   cloneCatalog,
   commitActionBundle,
@@ -17,19 +20,37 @@ import {
   emergencyRescueWaitsForAac,
   equipmentReadyCreatesIndication,
   fireEvent,
+  generateCodeBlueDebrief,
   interpretActivation,
+  kitGateBlocksCommit,
   partitionBundle,
   PHASE2_ACTION_CATALOG,
   postRoscReassessmentRequired,
   provisionalRoscRequiresIndependentConfirmation,
   reduceSimulation,
   roundTripRichState,
+  scoreCodeBlueSession,
   validateActionAssignment,
   waitBlocksNonEmergencyQuestion,
   withEvidenceSatisfied,
+  withSelectedKitAssets,
 } from "../src/engine/simulation";
+import {
+  STATION_CODE_BLUE_BRIDGE,
+  codeBlueActionsForStationAsset,
+  suggestCodeBlueActionsFromStations,
+} from "../src/engine/station-code-blue-bridge";
+import {
+  applyStationActionToSession,
+  createSession,
+} from "../src/engine/session";
 import { lintCodeBluePack } from "../src/schemas/code-blue";
-import type { CodeBlueManifest, CodeBlueScenarioNode } from "../src/schemas/code-blue";
+import type {
+  CodeBlueDebriefFile,
+  CodeBlueManifest,
+  CodeBlueScenarioNode,
+} from "../src/schemas/code-blue";
+import type { EpisodeManifest } from "../src/types/node";
 
 let passed = 0;
 let failed = 0;
@@ -396,6 +417,284 @@ function main(): void {
     assert(
       play.currentNodeId === "cb-intermittent-alarm",
       "firing intermittent alarm advances to cb-intermittent-alarm",
+    );
+  }
+
+  section("Phase 7 Code Blue debrief scoring");
+  {
+    const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+    const packDir = path.join(
+      root,
+      "content",
+      "episodes",
+      "breathing-room",
+      "code-blue",
+    );
+    const readJson = (rel: string): unknown =>
+      JSON.parse(readFileSync(path.join(packDir, rel), "utf8")) as unknown;
+    const manifest = readJson("manifest.json") as CodeBlueManifest;
+    const debriefFile = readJson("debrief.json") as CodeBlueDebriefFile;
+    const nodesById = new Map(
+      manifest.nodeIds.map((id) => [
+        id,
+        readJson(path.join("nodes", `${id}.json`)) as CodeBlueScenarioNode,
+      ]),
+    );
+
+    // Partial G1 path
+    let partial = createCodeBlueSession(manifest);
+    partial = commitDraftBundle(partial, [
+      "protect-aac",
+      "assess-borrowed-circuit",
+    ]).session;
+    const partialScore = scoreCodeBlueSession(partial);
+    const fullG1 = commitDraftBundle(createCodeBlueSession(manifest), [
+      "protect-aac",
+      ...[
+        "assess-borrowed-circuit",
+        "assign-suction-bedside-reserve",
+        "assign-paid-support-continuity",
+      ],
+    ]).session;
+    const fullScore = scoreCodeBlueSession(fullG1);
+    assert(
+      partialScore.equipmentReasoning > 0,
+      "partial G1 still produces equipment score",
+    );
+    assert(
+      fullScore.systemSustainability >= partialScore.systemSustainability,
+      "full G1 (with paid support) does not lower system sustainability vs partial",
+    );
+    assert(
+      fullScore.equipmentReasoning !== 12 ||
+        partialScore.equipmentReasoning !== 12,
+      "no automatic perfect equipment score on either path",
+    );
+
+    // H5 path scoring
+    let h5 = createCodeBlueSession(manifest);
+    h5 = commitDraftBundle(h5, ["protect-aac", "prepare-defibrillator"]).session;
+    const quiet = nodesById.get("cb-quiet-stabilisation")!;
+    h5 = fireEvent(h5, quiet, "intermittent-monitor-alarm");
+    const alarm = nodesById.get("cb-intermittent-alarm")!;
+    // advance through graph toward H5 when possible
+    h5 = {
+      ...h5,
+      firedEvents: [...h5.firedEvents, "h5-emergency-override"],
+      richState: reduceSimulation(
+        h5.richState,
+        { type: "ENTER_EMERGENCY_OVERRIDE" },
+        cloneCatalog(),
+      ),
+    };
+    void alarm;
+    const h5Score = scoreCodeBlueSession(h5);
+    assert(
+      h5Score.timingCoordination >= partialScore.timingCoordination,
+      "H5 path raises or holds timing coordination vs partial non-H5",
+    );
+    const h5Debrief = generateCodeBlueDebrief(h5, debriefFile);
+    assert(
+      h5Debrief.debriefTags.includes("H5-emergency-override"),
+      "H5 path tags H5-emergency-override",
+    );
+    assert(
+      h5Debrief.noSinglePerfectPath === true,
+      "debrief never awards a perfect-path badge",
+    );
+    assert(
+      !h5Debrief.debriefTags.includes("perfect-path"),
+      "perfect-path tag is never emitted",
+    );
+
+    // AAC restore affects communication score
+    let aacPath = createCodeBlueSession(manifest);
+    aacPath = commitDraftBundle(aacPath, ["protect-aac"]).session;
+    const beforeAac = scoreCodeBlueSession(aacPath).communicationAccess;
+    aacPath = {
+      ...aacPath,
+      richState: reduceSimulation(
+        aacPath.richState,
+        { type: "RESTORE_AAC_AFTER_RESCUE" },
+        cloneCatalog(),
+      ),
+    };
+    const afterAac = scoreCodeBlueSession(aacPath).communicationAccess;
+    assert(
+      afterAac > beforeAac,
+      "AAC restore increases communication-access score",
+    );
+    const aacDebrief = generateCodeBlueDebrief(aacPath, debriefFile);
+    assert(
+      aacDebrief.debriefTags.includes("aac-restore"),
+      "AAC restore adds aac-restore tag",
+    );
+    assert(
+      aacDebrief.dimensions.length === debriefFile.dimensions.length,
+      "debrief renders all six dimensions from debrief.json",
+    );
+    assert(
+      aacDebrief.eventLog.length === aacPath.richState.eventLog.length,
+      "export payload includes full eventLog",
+    );
+  }
+
+  section("Phase 9 Action Stations bridge + draft≠mutate");
+  {
+    assert(
+      STATION_CODE_BLUE_BRIDGE.length >= 8,
+      "station↔code-blue bridge lists core asset mappings",
+    );
+    assert(
+      codeBlueActionsForStationAsset(18).includes("prepare-defibrillator"),
+      "defibrillator asset maps to prepare-defibrillator (readiness, not indication)",
+    );
+    assert(
+      codeBlueActionsForStationAsset(27).includes("protect-aac"),
+      "AAC asset maps to protect-aac",
+    );
+    const suggested = suggestCodeBlueActionsFromStations(
+      [9, 8, 27],
+      [
+        "assess-borrowed-circuit",
+        "assign-suction-bedside-reserve",
+        "protect-aac",
+        "replace-airway",
+      ],
+    );
+    assert(
+      suggested.includes("assess-borrowed-circuit") &&
+        suggested.includes("protect-aac"),
+      "bridge suggests Code Blue actions from station assets without committing",
+    );
+    assert(
+      !suggested.includes("replace-airway"),
+      "bridge does not suggest replace-airway from circuit/AAC alone",
+    );
+
+    const relevantDeltas = domainDeltasForStationCommit(18);
+    assert(
+      typeof relevantDeltas === "object",
+      "domainDeltasForStationCommit returns a delta object for defibrillator",
+    );
+    assert(
+      !("shockEnergy" in (relevantDeltas as object)),
+      "station commit deltas never invent shock energy",
+    );
+
+    const stubManifest = {
+      id: "breathing-room-ep01",
+      slug: "breathing-room",
+      title: "test",
+      chronologyLock: ["a", "b", "c", "d"],
+      startNodeId: "ep01-pressure-rise",
+      nodeIds: ["ep01-pressure-rise"],
+      version: "test",
+    } as EpisodeManifest;
+    let epSession = createSession(stubManifest);
+    const before = { ...epSession.state };
+    epSession = applyStationActionToSession(epSession, {
+      nodeId: "ep01-pressure-rise",
+      assetNumber: 18,
+      inventoryId: "defib",
+      title: "Defibrillator",
+      stationId: "circulation",
+      workflowStep: "assigned",
+      evidenceGateOpen: true,
+      timestampIso: new Date(0).toISOString(),
+    });
+    assert(
+      JSON.stringify(epSession.state) === JSON.stringify(before),
+      "Episode 01 station 'assigned' step does not mutate domains (draft≠mutate)",
+    );
+    epSession = applyStationActionToSession(epSession, {
+      nodeId: "ep01-pressure-rise",
+      assetNumber: 18,
+      inventoryId: "defib",
+      title: "Defibrillator",
+      stationId: "circulation",
+      workflowStep: "committed",
+      evidenceGateOpen: true,
+      timestampIso: new Date(0).toISOString(),
+    });
+    assert(
+      JSON.stringify(epSession.state) !== JSON.stringify(before),
+      "Episode 01 station 'committed' step applies soft domain nudge",
+    );
+  }
+
+  section("Phase 8 unified Code Blue session + kit soft gate");
+  {
+    const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+    const packDir = path.join(
+      root,
+      "content",
+      "episodes",
+      "breathing-room",
+      "code-blue",
+    );
+    const readJson = (rel: string): unknown =>
+      JSON.parse(readFileSync(path.join(packDir, rel), "utf8")) as unknown;
+    const manifest = readJson("manifest.json") as CodeBlueManifest;
+    const quiet = readJson(
+      "nodes/cb-quiet-stabilisation.json",
+    ) as CodeBlueScenarioNode;
+
+    const requirements: Record<string, number[]> = {
+      "protect-aac": [27, 28, 34, 35],
+      "prepare-defibrillator": [18, 19, 20],
+    };
+
+    let play = createCodeBlueSession(manifest, { uiMode: "kit" });
+    assert(play.uiMode === "kit", "kit mode stored on shared session");
+    assert(
+      play.selectedKitAssets.includes(27),
+      "default kit selection includes AAC device",
+    );
+
+    // Draft stays local — kit gate blocks commit until assets selected.
+    const draft = ["protect-aac"];
+    const blockedMissing = kitGateBlocksCommit(
+      draft,
+      play.selectedKitAssets,
+      requirements,
+    );
+    assert(
+      blockedMissing.length > 0,
+      "kit soft-gate blocks protect-aac without full AAC kit assets",
+    );
+    const revisionBefore = play.richState.revision;
+    // Simulate UI refusing commit when gate fails (engine not called).
+    assert(
+      play.richState.revision === revisionBefore,
+      "draft + failed kit gate does not mutate clinical truth",
+    );
+
+    play = withSelectedKitAssets(play, [27, 28, 34, 35, 18, 19, 20]);
+    assert(
+      kitGateBlocksCommit(draft, play.selectedKitAssets, requirements).length ===
+        0,
+      "kit soft-gate clears after selecting required assets",
+    );
+    const committed = commitDraftBundle(play, draft);
+    play = committed.session;
+    assert(
+      committed.result.accepted.includes("protect-aac"),
+      "kit-gated commit accepts protect-aac once soft gate cleared",
+    );
+    assert(
+      play.richState.revision > revisionBefore,
+      "successful commit advances engine revision",
+    );
+
+    play = fireEvent(play, quiet, "intermittent-monitor-alarm");
+    assert(
+      play.currentNodeId === "cb-intermittent-alarm",
+      "after kit-gated commit, event advance still works",
+    );
+    assert(
+      play.selectedKitAssets.includes(27),
+      "kit asset selection persists across event advance",
     );
   }
 

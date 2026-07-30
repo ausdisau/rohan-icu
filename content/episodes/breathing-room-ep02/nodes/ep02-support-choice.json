@@ -1,0 +1,42 @@
+{
+  "id": "ep02-support-choice",
+  "phaseId": "phase-04-cardiac-instability",
+  "title": "After the first cardiac choice",
+  "openingNarrative": "Instability eases or persists. Keep Rohan addressed. Bridge toward accessible limits talk or toward the Episode 02 reflection beat — ICU care and authorship continue after sustained circulation returns.",
+  "clinicalState": "Post-intervention observation. Cardiac domain still active. AAC available.",
+  "communicationMethod": "aac-board",
+  "choices": [
+    {
+      "id": "ep02-to-limits",
+      "label": "Open an accessible limits and goals conversation with Rohan first",
+      "immediateConsequence": "Authorship stays centred; family are present as supports, not proxies.",
+      "delayedConsequence": "Cardiac plan remains revisable without disability-based undertreatment.",
+      "domainDeltas": {
+        "communicationAccess": 5,
+        "authorshipControl": 6,
+        "publicTrust": 2
+      },
+      "nextNodeId": "ep02-limits-access",
+      "rohanAacLine": "COMMUNICATION WHEN EYES OPEN."
+    },
+    {
+      "id": "ep02-to-debrief",
+      "label": "Hold the cardiac plan and move to Episode 02 reflection",
+      "immediateConsequence": "Pathway closes into scored reflection without inventing a clinical victory.",
+      "delayedConsequence": "Home/school and authorship beats remain available later in the season.",
+      "domainDeltas": {
+        "homeReadiness": 2,
+        "schoolAccess": 1,
+        "authorshipControl": 2
+      },
+      "nextNodeId": "ep02-debrief-hook",
+      "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Cardiac phase does not end the story at ROSC."
+  ],
+  "debriefNotes": [
+    "Connector node for Episode 02 pathways."
+  ]
+}

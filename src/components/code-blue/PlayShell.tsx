@@ -4,16 +4,24 @@ import Link from "next/link";
 import { useMemo, useState, useSyncExternalStore } from "react";
 
 import {
+  projectFromCodeBlueSession,
+  saveContinuityProjection,
+} from "@/engine/continuity-projection";
+import {
   actionMeta,
   advanceViaExit,
   applySpecialCommand,
   commitDraftBundle,
   createCodeBlueSession,
+  exportCodeBlueDebriefJson,
   fireEvent,
+  generateCodeBlueDebrief,
+  kitGateBlocksCommit,
   listAdvanceOptions,
   loadCodeBlueSession,
   saveCodeBlueSession,
   selectEmergencyCompactView,
+  withSelectedKitAssets,
   type CodeBluePlaySession,
 } from "@/engine/simulation";
 import type {
@@ -23,6 +31,21 @@ import type {
   CodeBlueManifest,
   CodeBlueScenarioNode,
 } from "@/schemas/code-blue";
+import type { DirectorCuesFile } from "@/schemas/director-cues";
+import {
+  buildDirectorInputFromPlayShell,
+  directSceneDeterministic,
+  type NarrationViewModel,
+  type StoryLlmMode,
+} from "@/story";
+
+import { KitEvidenceBoard } from "./KitEvidenceBoard";
+import {
+  ACTION_KIT_REQUIREMENTS,
+  DEFAULT_SELECTED_KIT_ASSETS,
+  formatKitAssetIds,
+  missingKitAssetsForActions,
+} from "./kitEvidence";
 
 function persist(session: CodeBluePlaySession) {
   saveCodeBlueSession(session);
@@ -32,18 +55,120 @@ function subscribeNoop() {
   return () => {};
 }
 
+function CodeBlueEndDebrief({
+  session,
+  debrief,
+  onRestart,
+}: {
+  session: CodeBluePlaySession;
+  debrief: CodeBlueDebriefFile;
+  onRestart: () => void;
+}) {
+  const result = generateCodeBlueDebrief(session, debrief);
+
+  function handleExport() {
+    const blob = new Blob([exportCodeBlueDebriefJson(result)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `code-blue-debrief-${result.episodeId}.json`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <section
+      aria-labelledby="cb-debrief-heading"
+      className="rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-5"
+    >
+      <h2
+        id="cb-debrief-heading"
+        className="font-[family-name:var(--font-display)] text-xl"
+      >
+        Scored debrief ({debrief.id})
+      </h2>
+      <p className="mt-2 text-sm text-[var(--color-muted)]">
+        {result.pathwaySummary} No single perfect path.
+      </p>
+      <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+        {result.dimensions.map((dim) => (
+          <li
+            key={dim.id}
+            className="border border-[var(--color-line)] px-3 py-2 text-sm"
+          >
+            <span className="font-medium text-[var(--color-ink)]">
+              {dim.label}
+            </span>
+            <span className="ml-2 tabular-nums text-[var(--color-accent)]">
+              {dim.score}/{dim.max}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-3 text-xs text-[var(--color-muted)]">
+        Tags: {result.debriefTags.join(" · ")}
+      </p>
+      <ol className="mt-4 list-decimal space-y-3 pl-5 text-[var(--color-ink)]">
+        {debrief.reflectionPrompts.map((prompt) => (
+          <li key={prompt} className="leading-relaxed">
+            {prompt}
+          </li>
+        ))}
+      </ol>
+      <div className="mt-5 flex flex-wrap gap-3">
+        <Link
+          href="/code-blue/debrief"
+          className="rounded-sm bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-focus)]"
+        >
+          Open full scored debrief
+        </Link>
+        <button
+          type="button"
+          onClick={handleExport}
+          className="rounded-sm border border-[var(--color-line)] px-4 py-2 text-sm hover:bg-[var(--color-wash)]"
+        >
+          Export JSON
+        </button>
+        <Link
+          href="/debrief"
+          className="rounded-sm border border-[var(--color-line)] px-4 py-2 text-sm hover:bg-[var(--color-wash)]"
+        >
+          Episode 01 debrief shell
+        </Link>
+        <button
+          type="button"
+          onClick={onRestart}
+          className="rounded-sm border border-[var(--color-line)] px-4 py-2 text-sm hover:bg-[var(--color-wash)]"
+        >
+          Run slice again
+        </button>
+      </div>
+    </section>
+  );
+}
+
 export function PlayShell({
   manifest,
   nodes,
   actions,
   events,
   debrief,
+  directorCues = null,
+  llmNarrationConfigured = false,
+  storyLlmMode = "off",
+  initialUiMode = "standard",
 }: {
   manifest: CodeBlueManifest;
   nodes: CodeBlueScenarioNode[];
   actions: CodeBlueActionsFile;
   events: CodeBlueEventsFile;
   debrief: CodeBlueDebriefFile;
+  directorCues?: DirectorCuesFile | null;
+  llmNarrationConfigured?: boolean;
+  storyLlmMode?: StoryLlmMode;
+  initialUiMode?: "standard" | "kit";
 }) {
   const nodeMap = useMemo(
     () => new Map(nodes.map((node) => [node.id, node])),
@@ -52,22 +177,36 @@ export function PlayShell({
 
   const isClient = useSyncExternalStore(subscribeNoop, () => true, () => false);
   const [session, setSession] = useState<CodeBluePlaySession>(() =>
-    createCodeBlueSession(manifest),
+    createCodeBlueSession(manifest, { uiMode: initialUiMode }),
   );
   const [storageHydrated, setStorageHydrated] = useState(false);
   const [showChronology, setShowChronology] = useState(true);
   const [draft, setDraft] = useState<string[]>([]);
   const [liveMessage, setLiveMessage] = useState("");
+  const [enrichedByNode, setEnrichedByNode] = useState<
+    Record<string, NarrationViewModel>
+  >({});
+  const [enrichBusy, setEnrichBusy] = useState(false);
+  const [enrichError, setEnrichError] = useState("");
 
   // Restore sessionStorage on the client during render (React-approved adjust pattern).
   if (isClient && !storageHydrated) {
     setStorageHydrated(true);
     const existing = loadCodeBlueSession();
     if (existing && existing.richState.scenarioId === manifest.id) {
-      setSession(existing);
+      setSession({
+        ...existing,
+        uiMode: initialUiMode === "kit" ? "kit" : existing.uiMode ?? "standard",
+      });
       setShowChronology(false);
+    } else if (initialUiMode === "kit") {
+      setSession(createCodeBlueSession(manifest, { uiMode: "kit" }));
     }
   }
+
+  const selectedKitAssets =
+    session.selectedKitAssets ?? DEFAULT_SELECTED_KIT_ASSETS;
+  const kitMode = session.uiMode === "kit" || initialUiMode === "kit";
 
   const currentNode = nodeMap.get(session.currentNodeId);
   const compact = selectEmergencyCompactView(session.richState);
@@ -78,9 +217,45 @@ export function PlayShell({
     ? listAdvanceOptions(currentNode, session, events)
     : [];
 
+  const directorInput = currentNode
+    ? buildDirectorInputFromPlayShell({
+        node: currentNode,
+        educationalBoundary: manifest.educationalBoundary,
+        chronologyLock: manifest.chronologyLock,
+        compact: {
+          playPhase: compact.playPhase,
+          pulse: compact.pulse,
+          rhythm: compact.rhythm,
+          airwayRoute: compact.airwayRoute,
+          chestMovement: compact.chestMovement,
+          defibrillatorReady: compact.defibrillatorReady,
+          aacInstruction: compact.aac.instruction,
+          aacVisible: compact.aac.visible,
+          crisisDebtLevel: compact.crisisDebt.level,
+          provisionalRoscNeedsConfirm: compact.provisionalRoscNeedsConfirm,
+          postRoscReassessmentDue: compact.postRoscReassessmentDue,
+        },
+        emergencyOverride: emergency,
+      })
+    : null;
+
+  const deterministicNarration = directorInput
+    ? directSceneDeterministic(directorInput, { cues: directorCues })
+    : null;
+
+  const directorCue = currentNode
+    ? directorCues?.nodes[currentNode.id]
+    : undefined;
+
+  const narration =
+    (currentNode && enrichedByNode[currentNode.id]) || deterministicNarration;
+
   function update(next: CodeBluePlaySession, announce?: string) {
     setSession(next);
     persist(next);
+    if (next.completed) {
+      saveContinuityProjection(projectFromCodeBlueSession(next));
+    }
     if (announce) setLiveMessage(announce);
   }
 
@@ -95,16 +270,71 @@ export function PlayShell({
 
   function handleCommit() {
     if (draft.length === 0 || emergency) return;
+    const missing = kitGateBlocksCommit(
+      draft,
+      selectedKitAssets,
+      ACTION_KIT_REQUIREMENTS,
+    );
+    if (missing.length > 0) {
+      setLiveMessage(
+        `Commit blocked. Select or verify kit assets ${formatKitAssetIds(missing)}. Readiness still does not create indication.`,
+      );
+      return;
+    }
     const { session: next } = commitDraftBundle(session, draft);
     setDraft([]);
     update(next, next.statusMessage);
   }
 
   function handleRestart() {
-    const fresh = createCodeBlueSession(manifest);
+    const fresh = createCodeBlueSession(manifest, {
+      uiMode: kitMode ? "kit" : "standard",
+    });
     setDraft([]);
+    setEnrichedByNode({});
+    setEnrichError("");
     setShowChronology(true);
     update(fresh, "Session restarted.");
+  }
+
+  function toggleKitAsset(assetNumber: number) {
+    const nextAssets = selectedKitAssets.includes(assetNumber)
+      ? selectedKitAssets.filter((item) => item !== assetNumber)
+      : [...selectedKitAssets, assetNumber];
+    update(withSelectedKitAssets(session, nextAssets));
+  }
+
+  async function handleEnrichNarration() {
+    if (!directorInput || !currentNode || enrichBusy) return;
+    setEnrichBusy(true);
+    setEnrichError("");
+    try {
+      const response = await fetch("/api/narration", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(directorInput),
+      });
+      if (!response.ok) {
+        throw new Error(`Narration API ${response.status}`);
+      }
+      const payload = (await response.json()) as {
+        narration: NarrationViewModel;
+      };
+      setEnrichedByNode((prev) => ({
+        ...prev,
+        [currentNode.id]: payload.narration,
+      }));
+      setLiveMessage(
+        payload.narration.source === "llm-enriched"
+          ? "LLM narration applied for display only. Clinical truth unchanged."
+          : payload.narration.fallbackReason ??
+              "Deterministic narration in use.",
+      );
+    } catch (err) {
+      setEnrichError((err as Error).message);
+    } finally {
+      setEnrichBusy(false);
+    }
   }
 
   if (!currentNode) {
@@ -137,16 +367,33 @@ export function PlayShell({
           <p className="mt-1 text-sm text-[var(--color-muted)]">
             Engine r{manifest.simulationEngineRevision} · v{manifest.version} ·
             revision {session.richState.revision}
+            {kitMode ? " · kit evidence mode" : ""}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={handleRestart}
-          className="rounded-sm border border-[var(--color-line)] px-3 py-2 text-sm text-[var(--color-ink)] hover:bg-[var(--color-wash)]"
-        >
-          Restart slice
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href={kitMode ? "/code-blue" : "/code-blue?mode=kit"}
+            className="rounded-sm border border-[var(--color-line)] px-3 py-2 text-sm text-[var(--color-ink)] hover:bg-[var(--color-wash)]"
+          >
+            {kitMode ? "Standard layout" : "Kit evidence focus"}
+          </Link>
+          <button
+            type="button"
+            onClick={handleRestart}
+            className="rounded-sm border border-[var(--color-line)] px-3 py-2 text-sm text-[var(--color-ink)] hover:bg-[var(--color-wash)]"
+          >
+            Restart slice
+          </button>
+        </div>
       </div>
+
+      {kitMode && !showChronology ? (
+        <p className="rounded-sm border border-[var(--color-line)] bg-[var(--color-wash)] px-4 py-3 text-sm text-[var(--color-muted)]">
+          Kit evidence mode shares the same Code Blue session. Asset selection is
+          a soft UI gate only — readiness never creates indication. H5 emergency
+          override still hides the planning board.
+        </p>
+      ) : null}
 
       {showChronology ? (
         <section
@@ -171,13 +418,21 @@ export function PlayShell({
             Control contract: draft does not mutate · commit advances revision ·
             duplicates are confirmation.
           </p>
-          <button
-            type="button"
-            onClick={() => setShowChronology(false)}
-            className="mt-5 inline-flex rounded-sm bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white hover:bg-[var(--color-focus)]"
-          >
-            Enter The Alarm After ROSC
-          </button>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => setShowChronology(false)}
+              className="inline-flex rounded-sm bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white hover:bg-[var(--color-focus)]"
+            >
+              Enter The Alarm After ROSC
+            </button>
+            <Link
+              href="/code-blue?mode=kit"
+              className="inline-flex rounded-sm border border-[var(--color-line)] px-5 py-2.5 text-sm font-medium text-[var(--color-ink)] hover:bg-[var(--color-wash)]"
+            >
+              Enter with kit evidence focus
+            </Link>
+          </div>
         </section>
       ) : (
         <>
@@ -197,24 +452,64 @@ export function PlayShell({
               aria-labelledby="cb-scene-heading"
               className="rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-5"
             >
-              <p className="text-xs uppercase tracking-wide text-[var(--color-accent)]">
-                {currentNode.phase} · {currentNode.scene.lens}
-              </p>
-              <h2
-                id="cb-scene-heading"
-                className="mt-1 font-[family-name:var(--font-display)] text-xl"
-              >
-                {currentNode.title}
-              </h2>
-              <p className="mt-1 text-sm text-[var(--color-muted)]">
-                {currentNode.scene.location}
-              </p>
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs uppercase tracking-wide text-[var(--color-accent)]">
+                    {currentNode.phase} · {currentNode.scene.lens}
+                  </p>
+                  <h2
+                    id="cb-scene-heading"
+                    className="mt-1 font-[family-name:var(--font-display)] text-xl"
+                  >
+                    {currentNode.title}
+                  </h2>
+                  <p className="mt-1 text-sm text-[var(--color-muted)]">
+                    {currentNode.scene.location}
+                  </p>
+                </div>
+                <div className="flex flex-col items-end gap-2">
+                  <span className="rounded-sm bg-[var(--color-wash)] px-2 py-1 text-xs text-[var(--color-muted)]">
+                    Narration: {narration?.source ?? "authored"} · LLM{" "}
+                    {storyLlmMode}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      void handleEnrichNarration();
+                    }}
+                    disabled={enrichBusy || !directorInput}
+                    className="rounded-sm border border-[var(--color-line)] px-3 py-1.5 text-xs hover:bg-[var(--color-wash)] disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {enrichBusy
+                      ? "Directing…"
+                      : llmNarrationConfigured
+                        ? storyLlmMode === "mock"
+                          ? "Enrich narration (mock)"
+                          : "Enrich narration (LLM)"
+                        : "Apply Phase 5 director"}
+                  </button>
+                </div>
+              </div>
+              {directorCue ? (
+                <p className="mt-3 text-sm text-[var(--color-muted)]">
+                  <span className="font-medium text-[var(--color-ink)]">
+                    Director intent:
+                  </span>{" "}
+                  {directorCue.intent}
+                </p>
+              ) : null}
               <p className="mt-4 leading-relaxed text-[var(--color-ink)]">
-                {currentNode.scene.summary}
+                {narration?.summary ?? currentNode.scene.summary}
               </p>
-              {currentNode.scene.dialogue?.length ? (
+              {(narration?.dialogue.length
+                ? narration.dialogue
+                : currentNode.scene.dialogue
+              )?.length ? (
                 <ul className="mt-4 space-y-2">
-                  {currentNode.scene.dialogue.map((line) => (
+                  {(narration?.dialogue.length
+                    ? narration.dialogue
+                    : (currentNode.scene.dialogue ?? [])
+                  ).map((line) => (
                     <li
                       key={`${line.speaker}-${line.line}`}
                       className="border-l-2 border-[var(--color-accent-soft)] pl-3 text-sm"
@@ -230,9 +525,40 @@ export function PlayShell({
                   ))}
                 </ul>
               ) : null}
-              {currentNode.scene.captions?.length ? (
+              {(narration?.captions.length
+                ? narration.captions
+                : currentNode.scene.captions
+              )?.length ? (
                 <p className="mt-4 text-sm italic text-[var(--color-muted)]">
-                  {currentNode.scene.captions.join(" ")}
+                  {(narration?.captions.length
+                    ? narration.captions
+                    : (currentNode.scene.captions ?? [])
+                  ).join(" ")}
+                </p>
+              ) : null}
+
+              {narration?.framingNotes.length ? (
+                <div className="mt-4 rounded-sm border border-[var(--color-line)] bg-[var(--color-wash)]/50 px-3 py-3">
+                  <h3 className="text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">
+                    Story director framing
+                  </h3>
+                  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[var(--color-muted)]">
+                    {narration.framingNotes.map((note) => (
+                      <li key={note}>{note}</li>
+                    ))}
+                  </ul>
+                  <p className="mt-2 text-xs text-[var(--color-muted)]">
+                    {narration.providerNote}
+                    {narration.fallbackReason
+                      ? ` · ${narration.fallbackReason}`
+                      : ""}{" "}
+                    Clinical truth panels below stay engine/content owned.
+                  </p>
+                </div>
+              ) : null}
+              {enrichError ? (
+                <p className="mt-2 text-sm text-[var(--color-warning)]" role="alert">
+                  Narration request failed: {enrichError}
                 </p>
               ) : null}
 
@@ -397,6 +723,14 @@ export function PlayShell({
           </section>
 
           {!emergency ? (
+            <KitEvidenceBoard
+              selectedAssets={selectedKitAssets}
+              onToggle={toggleKitAsset}
+              draftActionIds={draft}
+            />
+          ) : null}
+
+          {!emergency ? (
             <section
               aria-labelledby="cb-actions-heading"
               className="rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-5"
@@ -437,6 +771,11 @@ export function PlayShell({
                     const selected = draft.includes(actionId);
                     const committed =
                       session.committedActionIds.includes(actionId);
+                    const kitNeeds = ACTION_KIT_REQUIREMENTS[actionId] ?? [];
+                    const kitMissing = missingKitAssetsForActions(
+                      [actionId],
+                      selectedKitAssets,
+                    );
                     return (
                       <li key={actionId}>
                         <button
@@ -459,6 +798,14 @@ export function PlayShell({
                               ? ` · ${meta.bundleTags.join(", ")}`
                               : ""}
                           </span>
+                          {kitNeeds.length > 0 ? (
+                            <span className="mt-1 text-xs text-[var(--color-muted)]">
+                              Kit evidence: {formatKitAssetIds(kitNeeds)}
+                              {kitMissing.length > 0
+                                ? ` · missing ${formatKitAssetIds(kitMissing)}`
+                                : " · selected"}
+                            </span>
+                          ) : null}
                           {meta?.notes ? (
                             <span className="mt-1 text-xs text-[var(--color-muted)]">
                               {meta.notes}
@@ -664,43 +1011,11 @@ export function PlayShell({
           </section>
 
           {session.completed || currentNode.phase === "reflect" ? (
-            <section
-              aria-labelledby="cb-debrief-heading"
-              className="rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-5"
-            >
-              <h2
-                id="cb-debrief-heading"
-                className="font-[family-name:var(--font-display)] text-xl"
-              >
-                Reflection ({debrief.id})
-              </h2>
-              <p className="mt-2 text-sm text-[var(--color-muted)]">
-                Dimensions: {debrief.dimensions.join(" · ")}. No single perfect
-                path.
-              </p>
-              <ol className="mt-4 list-decimal space-y-3 pl-5 text-[var(--color-ink)]">
-                {debrief.reflectionPrompts.map((prompt) => (
-                  <li key={prompt} className="leading-relaxed">
-                    {prompt}
-                  </li>
-                ))}
-              </ol>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link
-                  href="/debrief"
-                  className="rounded-sm bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-focus)]"
-                >
-                  Open episode debrief shell
-                </Link>
-                <button
-                  type="button"
-                  onClick={handleRestart}
-                  className="rounded-sm border border-[var(--color-line)] px-4 py-2 text-sm hover:bg-[var(--color-wash)]"
-                >
-                  Run slice again
-                </button>
-              </div>
-            </section>
+            <CodeBlueEndDebrief
+              session={session}
+              debrief={debrief}
+              onRestart={handleRestart}
+            />
           ) : null}
         </>
       )}

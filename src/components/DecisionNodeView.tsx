@@ -23,6 +23,8 @@ export function DecisionNodeView({
   previousState,
   pendingConsequence,
   addressLine,
+  directorSummary,
+  directorFramingNotes,
   onSelectChoice,
   onContinue,
 }: {
@@ -31,6 +33,9 @@ export function DecisionNodeView({
   previousState?: SimulationState;
   pendingConsequence: AppliedChoiceRecord | null;
   addressLine?: string;
+  /** Display-only story director summary (never replaces clinicalState). */
+  directorSummary?: string;
+  directorFramingNotes?: string[];
   onSelectChoice: (choice: SimulationChoice) => void;
   onContinue: () => void;
 }) {
@@ -68,7 +73,14 @@ export function DecisionNodeView({
             >
               Opening
             </h2>
-            <p className="mt-3">{node.openingNarrative}</p>
+            <p className="mt-3">{directorSummary ?? node.openingNarrative}</p>
+            {directorFramingNotes && directorFramingNotes.length > 0 ? (
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-[var(--color-muted)]">
+                {directorFramingNotes.slice(0, 4).map((note) => (
+                  <li key={note}>{note}</li>
+                ))}
+              </ul>
+            ) : null}
           </section>
 
           <section aria-labelledby="clinical-heading">

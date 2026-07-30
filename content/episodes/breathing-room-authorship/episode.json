@@ -1,0 +1,24 @@
+{
+  "id": "breathing-room-authorship",
+  "slug": "breathing-room-authorship",
+  "title": "Breathing Room: Authorship Cut",
+  "subtitle": "Season beat — training-cut ownership (not clinical victory)",
+  "chronologyLock": [
+    "The library called help.",
+    "The ambulance performed CPR.",
+    "The resuscitation bay restored sustained circulation.",
+    "ICU care and authorship questions continue after sustained ROSC."
+  ],
+  "startNodeId": "auth-training-request",
+  "nodeIds": [
+    "auth-training-request",
+    "auth-cut-decision",
+    "auth-debrief-hook"
+  ],
+  "estimatedMinutes": {
+    "min": 8,
+    "max": 15
+  },
+  "version": "1.0.0-authorship",
+  "simulationEngineRevision": 2
+}

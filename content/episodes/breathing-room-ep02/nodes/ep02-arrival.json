@@ -1,0 +1,46 @@
+{
+  "id": "ep02-arrival",
+  "phaseId": "phase-04-cardiac-instability",
+  "title": "Cardiac instability opens",
+  "openingNarrative": "Episode 02 picks up after Episode 01 pressure work and any Code Blue reassessment. Chronology stays locked: the library called help; the ambulance performed CPR; the resuscitation bay restored sustained circulation; ICU care continues afterward. Rohan’s cardiomyopathy and ICD mean respiratory stress is never only respiratory. Carry-forward flags from prior slices (AAC/WAIT, family non-clinical, post-ROSC reassessment) travel as projections — they do not rewrite the locked sequence.",
+  "clinicalState": "Post-ROSC ICU. Severe cardiomyopathy with ICD in situ. Limited cardiac reserve. Arrhythmia burden sensitive to respiratory stress. AAC available when access is restored; WAIT remains meaningful.",
+  "communicationMethod": "cheek-switch",
+  "choices": [
+    {
+      "id": "ep02-acknowledge-carry",
+      "label": "Confirm locked chronology and keep prior AAC / family boundaries in view",
+      "immediateConsequence": "The team restates chronology and treats carry-forward flags as continuity projections, not a reset of clinical truth.",
+      "delayedConsequence": "Ectopy under respiratory stress can be addressed without disabling authorship or unpaid family labour.",
+      "domainDeltas": {
+        "communicationAccess": 4,
+        "authorshipControl": 3,
+        "familyBurden": -2,
+        "cardiacReserve": 0
+      },
+      "nextNodeId": "ep02-ectopy-stress",
+      "rohanAacLine": "EVERY ALARM STILL DESERVES AN ANSWER."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Disability does not make escalation less worthwhile.",
+    "Carry-forward WAIT/silence is never consent.",
+    "Family remain non-clinical supports across episodes."
+  ],
+  "debriefNotes": [
+    "Episode 02 opens from the Phase 4 forest seed without inventing doses or shock energies.",
+    "Code Blue → Ep02 continuity is projection-based; chronology stays locked."
+  ],
+  "media": [
+    {
+      "id": "ep02-arrival-still",
+      "kind": "image",
+      "src": "/media/illustrations/rohan-icu-placeholder.svg",
+      "title": "Cardiac instability — opening still",
+      "accessibility": {
+        "altText": "Paediatric ICU monitor and AAC staged; no pity framing.",
+        "extendedAltText": "Placeholder still for Episode 02 arrival. Daylit PICU bay with monitor and staged AAC. Caption space reserved; no shock energy or dose text."
+      },
+      "autoplayForbidden": true
+    }
+  ]
+}

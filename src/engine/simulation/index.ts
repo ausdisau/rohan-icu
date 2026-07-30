@@ -45,7 +45,17 @@ export {
   provisionalRoscRequiresIndependentConfirmation,
   raiseCrisisDebt,
   scoreAuthorityHit,
+  scoreForCommittedAction,
 } from "./scoring";
+export {
+  collectCodeBlueDebriefTags,
+  exportCodeBlueDebriefJson,
+  generateCodeBlueDebrief,
+  scoreCodeBlueSession,
+  type CodeBlueDebriefResult,
+  type CodeBlueDimensionId,
+  type CodeBlueDimensionScore,
+} from "./code-blue-debrief";
 export {
   parseRichState,
   roundTripRichState,
@@ -63,6 +73,7 @@ export {
 } from "./selectors";
 export {
   CODE_BLUE_STORAGE_KEY,
+  DEFAULT_CODE_BLUE_KIT_ASSETS,
   actionMeta,
   advanceViaExit,
   applySpecialCommand,
@@ -72,8 +83,10 @@ export {
   defaultRoleForAction,
   exitConditionReady,
   fireEvent,
+  kitGateBlocksCommit,
   listAdvanceOptions,
   loadCodeBlueSession,
   saveCodeBlueSession,
+  withSelectedKitAssets,
   type CodeBluePlaySession,
 } from "./code-blue-session";

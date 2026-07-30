@@ -1,0 +1,55 @@
+{
+  "id": "auth-cut-decision",
+  "phaseId": "phase-06-home-school-authorship",
+  "title": "Training-cut ownership",
+  "openingNarrative": "Decide with Rohan how the shortened training package may use his story. Dropping access, delirium, restraint, school, home staffing, and privacy from the cut is a framing choice — not a clinical outcome.",
+  "clinicalState": "Dialogue window. Authorship and privacy domains active.",
+  "communicationMethod": "voice-output",
+  "choices": [
+    {
+      "id": "auth-withdraw-name",
+      "label": "Withdraw permission for Rohan’s name on the shortened cut",
+      "immediateConsequence": "Authorship control rises; ethical training trust rises.",
+      "delayedConsequence": "Dispute may remain over what anonymous mechanics may still teach.",
+      "domainDeltas": {
+        "authorshipControl": 14,
+        "publicTrust": 6,
+        "privacyProtection": 4
+      },
+      "nextNodeId": "auth-debrief-hook",
+      "rohanAacLine": "NOW ASK ME WHAT HAPPENS NEXT."
+    },
+    {
+      "id": "auth-mechanics-only",
+      "label": "Allow anonymous mechanics teaching without identity or voice",
+      "immediateConsequence": "Partial compromise; privacy holds better than full likeness use.",
+      "delayedConsequence": "Symptom-language misuse must still be blocked.",
+      "domainDeltas": {
+        "authorshipControl": 6,
+        "privacyProtection": 8,
+        "publicTrust": 2
+      },
+      "nextNodeId": "auth-debrief-hook",
+      "rohanAacLine": "TELL ME BEFORE MEDICINE."
+    },
+    {
+      "id": "auth-full-likeness",
+      "label": "Approve name, voice, and likeness for wider distribution now",
+      "immediateConsequence": "Reach rises; authorship and privacy fall without granular consent.",
+      "delayedConsequence": "Hard to claw back once released.",
+      "domainDeltas": {
+        "publicTrust": -4,
+        "authorshipControl": -12,
+        "privacyProtection": -10
+      },
+      "nextNodeId": "auth-debrief-hook",
+      "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Lived-experience training requires ongoing consent, not a one-time spectacle release."
+  ],
+  "debriefNotes": [
+    "Authorship beat closes into season reflection — not a walking or airway-removal victory."
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "breathing-room-ep02",
+  "slug": "breathing-room-ep02",
+  "title": "Breathing Room: Cardiac Instability",
+  "subtitle": "Episode 02 — after Code Blue / pressure rise",
+  "chronologyLock": [
+    "The library called help.",
+    "The ambulance performed CPR.",
+    "The resuscitation bay restored sustained circulation.",
+    "ICU care continues after sustained ROSC — including after Code Blue reassessment."
+  ],
+  "startNodeId": "ep02-arrival",
+  "nodeIds": [
+    "ep02-arrival",
+    "ep02-ectopy-stress",
+    "ep02-support-choice",
+    "ep02-limits-access",
+    "ep02-debrief-hook"
+  ],
+  "estimatedMinutes": {
+    "min": 15,
+    "max": 25
+  },
+  "version": "1.0.0-ep02",
+  "simulationEngineRevision": 2
+}
