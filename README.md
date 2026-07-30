@@ -34,7 +34,8 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Routes
 
 - `/` — home + locked chronology
-- `/episode` — episode player shell (stub nodes)
+- `/episode` — Episode 01 player shell
+- `/code-blue` — The Alarm After ROSC PlayShell (Phase 2 engine + Code Blue content)
 - `/debrief` — debrief shell
 - `/accessibility` — reduced motion / sensory / captions defaults
 

@@ -11,9 +11,12 @@ import {
   canAskNonEmergencyQuestion,
   cloneCatalog,
   commitActionBundle,
+  commitDraftBundle,
+  createCodeBlueSession,
   createInitialRichState,
   emergencyRescueWaitsForAac,
   equipmentReadyCreatesIndication,
+  fireEvent,
   interpretActivation,
   partitionBundle,
   PHASE2_ACTION_CATALOG,
@@ -26,6 +29,7 @@ import {
   withEvidenceSatisfied,
 } from "../src/engine/simulation";
 import { lintCodeBluePack } from "../src/schemas/code-blue";
+import type { CodeBlueManifest, CodeBlueScenarioNode } from "../src/schemas/code-blue";
 
 let passed = 0;
 let failed = 0;
@@ -361,6 +365,37 @@ function main(): void {
     assert(
       g1.every((id) => allocData?.availableActions?.includes(id)),
       "cb-resource-allocation offers G1 action IDs",
+    );
+
+    const quiet = nodes.find((node) => node.id === "cb-quiet-stabilisation")
+      ?.data as CodeBlueScenarioNode;
+    let play = createCodeBlueSession(manifest as CodeBlueManifest);
+    assert(
+      play.currentNodeId === "cb-quiet-stabilisation",
+      "PlayShell session starts at quiet stabilisation",
+    );
+    const beforeRevision = play.richState.revision;
+    play = {
+      ...play,
+      // Draft-only selection is UI-local; committing is what mutates.
+    };
+    assert(
+      play.richState.revision === beforeRevision,
+      "creating a session does not invent clinical mutations",
+    );
+    const committed = commitDraftBundle(play, [
+      "protect-aac",
+      "prepare-defibrillator",
+    ]);
+    assert(
+      committed.result.accepted.includes("protect-aac"),
+      "PlayShell commitDraftBundle accepts protect-aac with catalog roles",
+    );
+    play = committed.session;
+    play = fireEvent(play, quiet, "intermittent-monitor-alarm");
+    assert(
+      play.currentNodeId === "cb-intermittent-alarm",
+      "firing intermittent alarm advances to cb-intermittent-alarm",
     );
   }
 
