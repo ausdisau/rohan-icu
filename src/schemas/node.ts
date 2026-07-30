@@ -69,6 +69,8 @@ export const episodeManifestSchema = z.object({
     })
     .optional(),
   version: z.string().min(1),
+  /** Shared simulation engine revision (Phase 2+). Optional for older manifests. */
+  simulationEngineRevision: z.number().int().positive().optional(),
 });
 
 export type SimulationNodeParsed = z.infer<typeof simulationNodeSchema>;

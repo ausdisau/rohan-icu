@@ -1,0 +1,71 @@
+{
+  "id": "cb-provisional-rosc",
+  "phase": "resolve",
+  "title": "Provisional ROSC",
+  "scene": {
+    "location": "PICU bay — provisional circulation",
+    "summary": "A pulse returns. It is provisional until independently confirmed. The story does not end here.",
+    "lens": "bedside-clinical",
+    "dialogue": [
+      {
+        "speaker": "Circulation lead",
+        "line": "Provisional only. Independent confirmation and reassessment still required."
+      }
+    ],
+    "captions": [
+      "Pulse present. Confirmation incomplete. AAC still needs an explicit restore check."
+    ]
+  },
+  "clinicalTruth": {
+    "airway": "Route unchanged through the rescue.",
+    "breathing": "Ventilation continues; circuit verification belongs in reassessment.",
+    "circulation": "Provisional ROSC; independent confirmation not yet recorded.",
+    "communicationAccess": "Device was protected; restore and reliability checks remain."
+  },
+  "visibleEvidence": [
+    {
+      "id": "provisional-pulse",
+      "label": "Provisional pulse",
+      "detail": "Return of circulation is provisional until a second confirmation path."
+    },
+    {
+      "id": "story-continues",
+      "label": "Story continues",
+      "detail": "ICU care and AAC restore follow; this is not an ending."
+    }
+  ],
+  "availableActions": [
+    "protect-aac",
+    "assess-chest-movement",
+    "prepare-defibrillator"
+  ],
+  "interruptEvents": ["provisional-rosc-signal"],
+  "communicationBeat": {
+    "instruction": null,
+    "questionActive": false,
+    "note": "Hold new non-emergency questions until access is explicitly restored and reliable."
+  },
+  "familyBeat": {
+    "members": ["samira", "arvind"],
+    "roles": [
+      "comfort-presence",
+      "values-witness"
+    ],
+    "clinicalAssignmentForbidden": true,
+    "note": "Family may be updated that work continues after the pulse returns."
+  },
+  "exitConditions": [
+    {
+      "id": "to-post-rosc-reassess",
+      "description": "Move into required post-event reassessment.",
+      "nextNodeId": "cb-post-rosc-reassess",
+      "requiresEvent": "clock-post-event-window"
+    }
+  ],
+  "debriefTags": [
+    "provisional-rosc",
+    "confirmation-required",
+    "not-an-ending"
+  ],
+  "canonDecisionCodes": ["H5"]
+}

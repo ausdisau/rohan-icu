@@ -1,0 +1,56 @@
+{
+  "id": "code-blue-events",
+  "version": "1.0.0",
+  "events": [
+    {
+      "id": "intermittent-monitor-alarm",
+      "kind": "state",
+      "label": "Intermittent monitor alarm",
+      "summary": "An intermittent alarm starts a clinical question. It does not authorise a shock or airway replacement by itself.",
+      "revealsEvidenceIds": ["alarm-as-question"],
+      "nextNodeId": "cb-intermittent-alarm"
+    },
+    {
+      "id": "pressure-resource-window",
+      "kind": "accumulated-pressure",
+      "label": "Resource allocation pressure",
+      "summary": "Suction battery has arrived; transport remains held. Planning window for G1 bundles before further instability.",
+      "revealsEvidenceIds": [
+        "suction-battery-arrived",
+        "transport-held"
+      ],
+      "nextNodeId": "cb-resource-allocation"
+    },
+    {
+      "id": "further-alarm-escalation",
+      "kind": "interrupt",
+      "label": "Further alarm escalation",
+      "summary": "Alarm pattern worsens. Non-urgent planning must yield if emergency override engages.",
+      "nextNodeId": "cb-further-alarm",
+      "hidesNonUrgentPlanning": true
+    },
+    {
+      "id": "h5-emergency-override",
+      "kind": "interrupt",
+      "label": "H5 emergency override",
+      "summary": "Pulseless VT pathway. No clinical questions during rescue. AAC protected in place. No airway replacement. Proceed toward provisional ROSC.",
+      "nextNodeId": "cb-code-blue",
+      "emergencyOverride": true,
+      "hidesNonUrgentPlanning": true
+    },
+    {
+      "id": "provisional-rosc-signal",
+      "kind": "state",
+      "label": "Provisional ROSC signal",
+      "summary": "Circulation appears restored but remains provisional until independent confirmation and post-event reassessment.",
+      "nextNodeId": "cb-provisional-rosc"
+    },
+    {
+      "id": "clock-post-event-window",
+      "kind": "clock",
+      "label": "Post-event reassessment window",
+      "summary": "After provisional ROSC, reassessment and AAC restore are required before debrief.",
+      "nextNodeId": "cb-post-rosc-reassess"
+    }
+  ]
+}

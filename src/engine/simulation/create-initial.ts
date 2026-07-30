@@ -1,0 +1,232 @@
+import {
+  SIMULATION_ENGINE_REVISION,
+  type RichSimulationState,
+  type RoleId,
+} from "./types";
+
+const CLINICAL_ROLES: RoleId[] = [
+  "icu-circulation",
+  "cardiology",
+  "respiratory",
+  "ent-airway",
+  "bedside-nursing",
+  "aac-disability-access",
+  "iicrt-coordinator",
+  "biomedical-engineering",
+  "family-liaison",
+  "paid-support-worker",
+];
+
+function personnelRecord(): RichSimulationState["personnel"] {
+  const out: RichSimulationState["personnel"] = {};
+  for (const role of CLINICAL_ROLES) {
+    out[role] = { role, status: "available" };
+  }
+  return out;
+}
+
+/**
+ * Opening state for Phase 2 tests and future Code Blue slice:
+ * The Alarm After ROSC (partial defaults).
+ */
+export function createInitialRichState(
+  scenarioId = "alarm-after-rosc",
+): RichSimulationState {
+  return {
+    revision: 0,
+    engineRevision: SIMULATION_ENGINE_REVISION,
+    scenarioId,
+    playPhase: "observe",
+    domains: {
+      airway: {
+        patency: "dependable",
+        routeLabel: "current acute ET route",
+        replacementIndicated: false,
+        evidenceForReplacement: [],
+      },
+      breathing: {
+        chestMovement: "stable",
+        ventilationPathway: "full controlled ventilation",
+        circuitVerified: true,
+        conditionalBackupAvailable: true,
+      },
+      circulation: {
+        pulse: "fragile",
+        rhythm: "frequent-ectopy",
+        defibrillatorReady: false,
+        provisionalRosc: false,
+        rosCConfirmedIndependently: false,
+      },
+      communicationAccess: {
+        devicePowered: true,
+        deviceVisible: true,
+        switchReachable: true,
+        lowTechBackupAvailable: true,
+        emergencyVocabularyAvailable: true,
+        currentInstruction: "WAIT",
+        questionActive: false,
+        latestActivation: null,
+        responseReliability: "reproducible",
+        specialistSupport: "bedside",
+      },
+    },
+    equipment: {
+      "circuit-primary": {
+        id: "circuit-primary",
+        title: "Verified active ventilator circuit",
+        available: true,
+        quantity: 1,
+        verified: true,
+        battery: "adequate",
+        location: "bedside",
+        ownership: "ward",
+        role: "primary",
+        warnings: [],
+        readinessDoesNotIndicate: true,
+      },
+      "circuit-backup-conditional": {
+        id: "circuit-backup-conditional",
+        title: "Conditional backup circuit",
+        available: true,
+        quantity: 1,
+        verified: false,
+        battery: "unknown",
+        location: "bedside",
+        ownership: "personal-kit",
+        role: "conditional-backup",
+        warnings: ["conditional-backup-only", "plan-revision-unverified"],
+        readinessDoesNotIndicate: true,
+      },
+      "portable-suction": {
+        id: "portable-suction",
+        inventoryId: "kit-08-portable-suction-unit-battery-powered",
+        title: "Portable suction unit",
+        available: true,
+        quantity: 1,
+        verified: true,
+        battery: "degraded",
+        location: "bedside",
+        ownership: "personal-kit",
+        role: "primary",
+        warnings: ["degraded-battery"],
+        readinessDoesNotIndicate: true,
+      },
+      "manual-resuscitator": {
+        id: "manual-resuscitator",
+        inventoryId: "kit-12-manual-resuscitator-bag-valve",
+        title: "Manual breathing backup",
+        available: true,
+        quantity: 1,
+        verified: true,
+        battery: "adequate",
+        location: "bedside",
+        ownership: "ward",
+        role: "backup",
+        warnings: [],
+        readinessDoesNotIndicate: true,
+      },
+      defibrillator: {
+        id: "defibrillator",
+        inventoryId: "kit-18-defibrillator-aed",
+        title: "Defibrillator",
+        available: true,
+        quantity: 1,
+        verified: true,
+        battery: "adequate",
+        location: "bedside",
+        ownership: "ward",
+        role: "primary",
+        warnings: [],
+        readinessDoesNotIndicate: true,
+      },
+      "spare-trach-same-size": {
+        id: "spare-trach-same-size",
+        inventoryId: "kit-01-spare-tracheostomy-tube-same-size",
+        title: "Spare tracheostomy tube (same size)",
+        available: true,
+        quantity: 1,
+        verified: true,
+        battery: "adequate",
+        location: "bedside",
+        ownership: "personal-kit",
+        role: "backup",
+        warnings: [],
+        readinessDoesNotIndicate: true,
+      },
+    },
+    personnel: personnelRecord(),
+    resources: {
+      verifiedCircuits: 1,
+      conditionalBackupCircuits: 1,
+      suctionBattery: "degraded",
+      manualBreathingBackupReady: true,
+    },
+    environment: {
+      location: "PICU bay — post-ROSC stabilisation",
+      cardiacPreAlert: "maximum",
+      option5bPreferred: true,
+      option5bAuthorised: false,
+    },
+    authority: {
+      integrity: 5,
+      addressedRohanDirectly: true,
+      treatedSilenceAsConsent: false,
+      ignoredWaitOrStop: false,
+      usedFamilyAsClinicalWorkforce: false,
+      labelledSlowAsIncapacity: false,
+    },
+    family: {
+      samira: {
+        id: "samira",
+        name: "Samira",
+        roles: [
+          "comfort-presence",
+          "values-witness",
+          "baseline-communication-informant",
+          "privacy-dignity-observer",
+        ],
+        clinicalAssignmentForbidden: true,
+      },
+      arvind: {
+        id: "arvind",
+        name: "Arvind",
+        roles: [
+          "logistics",
+          "equipment-continuity-nonclinical",
+          "privacy-dignity-observer",
+          "approved-contact-coordination",
+          "question-tracking",
+          "transport-property-continuity",
+        ],
+        clinicalAssignmentForbidden: true,
+      },
+    },
+    timers: [],
+    flags: {
+      postRoscReassessmentRequired: true,
+      postRoscReassessmentDone: false,
+      chronologyLocked: true,
+      transportHeld: true,
+      suctionBatteryArrived: true,
+      suctionBatteryAssignment: false,
+      suctionAssignedBedsideReserve: false,
+      suctionAssignedTransport: false,
+      borrowedCircuitConditionalBackup: true,
+      mainsSuctionPrimary: true,
+      option5bPreferred: true,
+      option5bAuthorised: false,
+    },
+    queuedActions: [],
+    pendingEvents: [],
+    eventLog: [],
+    crisisDebt: { level: "moderate", reasons: ["degraded suction battery"] },
+    score: {
+      clinicalReasoning: 0,
+      timingCoordination: 0,
+      equipmentReasoning: 0,
+      communicationAccess: 0,
+      authorityDignity: 0,
+      systemSustainability: 0,
+    },
+  };
+}

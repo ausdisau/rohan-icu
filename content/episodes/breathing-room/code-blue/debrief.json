@@ -1,0 +1,32 @@
+{
+  "id": "code-blue-debrief",
+  "version": "1.0.0",
+  "dimensions": [
+    "clinical-reasoning",
+    "timing-coordination",
+    "equipment-reasoning",
+    "communication-access",
+    "authority-dignity",
+    "system-sustainability"
+  ],
+  "reflectionPrompts": [
+    "When the intermittent alarm began, what question did you treat as open rather than settled?",
+    "How did the G1 bundle (borrowed circuit, suction reserve, paid-support continuity) protect reserve without inventing indication?",
+    "During H5 emergency override, what stayed protected for Rohan's communication access, and what was correctly deferred?",
+    "Where did family and paid support stay in non-clinical roles, and how does Save Our Sons framing treat paid support sustainability as a system issue rather than unpaid clinical labour?",
+    "After provisional ROSC, what reassessment and AAC restore steps prevented the story from ending at the return of a pulse?"
+  ],
+  "tags": [
+    "alarm-as-question",
+    "readiness-not-indication",
+    "G1-partial-bundles",
+    "H5-emergency-override",
+    "provisional-rosc",
+    "aac-restore",
+    "family-non-clinical",
+    "paid-support-sustainability",
+    "save-our-sons",
+    "no-single-perfect-path"
+  ],
+  "noSinglePerfectPath": true
+}

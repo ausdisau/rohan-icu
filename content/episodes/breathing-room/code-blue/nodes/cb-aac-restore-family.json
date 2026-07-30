@@ -1,0 +1,79 @@
+{
+  "id": "cb-aac-restore-family",
+  "phase": "resolve",
+  "title": "AAC restore and family framing",
+  "scene": {
+    "location": "PICU bay — communication access restore",
+    "summary": "Rescue is over. Communication access is restored on purpose. Family and paid support stay in non-clinical roles while Rohan regains a reliable path to be heard.",
+    "lens": "aac-access",
+    "dialogue": [
+      {
+        "speaker": "Rohan",
+        "line": "WAIT",
+        "aac": true
+      },
+      {
+        "speaker": "Paid support worker",
+        "line": "I will keep the device in reach and alert staff if anything is displaced. I will not touch the circuit."
+      }
+    ],
+    "captions": [
+      "Device visible. Switch reachable. Low-stimulation restore. No clinical delegation to family."
+    ]
+  },
+  "clinicalTruth": {
+    "airway": "Unchanged; dignity of the current route remains intact.",
+    "breathing": "Stable enough for access restore; suction assignment may already be bedside reserve.",
+    "circulation": "Confirmed or clarifying after provisional period; still fragile.",
+    "communicationAccess": "Device powered, visible, switch reachable; WAIT may be reasserted by Rohan."
+  },
+  "visibleEvidence": [
+    {
+      "id": "aac-restored",
+      "label": "AAC restored",
+      "detail": "Access was protected during rescue and is now explicitly restored."
+    },
+    {
+      "id": "paid-support-boundaries",
+      "label": "Paid support boundaries",
+      "detail": "Continuity and alerting only — Save Our Sons sustainability, not clinical substitution."
+    }
+  ],
+  "availableActions": [
+    "protect-aac",
+    "assign-paid-support-continuity"
+  ],
+  "interruptEvents": [],
+  "communicationBeat": {
+    "instruction": "WAIT",
+    "questionActive": false,
+    "note": "Rohan may reassert WAIT. Treat activation only against an active question.",
+    "pauseScenarioForAac": true
+  },
+  "familyBeat": {
+    "members": ["samira", "arvind", "leela"],
+    "roles": [
+      "comfort-presence",
+      "values-witness",
+      "baseline-communication-informant",
+      "approved-contact-coordination"
+    ],
+    "clinicalAssignmentForbidden": true,
+    "note": "Family non-clinical. Paid support covers sustainable personal continuity so relatives are never treated as clinical labour."
+  },
+  "exitConditions": [
+    {
+      "id": "to-debrief-hook",
+      "description": "Access restored; move to debrief reflection.",
+      "nextNodeId": "cb-debrief-hook"
+    }
+  ],
+  "debriefTags": [
+    "aac-restore",
+    "family-non-clinical",
+    "paid-support-sustainability",
+    "save-our-sons",
+    "wait-reasserted"
+  ],
+  "canonDecisionCodes": ["H5", "F6"]
+}

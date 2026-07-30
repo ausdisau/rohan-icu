@@ -49,4 +49,6 @@ export interface EpisodeManifest {
   nodeIds: string[];
   estimatedMinutes?: { min: number; max: number };
   version: string;
+  /** Shared simulation engine revision (Phase 2+). */
+  simulationEngineRevision?: number;
 }

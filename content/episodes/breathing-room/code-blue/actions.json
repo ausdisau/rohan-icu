@@ -1,0 +1,81 @@
+{
+  "id": "code-blue-actions",
+  "version": "1.0.0",
+  "actions": [
+    {
+      "id": "protect-aac",
+      "label": "Protect AAC access",
+      "domain": "communication-access",
+      "catalogId": "protect-aac",
+      "bundleTags": ["access"],
+      "notes": "Keep device powered, visible, and reachable."
+    },
+    {
+      "id": "prepare-defibrillator",
+      "label": "Prepare defibrillator",
+      "domain": "circulation",
+      "catalogId": "prepare-defibrillator",
+      "bundleTags": ["readiness"],
+      "notes": "Readiness is not an indication to shock. No energy values in content."
+    },
+    {
+      "id": "assess-chest-movement",
+      "label": "Assess chest movement",
+      "domain": "breathing",
+      "catalogId": "assess-chest-movement",
+      "bundleTags": ["observe"]
+    },
+    {
+      "id": "assess-borrowed-circuit",
+      "label": "Assess borrowed circuit and adapter (F1)",
+      "domain": "breathing",
+      "catalogId": "assess-borrowed-circuit",
+      "bundleTags": ["G1", "F1"],
+      "notes": "Conditional backup only without full clinical rehearsal."
+    },
+    {
+      "id": "assign-suction-bedside-reserve",
+      "label": "Assign degraded suction battery to bedside reserve (F2)",
+      "domain": "breathing",
+      "catalogId": "assign-suction-bedside-reserve",
+      "bundleTags": ["G1", "F2"],
+      "notes": "Bedside reserve or transport — not both. Transport remains held."
+    },
+    {
+      "id": "assign-paid-support-continuity",
+      "label": "Assign paid support worker within non-medical boundaries (F6)",
+      "domain": "communication-access",
+      "catalogId": "assign-paid-support-continuity",
+      "bundleTags": ["G1", "F6", "SaveOurSons"],
+      "notes": "AAC and personal continuity only. Excludes airway, circuit, ventilation, suction."
+    },
+    {
+      "id": "correct-external-circuit-load",
+      "label": "Correct external circuit loading",
+      "domain": "breathing",
+      "catalogId": "correct-external-circuit-load",
+      "bundleTags": ["observe", "correct"],
+      "notes": "Does not replace the airway route."
+    },
+    {
+      "id": "replace-airway",
+      "label": "Replace airway route",
+      "domain": "airway",
+      "catalogId": "replace-airway",
+      "bundleTags": ["gated"],
+      "notes": "Locked during H5 emergency override without replacement indication."
+    }
+  ],
+  "bundles": [
+    {
+      "id": "g1-resource-allocation",
+      "label": "G1 resource allocation (F1 + F2 + F6)",
+      "actionIds": [
+        "assess-borrowed-circuit",
+        "assign-suction-bedside-reserve",
+        "assign-paid-support-continuity"
+      ],
+      "notes": "Partial bundles allowed; duplicates confirm rather than double-apply."
+    }
+  ]
+}
