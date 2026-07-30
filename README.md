@@ -37,7 +37,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - `/` — home + locked chronology
 - `/episode` — Episode 01 player shell
-- `/code-blue` — The Alarm After ROSC PlayShell (engine + content + story director)
+- `/code-blue` — The Alarm After ROSC PlayShell (engine + content + story director + kit evidence)
+- `/code-blue/interactive` — ChatGPT interactive Code Blue kit drill (standalone)
 - `/api/narration` — Phase 5–6 narration (deterministic; optional OpenAI if `OPENAI_API_KEY` set)
 - `/debrief` — debrief shell
 - `/accessibility` — reduced motion / sensory / captions defaults

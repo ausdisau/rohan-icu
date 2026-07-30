@@ -29,6 +29,14 @@ import {
   type NarrationViewModel,
 } from "@/story";
 
+import { KitEvidenceBoard } from "./KitEvidenceBoard";
+import {
+  ACTION_KIT_REQUIREMENTS,
+  DEFAULT_SELECTED_KIT_ASSETS,
+  formatKitAssetIds,
+  missingKitAssetsForActions,
+} from "./kitEvidence";
+
 function persist(session: CodeBluePlaySession) {
   saveCodeBlueSession(session);
 }
@@ -70,6 +78,9 @@ export function PlayShell({
   >({});
   const [enrichBusy, setEnrichBusy] = useState(false);
   const [enrichError, setEnrichError] = useState("");
+  const [selectedKitAssets, setSelectedKitAssets] = useState<number[]>(
+    DEFAULT_SELECTED_KIT_ASSETS,
+  );
 
   // Restore sessionStorage on the client during render (React-approved adjust pattern).
   if (isClient && !storageHydrated) {
@@ -136,6 +147,13 @@ export function PlayShell({
 
   function handleCommit() {
     if (draft.length === 0 || emergency) return;
+    const missing = missingKitAssetsForActions(draft, selectedKitAssets);
+    if (missing.length > 0) {
+      setLiveMessage(
+        `Commit blocked. Select or verify kit assets ${formatKitAssetIds(missing)}. Readiness still does not create indication.`,
+      );
+      return;
+    }
     const { session: next } = commitDraftBundle(session, draft);
     setDraft([]);
     update(next, next.statusMessage);
@@ -146,8 +164,17 @@ export function PlayShell({
     setDraft([]);
     setEnrichedByNode({});
     setEnrichError("");
+    setSelectedKitAssets(DEFAULT_SELECTED_KIT_ASSETS);
     setShowChronology(true);
     update(fresh, "Session restarted.");
+  }
+
+  function toggleKitAsset(assetNumber: number) {
+    setSelectedKitAssets((current) =>
+      current.includes(assetNumber)
+        ? current.filter((item) => item !== assetNumber)
+        : [...current, assetNumber],
+    );
   }
 
   async function handleEnrichNarration() {
@@ -247,13 +274,21 @@ export function PlayShell({
             Control contract: draft does not mutate · commit advances revision ·
             duplicates are confirmation.
           </p>
-          <button
-            type="button"
-            onClick={() => setShowChronology(false)}
-            className="mt-5 inline-flex rounded-sm bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white hover:bg-[var(--color-focus)]"
-          >
-            Enter The Alarm After ROSC
-          </button>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => setShowChronology(false)}
+              className="inline-flex rounded-sm bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white hover:bg-[var(--color-focus)]"
+            >
+              Enter The Alarm After ROSC
+            </button>
+            <Link
+              href="/code-blue/interactive"
+              className="inline-flex rounded-sm border border-[var(--color-line)] px-5 py-2.5 text-sm font-medium text-[var(--color-ink)] hover:bg-[var(--color-wash)]"
+            >
+              Open ChatGPT kit drill
+            </Link>
+          </div>
         </section>
       ) : (
         <>
@@ -533,6 +568,14 @@ export function PlayShell({
           </section>
 
           {!emergency ? (
+            <KitEvidenceBoard
+              selectedAssets={selectedKitAssets}
+              onToggle={toggleKitAsset}
+              draftActionIds={draft}
+            />
+          ) : null}
+
+          {!emergency ? (
             <section
               aria-labelledby="cb-actions-heading"
               className="rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-5"
@@ -573,6 +616,11 @@ export function PlayShell({
                     const selected = draft.includes(actionId);
                     const committed =
                       session.committedActionIds.includes(actionId);
+                    const kitNeeds = ACTION_KIT_REQUIREMENTS[actionId] ?? [];
+                    const kitMissing = missingKitAssetsForActions(
+                      [actionId],
+                      selectedKitAssets,
+                    );
                     return (
                       <li key={actionId}>
                         <button
@@ -595,6 +643,14 @@ export function PlayShell({
                               ? ` · ${meta.bundleTags.join(", ")}`
                               : ""}
                           </span>
+                          {kitNeeds.length > 0 ? (
+                            <span className="mt-1 text-xs text-[var(--color-muted)]">
+                              Kit evidence: {formatKitAssetIds(kitNeeds)}
+                              {kitMissing.length > 0
+                                ? ` · missing ${formatKitAssetIds(kitMissing)}`
+                                : " · selected"}
+                            </span>
+                          ) : null}
                           {meta?.notes ? (
                             <span className="mt-1 text-xs text-[var(--color-muted)]">
                               {meta.notes}
