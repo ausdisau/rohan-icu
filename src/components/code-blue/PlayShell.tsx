@@ -4,6 +4,10 @@ import Link from "next/link";
 import { useMemo, useState, useSyncExternalStore } from "react";
 
 import {
+  projectFromCodeBlueSession,
+  saveContinuityProjection,
+} from "@/engine/continuity-projection";
+import {
   actionMeta,
   advanceViaExit,
   applySpecialCommand,
@@ -249,6 +253,9 @@ export function PlayShell({
   function update(next: CodeBluePlaySession, announce?: string) {
     setSession(next);
     persist(next);
+    if (next.completed) {
+      saveContinuityProjection(projectFromCodeBlueSession(next));
+    }
     if (announce) setLiveMessage(announce);
   }
 

@@ -1,0 +1,43 @@
+{
+  "id": "auth-training-request",
+  "phaseId": "phase-06-home-school-authorship",
+  "title": "Training package request",
+  "openingNarrative": "A distributor wants a shortened Code Pink/Blue training cut. The pitch drops communication access, delirium, restraint review, school exclusion, home staffing, and privacy — keeping only ‘mechanics’. Rohan can respond via AAC. This beat is about ownership of lived-experience framing, not a clinical win.",
+  "clinicalState": "Post-event media and training request. Rohan addressable. No doses or energies.",
+  "communicationMethod": "voice-output",
+  "choices": [
+    {
+      "id": "auth-open-cut-talk",
+      "label": "Open the authorship conversation with Rohan before any cut is approved",
+      "immediateConsequence": "Authorship stays centred; the shortened cut is not assumed consented.",
+      "delayedConsequence": "Granular consent decisions follow on the next beat.",
+      "domainDeltas": {
+        "authorshipControl": 6,
+        "communicationAccess": 4,
+        "publicTrust": 2
+      },
+      "nextNodeId": "auth-cut-decision",
+      "rohanAacLine": "TELL ME BEFORE MEDICINE."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Emergency teaching mechanics are not consent for identity and framing.",
+    "Training-cut ownership is not clinical victory."
+  ],
+  "debriefNotes": [
+    "Promoted from phase-06-home-school-authorship forest seed."
+  ],
+  "media": [
+    {
+      "id": "auth-request-still",
+      "kind": "image",
+      "src": "/media/illustrations/rohan-icu-placeholder.svg",
+      "title": "Authorship request — still",
+      "accessibility": {
+        "altText": "Quiet meeting space with AAC device visible; no pity framing.",
+        "extendedAltText": "Placeholder still for the authorship beat. Table meeting light; AAC display reachable. No clinical victory imagery."
+      },
+      "autoplayForbidden": true
+    }
+  ]
+}

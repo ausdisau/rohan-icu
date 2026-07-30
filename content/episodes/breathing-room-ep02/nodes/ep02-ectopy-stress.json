@@ -1,0 +1,61 @@
+{
+  "id": "ep02-ectopy-stress",
+  "phaseId": "phase-04-cardiac-instability",
+  "title": "Ectopy under respiratory stress",
+  "openingNarrative": "Ventricular ectopy rises after an airway manoeuvre. The ICD paces. Blood pressure softens. Choose the emphasis — treat reversible respiratory triggers, escalate circulatory support, or limit additional burdens with Rohan in the loop. No medication doses or shock energies appear as trainable facts.",
+  "clinicalState": "Ectopy cluster. Soft BP. Airway still imperfect. AAC fatigued but available.",
+  "communicationMethod": "cheek-switch",
+  "choices": [
+    {
+      "id": "ep02-respiratory-triggers",
+      "label": "Treat reversible respiratory triggers first while monitoring rhythm",
+      "immediateConsequence": "Airway focus may settle ectopy; delay in pure cardiac escalation.",
+      "delayedConsequence": "If the trigger persists, arrhythmia returns — legitimate uncertainty.",
+      "domainDeltas": {
+        "airwayObstructionRisk": -6,
+        "arrhythmiaBurden": -4,
+        "cardiacReserve": 2,
+        "respiratoryStability": 4
+      },
+      "nextNodeId": "ep02-support-choice",
+      "rohanAacLine": "EVERY ALARM STILL DESERVES AN ANSWER."
+    },
+    {
+      "id": "ep02-escalate-support",
+      "label": "Escalate cardiac and circulatory support now",
+      "immediateConsequence": "Perfusion support rises; treatment burden and monitoring intensity rise.",
+      "delayedConsequence": "Actions must still be explained to Rohan accessibly.",
+      "domainDeltas": {
+        "cardiacReserve": 8,
+        "arrhythmiaBurden": -6,
+        "familyBurden": 3,
+        "privacyProtection": -2,
+        "painControl": -2
+      },
+      "nextNodeId": "ep02-support-choice",
+      "rohanAacLine": "TELL ME BEFORE MEDICINE."
+    },
+    {
+      "id": "ep02-limit-burdens",
+      "label": "Limit additional burdens unless instability worsens — with Rohan in the loop",
+      "immediateConsequence": "Authorship protected; risk of under-escalation if instability accelerates.",
+      "delayedConsequence": "Documentation must not imply disability-based undertreatment.",
+      "domainDeltas": {
+        "authorshipControl": 10,
+        "communicationAccess": 4,
+        "cardiacReserve": -2,
+        "arrhythmiaBurden": 3,
+        "publicTrust": 2
+      },
+      "nextNodeId": "ep02-limits-access",
+      "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Any limits discussion is about burdens and goals — not worth of a disabled life.",
+    "ICD therapy is a clinical event, not spectacle."
+  ],
+  "debriefNotes": [
+    "Forest node from phase-04-cardiac-instability promoted to playable Episode 02."
+  ]
+}

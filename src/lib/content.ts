@@ -34,6 +34,20 @@ const episodeDir = path.join(
   "breathing-room",
 );
 
+const episode02Dir = path.join(
+  process.cwd(),
+  "content",
+  "episodes",
+  "breathing-room-ep02",
+);
+
+const authorshipDir = path.join(
+  process.cwd(),
+  "content",
+  "episodes",
+  "breathing-room-authorship",
+);
+
 const codeBlueDir = path.join(episodeDir, "code-blue");
 
 export async function loadEpisodeManifest(): Promise<EpisodeManifest> {
@@ -52,6 +66,46 @@ export async function loadNode(nodeId: string): Promise<SimulationNode> {
 export async function loadEpisodeNodes(): Promise<SimulationNode[]> {
   const manifest = await loadEpisodeManifest();
   return Promise.all(manifest.nodeIds.map((id) => loadNode(id)));
+}
+
+export async function loadEpisode02Manifest(): Promise<EpisodeManifest> {
+  const raw = await readFile(path.join(episode02Dir, "episode.json"), "utf8");
+  return episodeManifestSchema.parse(JSON.parse(raw));
+}
+
+export async function loadEpisode02Node(
+  nodeId: string,
+): Promise<SimulationNode> {
+  const raw = await readFile(
+    path.join(episode02Dir, "nodes", `${nodeId}.json`),
+    "utf8",
+  );
+  return simulationNodeSchema.parse(JSON.parse(raw));
+}
+
+export async function loadEpisode02Nodes(): Promise<SimulationNode[]> {
+  const manifest = await loadEpisode02Manifest();
+  return Promise.all(manifest.nodeIds.map((id) => loadEpisode02Node(id)));
+}
+
+export async function loadAuthorshipManifest(): Promise<EpisodeManifest> {
+  const raw = await readFile(path.join(authorshipDir, "episode.json"), "utf8");
+  return episodeManifestSchema.parse(JSON.parse(raw));
+}
+
+export async function loadAuthorshipNode(
+  nodeId: string,
+): Promise<SimulationNode> {
+  const raw = await readFile(
+    path.join(authorshipDir, "nodes", `${nodeId}.json`),
+    "utf8",
+  );
+  return simulationNodeSchema.parse(JSON.parse(raw));
+}
+
+export async function loadAuthorshipNodes(): Promise<SimulationNode[]> {
+  const manifest = await loadAuthorshipManifest();
+  return Promise.all(manifest.nodeIds.map((id) => loadAuthorshipNode(id)));
 }
 
 export async function loadActionStations(): Promise<ActionStationsParsed> {
@@ -102,5 +156,10 @@ export async function loadCodeBlueDirectorCues(): Promise<DirectorCuesFile> {
     path.join(codeBlueDir, "director-cues.json"),
     "utf8",
   );
+  return directorCuesFileSchema.parse(JSON.parse(raw));
+}
+
+export async function loadEpisode01DirectorCues(): Promise<DirectorCuesFile> {
+  const raw = await readFile(path.join(episodeDir, "director-cues.json"), "utf8");
   return directorCuesFileSchema.parse(JSON.parse(raw));
 }

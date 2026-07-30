@@ -9,6 +9,7 @@ export {
   resolveCanonPhrases,
 } from "./canon";
 export {
+  buildDirectorInputFromEpisodeNode,
   buildDirectorInputFromPlayShell,
   directScene,
   directSceneDeterministic,
@@ -21,6 +22,14 @@ export {
   type StoryLlmMode,
 } from "./llm";
 export { mergeWithDeterministicAnchors, requiredAnchors } from "./merge";
+export {
+  checkNarrationRateLimit,
+  getNarrationRateLimitPerMinute,
+  isNarrationFeatureEnabled,
+  logNarrationTelemetry,
+  resetNarrationRateLimits,
+  type NarrationTelemetryEvent,
+} from "./production";
 export type {
   LlmNarrationRequest,
   LlmNarrationResponse,

@@ -1,0 +1,78 @@
+{
+  "id": "episode-01-director-cues",
+  "version": "1.0.0",
+  "phase": 11,
+  "notes": "Episode 01 story-director cues. Display-only framing for DecisionNodeView / EpisodePlayer. Clinical truth remains in node clinicalState + legacy domain meters + Action Stations engine snapshot. LLM may rephrase flavour only when STORY_LLM_MODE allows.",
+  "globalCanonPhraseIds": [
+    "slow-answer-still-answer",
+    "last-emergency-is-history"
+  ],
+  "nodes": {
+    "ep01-arrival-framing": {
+      "intent": "Lock chronology and stage AAC for wake — silence is sedation, not incapacity.",
+      "bridge": "ICU begins after the bay restored sustained circulation. Communication systems wait with Rohan for wake.",
+      "canonPhraseIds": ["last-emergency-is-history"],
+      "mustRetain": ["chronology", "AAC", "sedation"]
+    },
+    "ep01-infection-renal": {
+      "intent": "Hold infection versus renal trade-off without a single physiological win.",
+      "bridge": "Coverage and reserve pull in tension. Choose a path; do not pretend the tension disappears.",
+      "canonPhraseIds": [],
+      "mustRetain": ["trade-off", "renal"]
+    },
+    "ep01-consent-dialogue": {
+      "intent": "Address Rohan first; WAIT and silence are never consent.",
+      "bridge": "Consent is paced to access. A slow answer is still an answer.",
+      "canonPhraseIds": ["slow-answer-still-answer"],
+      "mustRetain": ["WAIT", "consent"]
+    },
+    "ep01-pressure-rise": {
+      "intent": "Investigate pressure with Action Stations — readiness is not indication.",
+      "bridge": "Right-sided pressure asks for evidence workup. Station assets explain; they do not invent replacement.",
+      "canonPhraseIds": ["every-alarm-still-deserves-an-answer"],
+      "mustRetain": ["readiness", "indication", "AAC"]
+    },
+    "ep01-consequence-a": {
+      "intent": "Show Branch A consequence without closing authorship.",
+      "bridge": "The chosen airway emphasis lands. Communication access stays in scope for what comes next.",
+      "canonPhraseIds": [],
+      "mustRetain": ["consequence"]
+    },
+    "ep01-consequence-b": {
+      "intent": "Show Branch B consequence without closing authorship.",
+      "bridge": "The chosen path lands with its delayed costs visible. Rohan remains addressable.",
+      "canonPhraseIds": [],
+      "mustRetain": ["consequence"]
+    },
+    "ep01-consequence-c": {
+      "intent": "Preview cardiac instability without ending at ROSC.",
+      "bridge": "Cardiac sensitivity surfaces. The season continues into later instability work — not a victory frame.",
+      "canonPhraseIds": ["last-emergency-is-history"],
+      "mustRetain": ["cardiac", "continue"]
+    },
+    "ep01-sedation-delirium": {
+      "intent": "Lighten sedation with stop-on-signal and AAC restore in mind.",
+      "bridge": "As sedation lightens, access returns before questions multiply. STOP remains authoritative.",
+      "canonPhraseIds": ["slow-answer-still-answer"],
+      "mustRetain": ["STOP", "AAC"]
+    },
+    "ep01-kit-readiness": {
+      "intent": "Weight the community emergency bag without unpaid family clinical labour.",
+      "bridge": "Kit readiness is transfer planning — airway, AAC, and governance docs — not a procedure trainer.",
+      "canonPhraseIds": [],
+      "mustRetain": ["paid", "kit"]
+    },
+    "ep01-home-school": {
+      "intent": "Keep home and school membership active mid-ICU.",
+      "bridge": "Membership does not vanish because the calendar moved. Privacy and paid night staffing stay on the board.",
+      "canonPhraseIds": [],
+      "mustRetain": ["school", "privacy"]
+    },
+    "ep01-debrief-hook": {
+      "intent": "Open debrief without a perfect-path badge or ROSC ending.",
+      "bridge": "Reflection starts here. Cardiac instability and authorship beats remain ahead in the season.",
+      "canonPhraseIds": ["last-emergency-is-history"],
+      "mustRetain": ["debrief", "continue"]
+    }
+  }
+}

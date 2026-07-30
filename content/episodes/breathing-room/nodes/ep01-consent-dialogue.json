@@ -71,7 +71,7 @@
       "title": "Consent dialogue — production slot",
       "accessibility": {
         "transcript": "See content/dialogues/ep01-consent-conversation.json for the full structured dialogue transcript.",
-        "captions": "Structured dialogue captions live with the conversation JSON.",
+        "captions": "/media/captions/ep01-consent-dialogue.vtt",
         "reducedSensoryAlt": "Text-only dialogue cards with pause controls; no alarm layer.",
         "audioDescription": "Clinician seated at eye level; Rohan using cheek switch; Samira nearby not speaking first."
       },

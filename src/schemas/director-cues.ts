@@ -8,9 +8,9 @@ export const directorNodeCueSchema = z.object({
 });
 
 export const directorCuesFileSchema = z.object({
-  id: z.literal("code-blue-director-cues"),
+  id: z.enum(["code-blue-director-cues", "episode-01-director-cues"]),
   version: z.string().min(1),
-  phase: z.literal(5),
+  phase: z.union([z.literal(5), z.literal(11)]),
   notes: z.string().optional(),
   globalCanonPhraseIds: z.array(z.string().min(1)).default([]),
   nodes: z.record(z.string(), directorNodeCueSchema),

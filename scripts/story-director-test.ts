@@ -10,15 +10,20 @@ import { fileURLToPath } from "node:url";
 import { directorCuesFileSchema } from "../src/schemas/director-cues";
 import type { CodeBlueManifest, CodeBlueScenarioNode } from "../src/schemas/code-blue";
 import {
+  buildDirectorInputFromEpisodeNode,
   buildDirectorInputFromPlayShell,
+  checkNarrationRateLimit,
   directSceneDeterministic,
   enrichNarration,
   getStoryLlmMode,
   isLlmNarrationConfigured,
+  isNarrationFeatureEnabled,
   lintNarrationViewModel,
   mergeWithDeterministicAnchors,
   requiredAnchors,
+  resetNarrationRateLimits,
 } from "../src/story";
+import type { SimulationNode } from "../src/types/node";
 
 let passed = 0;
 let failed = 0;
@@ -181,6 +186,66 @@ async function main(): Promise<void> {
 
   if (previousMode === undefined) delete process.env.STORY_LLM_MODE;
   else process.env.STORY_LLM_MODE = previousMode;
+
+  console.log("\nPhase 11 production guards");
+  const prevEnabled = process.env.STORY_NARRATION_ENABLED;
+  const prevLimit = process.env.STORY_NARRATION_RATE_LIMIT_PER_MIN;
+  delete process.env.STORY_NARRATION_ENABLED;
+  assert(isNarrationFeatureEnabled() === true, "narration enabled by default");
+  process.env.STORY_NARRATION_ENABLED = "false";
+  assert(isNarrationFeatureEnabled() === false, "feature flag can disable narration");
+  process.env.STORY_NARRATION_ENABLED = "true";
+  process.env.STORY_NARRATION_RATE_LIMIT_PER_MIN = "2";
+  resetNarrationRateLimits();
+  assert(checkNarrationRateLimit("test-client").allowed, "first request allowed");
+  assert(checkNarrationRateLimit("test-client").allowed, "second request allowed");
+  assert(
+    checkNarrationRateLimit("test-client").allowed === false,
+    "third request rate-limited at 2/min",
+  );
+  resetNarrationRateLimits();
+  if (prevEnabled === undefined) delete process.env.STORY_NARRATION_ENABLED;
+  else process.env.STORY_NARRATION_ENABLED = prevEnabled;
+  if (prevLimit === undefined) delete process.env.STORY_NARRATION_RATE_LIMIT_PER_MIN;
+  else process.env.STORY_NARRATION_RATE_LIMIT_PER_MIN = prevLimit;
+
+  console.log("\nEpisode 01 director cues");
+  const ep01Dir = path.join(root, "content", "episodes", "breathing-room");
+  const ep01Cues = directorCuesFileSchema.parse(
+    JSON.parse(readFileSync(path.join(ep01Dir, "director-cues.json"), "utf8")),
+  );
+  const ep01Manifest = JSON.parse(
+    readFileSync(path.join(ep01Dir, "episode.json"), "utf8"),
+  ) as { nodeIds: string[]; chronologyLock: string[] };
+  assert(ep01Cues.id === "episode-01-director-cues", "ep01 cues id");
+  assert(ep01Cues.phase === 11, "ep01 cues phase is 11");
+  for (const nodeId of ep01Manifest.nodeIds) {
+    assert(Boolean(ep01Cues.nodes[nodeId]), `ep01 cue exists for ${nodeId}`);
+  }
+  const arrival = JSON.parse(
+    readFileSync(
+      path.join(ep01Dir, "nodes", "ep01-arrival-framing.json"),
+      "utf8",
+    ),
+  ) as SimulationNode;
+  const epInput = buildDirectorInputFromEpisodeNode({
+    node: arrival,
+    educationalBoundary: "Educational boundary for test.",
+    chronologyLock: ep01Manifest.chronologyLock,
+  });
+  const epDirected = directSceneDeterministic(epInput, { cues: ep01Cues });
+  assert(
+    epDirected.summary.includes(ep01Cues.nodes["ep01-arrival-framing"].bridge),
+    "ep01 summary includes director bridge",
+  );
+  assert(
+    epDirected.clinicalTruthUnchanged === true,
+    "ep01 director keeps clinicalTruthUnchanged",
+  );
+  assert(
+    lintNarrationViewModel(epDirected, epInput.compact).ok,
+    "ep01 deterministic narration passes locks",
+  );
 
   console.log(`\nstory-director-test: ${passed} passed, ${failed} failed`);
   if (failed > 0) process.exitCode = 1;

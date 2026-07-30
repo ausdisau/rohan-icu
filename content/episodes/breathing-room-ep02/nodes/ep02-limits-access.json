@@ -1,0 +1,45 @@
+{
+  "id": "ep02-limits-access",
+  "phaseId": "phase-04-cardiac-instability",
+  "title": "Limits talk with access",
+  "openingNarrative": "Someone starts a treatment-limits conversation. Address Rohan with AAC first. Silence or WAIT is not consent. Family may witness and support — they are not the decision workforce. Disability does not make escalation less worthwhile.",
+  "clinicalState": "Accessible dialogue window. Cardiac instability may recur. No dose or energy trainers.",
+  "communicationMethod": "voice-output",
+  "choices": [
+    {
+      "id": "ep02-ask-rohan-first",
+      "label": "Ask Rohan first; wait through slow AAC; document his framing",
+      "immediateConsequence": "Authorship and communication access rise; the conversation takes longer.",
+      "delayedConsequence": "Limits language stays about burdens and goals, not worth of life.",
+      "domainDeltas": {
+        "communicationAccess": 8,
+        "authorshipControl": 10,
+        "publicTrust": 4,
+        "familyBurden": -2
+      },
+      "nextNodeId": "ep02-debrief-hook",
+      "rohanAacLine": "SLOW ANSWER. STILL ANSWER."
+    },
+    {
+      "id": "ep02-proxy-first",
+      "label": "Ask family to summarise goals before Rohan finishes answering",
+      "immediateConsequence": "Speed rises; authorship and trust fall.",
+      "delayedConsequence": "Silence was treated as something to fill — a dignity hit in debrief.",
+      "domainDeltas": {
+        "authorshipControl": -8,
+        "communicationAccess": -4,
+        "familyBurden": 6,
+        "publicTrust": -6
+      },
+      "nextNodeId": "ep02-debrief-hook",
+      "rohanAacLine": "WAIT."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Limits talk requires accessible communication — not family proxy first.",
+    "WAIT/silence ≠ consent."
+  ],
+  "debriefNotes": [
+    "Episode 02 tests accessible limits talk under cardiac instability."
+  ]
+}

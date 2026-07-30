@@ -19,6 +19,13 @@ export {
   type StationCodeBlueBridgeEntry,
 } from "./station-code-blue-bridge";
 export {
+  CONTINUITY_STORAGE_KEY,
+  loadContinuityProjection,
+  projectFromCodeBlueSession,
+  saveContinuityProjection,
+  type ContinuityProjection,
+} from "./continuity-projection";
+export {
   buildCanonHeldChecklist,
   evaluateCanonContext,
   getCanonPhrases,

@@ -183,3 +183,51 @@ export function buildDirectorInputFromPlayShell(args: {
     emergencyOverride: args.emergencyOverride,
   };
 }
+
+/**
+ * Episode 01 / Ep02 DecisionNodeView adapter — display-only director input.
+ * Uses openingNarrative as scene summary; compact snapshot is optional/read-only.
+ */
+export function buildDirectorInputFromEpisodeNode(args: {
+  node: {
+    id: string;
+    phaseId: string;
+    title: string;
+    openingNarrative: string;
+    clinicalState: string;
+    communicationMethod: string;
+  };
+  educationalBoundary: string;
+  chronologyLock: string[];
+  compact?: Partial<StoryDirectorInput["compact"]>;
+}): StoryDirectorInput {
+  const compact: StoryDirectorInput["compact"] = {
+    playPhase: "observe",
+    pulse: "present",
+    rhythm: "unknown",
+    airwayRoute: "established trach/vent support",
+    chestMovement: "stable",
+    defibrillatorReady: false,
+    aacInstruction: null,
+    aacVisible: args.node.communicationMethod !== "deep-sedation",
+    crisisDebtLevel: "moderate",
+    provisionalRoscNeedsConfirm: false,
+    postRoscReassessmentDue: false,
+    ...args.compact,
+  };
+  return {
+    nodeId: args.node.id,
+    phase: args.node.phaseId,
+    title: args.node.title,
+    scene: {
+      location: "Paediatric ICU",
+      summary: args.node.openingNarrative,
+      lens: "bedside-clinical",
+      captions: [],
+    },
+    educationalBoundary: args.educationalBoundary,
+    chronologyLock: args.chronologyLock,
+    compact,
+    emergencyOverride: false,
+  };
+}

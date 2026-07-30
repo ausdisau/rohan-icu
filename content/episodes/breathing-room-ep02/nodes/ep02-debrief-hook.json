@@ -1,0 +1,30 @@
+{
+  "id": "ep02-debrief-hook",
+  "phaseId": "phase-04-cardiac-instability",
+  "title": "Episode 02 debrief hook",
+  "openingNarrative": "Cardiac instability does not close the season. Reflect on trigger-first versus escalation versus limits-with-access, then continue toward authorship and home/school beats. No walking home or removing baseline airway support is framed as victory.",
+  "clinicalState": "Observation. Domains remain active for later episodes.",
+  "communicationMethod": "mixed",
+  "choices": [
+    {
+      "id": "ep02-finish-reflect",
+      "label": "Open Episode 02 debrief reflection",
+      "immediateConsequence": "Pathway completes into the shared debrief shell with Episode 02 history.",
+      "delayedConsequence": "Season continues: authorship / home-school conflict remains ahead.",
+      "domainDeltas": {
+        "authorshipControl": 2,
+        "publicTrust": 1
+      },
+      "nextNodeId": null,
+      "rohanAacLine": "THE AMBULANCE KEPT THE CODE GOING."
+    }
+  ],
+  "disabilityRightsNotes": [
+    "Story continues beyond ROSC and beyond this cardiac beat."
+  ],
+  "debriefNotes": [
+    "Smoke path end: start → debrief-hook.",
+    "Next season beat: home-school authorship (Phase 12)."
+  ],
+  "isEpisodeEnd": true
+}

@@ -24,16 +24,37 @@ function EmptyDebrief() {
           No completed pathway yet
         </h1>
         <p className="mt-3 max-w-2xl text-[var(--color-muted)]">
-          Play through the episode first. Debrief is built from your choice
-          history and domain deltas — not from survival alone.
+          Debrief is built from choice history and domain deltas — not from
+          survival alone. If session storage was cleared, start any season slice
+          below; Code Blue also has its own scored debrief.
         </p>
       </header>
-      <Link
-        href="/episode"
-        className="self-start rounded-sm bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white hover:bg-[var(--color-focus)]"
-      >
-        Open episode player
-      </Link>
+      <div className="flex flex-wrap gap-3">
+        <Link
+          href="/episode"
+          className="rounded-sm bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white hover:bg-[var(--color-focus)]"
+        >
+          Episode 01
+        </Link>
+        <Link
+          href="/code-blue/debrief"
+          className="rounded-sm border border-[var(--color-line)] px-5 py-2.5 text-sm hover:bg-[var(--color-wash)]"
+        >
+          Code Blue scored debrief
+        </Link>
+        <Link
+          href="/episode-02"
+          className="rounded-sm border border-[var(--color-line)] px-5 py-2.5 text-sm hover:bg-[var(--color-wash)]"
+        >
+          Episode 02
+        </Link>
+        <Link
+          href="/authorship"
+          className="rounded-sm border border-[var(--color-line)] px-5 py-2.5 text-sm hover:bg-[var(--color-wash)]"
+        >
+          Authorship beat
+        </Link>
+      </div>
     </div>
   );
 }

@@ -1,14 +1,18 @@
 import Link from "next/link";
 
 import {
+  loadAuthorshipManifest,
   loadCodeBlueManifest,
+  loadEpisode02Manifest,
   loadEpisodeManifest,
 } from "@/lib/content";
 
 export default async function HomePage() {
-  const [episode, codeBlue] = await Promise.all([
+  const [episode, codeBlue, episode02, authorship] = await Promise.all([
     loadEpisodeManifest(),
     loadCodeBlueManifest(),
+    loadEpisode02Manifest(),
+    loadAuthorshipManifest(),
   ]);
 
   return (
@@ -39,13 +43,7 @@ export default async function HomePage() {
               href="/episode"
               className="inline-flex items-center justify-center rounded-sm bg-[var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[var(--color-focus)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              Open episode player
-            </Link>
-            <Link
-              href="/code-blue"
-              className="inline-flex items-center justify-center rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] px-5 py-2.5 text-sm font-medium text-[var(--color-ink)] transition-colors hover:bg-[var(--color-wash)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
-            >
-              {codeBlue.title}
+              Start Episode 01
             </Link>
             <Link
               href="/accessibility"
@@ -55,6 +53,62 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
+      </section>
+
+      <section aria-labelledby="season-map-heading" className="prose-clinical">
+        <h2
+          id="season-map-heading"
+          className="font-[family-name:var(--font-display)] text-2xl text-[var(--color-ink)]"
+        >
+          Season map
+        </h2>
+        <p className="mt-2 text-[var(--color-muted)]">
+          Ep01 → Code Blue → Ep02 → Authorship. Chronology stays locked; story
+          does not end at ROSC.
+        </p>
+        <ol className="mt-4 list-decimal space-y-3 pl-5 text-[var(--color-muted)]">
+          <li>
+            <Link href="/episode" className="text-[var(--color-accent)] underline">
+              {episode.subtitle ?? episode.title}
+            </Link>
+            — post-ROSC ICU trade-offs and Action Stations.
+          </li>
+          <li>
+            <Link
+              href="/code-blue"
+              className="text-[var(--color-accent)] underline"
+            >
+              {codeBlue.title}
+            </Link>
+            — engine PlayShell; optional{" "}
+            <Link href="/code-blue?mode=kit" className="underline">
+              kit evidence mode
+            </Link>
+            ; scored{" "}
+            <Link href="/code-blue/debrief" className="underline">
+              debrief
+            </Link>
+            .
+          </li>
+          <li>
+            <Link
+              href="/episode-02"
+              className="text-[var(--color-accent)] underline"
+            >
+              {episode02.subtitle ?? episode02.title}
+            </Link>
+            — cardiac instability with Code Blue carry-forward projection.
+          </li>
+          <li>
+            <Link
+              href="/authorship"
+              className="text-[var(--color-accent)] underline"
+            >
+              {authorship.subtitle ?? authorship.title}
+            </Link>
+            — training-cut ownership (not clinical victory).
+          </li>
+        </ol>
       </section>
 
       <section aria-labelledby="chronology-heading" className="prose-clinical">

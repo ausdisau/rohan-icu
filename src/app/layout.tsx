@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Source_Sans_3, Source_Serif_4 } from "next/font/google";
 
 import { AccessibilityProvider } from "@/components/AccessibilityProvider";
+import { EpisodeProgress } from "@/components/EpisodeProgress";
 import { SiteHeader } from "@/components/SiteHeader";
 
 import "./globals.css";
@@ -43,6 +44,7 @@ export default function RootLayout({
             Skip to main content
           </a>
           <SiteHeader />
+          <EpisodeProgress />
           <main id="main" className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6">
             {children}
           </main>
