@@ -30,14 +30,24 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run start` | Serve production build |
 | `npm run lint` | ESLint |
 | `npm run content-lint` | Zod-validate `content/**/*.json` + chronology / representation rules |
+| `npm run simulation-test` | Phase 2 engine + Code Blue pack smoke tests |
+| `npm run story-director-test` | Phase 5–6 story director / narration lock tests |
 
 ## Routes
 
 - `/` — home + locked chronology
 - `/episode` — Episode 01 player shell
-- `/code-blue` — The Alarm After ROSC PlayShell (Phase 2 engine + Code Blue content)
+- `/code-blue` — The Alarm After ROSC PlayShell (engine + content + story director)
+- `/api/narration` — Phase 5–6 narration (deterministic; optional OpenAI if `OPENAI_API_KEY` set)
 - `/debrief` — debrief shell
 - `/accessibility` — reduced motion / sensory / captions defaults
+
+## Story director (Phase 5–6)
+
+Clinical truth lives in `src/engine/simulation`. The story layer (`src/story`) only shapes display narration:
+
+1. **Phase 5** — deterministic director composes authored scene text with read-only engine framing (WAIT, readiness≠indication, provisional ROSC, family non-clinical).
+2. **Phase 6** — optional OpenAI enrichment via `POST /api/narration` when `OPENAI_API_KEY` is set. Output is lock-validated; failures fall back to Phase 5. LLM text never mutates `RichSimulationState`.
 
 ## Locked chronology
 

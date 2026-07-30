@@ -23,6 +23,11 @@ import type {
   CodeBlueManifest,
   CodeBlueScenarioNode,
 } from "@/schemas/code-blue";
+import {
+  buildDirectorInputFromPlayShell,
+  directSceneDeterministic,
+  type NarrationViewModel,
+} from "@/story";
 
 function persist(session: CodeBluePlaySession) {
   saveCodeBlueSession(session);
@@ -38,12 +43,14 @@ export function PlayShell({
   actions,
   events,
   debrief,
+  llmNarrationConfigured = false,
 }: {
   manifest: CodeBlueManifest;
   nodes: CodeBlueScenarioNode[];
   actions: CodeBlueActionsFile;
   events: CodeBlueEventsFile;
   debrief: CodeBlueDebriefFile;
+  llmNarrationConfigured?: boolean;
 }) {
   const nodeMap = useMemo(
     () => new Map(nodes.map((node) => [node.id, node])),
@@ -58,6 +65,11 @@ export function PlayShell({
   const [showChronology, setShowChronology] = useState(true);
   const [draft, setDraft] = useState<string[]>([]);
   const [liveMessage, setLiveMessage] = useState("");
+  const [enrichedByNode, setEnrichedByNode] = useState<
+    Record<string, NarrationViewModel>
+  >({});
+  const [enrichBusy, setEnrichBusy] = useState(false);
+  const [enrichError, setEnrichError] = useState("");
 
   // Restore sessionStorage on the client during render (React-approved adjust pattern).
   if (isClient && !storageHydrated) {
@@ -77,6 +89,35 @@ export function PlayShell({
   const advanceOptions = currentNode
     ? listAdvanceOptions(currentNode, session, events)
     : [];
+
+  const directorInput = currentNode
+    ? buildDirectorInputFromPlayShell({
+        node: currentNode,
+        educationalBoundary: manifest.educationalBoundary,
+        chronologyLock: manifest.chronologyLock,
+        compact: {
+          playPhase: compact.playPhase,
+          pulse: compact.pulse,
+          rhythm: compact.rhythm,
+          airwayRoute: compact.airwayRoute,
+          chestMovement: compact.chestMovement,
+          defibrillatorReady: compact.defibrillatorReady,
+          aacInstruction: compact.aac.instruction,
+          aacVisible: compact.aac.visible,
+          crisisDebtLevel: compact.crisisDebt.level,
+          provisionalRoscNeedsConfirm: compact.provisionalRoscNeedsConfirm,
+          postRoscReassessmentDue: compact.postRoscReassessmentDue,
+        },
+        emergencyOverride: emergency,
+      })
+    : null;
+
+  const deterministicNarration = directorInput
+    ? directSceneDeterministic(directorInput)
+    : null;
+
+  const narration =
+    (currentNode && enrichedByNode[currentNode.id]) || deterministicNarration;
 
   function update(next: CodeBluePlaySession, announce?: string) {
     setSession(next);
@@ -103,8 +144,43 @@ export function PlayShell({
   function handleRestart() {
     const fresh = createCodeBlueSession(manifest);
     setDraft([]);
+    setEnrichedByNode({});
+    setEnrichError("");
     setShowChronology(true);
     update(fresh, "Session restarted.");
+  }
+
+  async function handleEnrichNarration() {
+    if (!directorInput || !currentNode || enrichBusy) return;
+    setEnrichBusy(true);
+    setEnrichError("");
+    try {
+      const response = await fetch("/api/narration", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(directorInput),
+      });
+      if (!response.ok) {
+        throw new Error(`Narration API ${response.status}`);
+      }
+      const payload = (await response.json()) as {
+        narration: NarrationViewModel;
+      };
+      setEnrichedByNode((prev) => ({
+        ...prev,
+        [currentNode.id]: payload.narration,
+      }));
+      setLiveMessage(
+        payload.narration.source === "llm-enriched"
+          ? "LLM narration applied for display only. Clinical truth unchanged."
+          : payload.narration.fallbackReason ??
+              "Deterministic narration in use.",
+      );
+    } catch (err) {
+      setEnrichError((err as Error).message);
+    } finally {
+      setEnrichBusy(false);
+    }
   }
 
   if (!currentNode) {
@@ -197,24 +273,53 @@ export function PlayShell({
               aria-labelledby="cb-scene-heading"
               className="rounded-sm border border-[var(--color-line)] bg-[var(--color-surface)] p-5"
             >
-              <p className="text-xs uppercase tracking-wide text-[var(--color-accent)]">
-                {currentNode.phase} · {currentNode.scene.lens}
-              </p>
-              <h2
-                id="cb-scene-heading"
-                className="mt-1 font-[family-name:var(--font-display)] text-xl"
-              >
-                {currentNode.title}
-              </h2>
-              <p className="mt-1 text-sm text-[var(--color-muted)]">
-                {currentNode.scene.location}
-              </p>
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs uppercase tracking-wide text-[var(--color-accent)]">
+                    {currentNode.phase} · {currentNode.scene.lens}
+                  </p>
+                  <h2
+                    id="cb-scene-heading"
+                    className="mt-1 font-[family-name:var(--font-display)] text-xl"
+                  >
+                    {currentNode.title}
+                  </h2>
+                  <p className="mt-1 text-sm text-[var(--color-muted)]">
+                    {currentNode.scene.location}
+                  </p>
+                </div>
+                <div className="flex flex-col items-end gap-2">
+                  <span className="rounded-sm bg-[var(--color-wash)] px-2 py-1 text-xs text-[var(--color-muted)]">
+                    Narration: {narration?.source ?? "authored"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      void handleEnrichNarration();
+                    }}
+                    disabled={enrichBusy || !directorInput}
+                    className="rounded-sm border border-[var(--color-line)] px-3 py-1.5 text-xs hover:bg-[var(--color-wash)] disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {enrichBusy
+                      ? "Directing…"
+                      : llmNarrationConfigured
+                        ? "Enrich narration (LLM)"
+                        : "Refresh director framing"}
+                  </button>
+                </div>
+              </div>
               <p className="mt-4 leading-relaxed text-[var(--color-ink)]">
-                {currentNode.scene.summary}
+                {narration?.summary ?? currentNode.scene.summary}
               </p>
-              {currentNode.scene.dialogue?.length ? (
+              {(narration?.dialogue.length
+                ? narration.dialogue
+                : currentNode.scene.dialogue
+              )?.length ? (
                 <ul className="mt-4 space-y-2">
-                  {currentNode.scene.dialogue.map((line) => (
+                  {(narration?.dialogue.length
+                    ? narration.dialogue
+                    : (currentNode.scene.dialogue ?? [])
+                  ).map((line) => (
                     <li
                       key={`${line.speaker}-${line.line}`}
                       className="border-l-2 border-[var(--color-accent-soft)] pl-3 text-sm"
@@ -230,9 +335,40 @@ export function PlayShell({
                   ))}
                 </ul>
               ) : null}
-              {currentNode.scene.captions?.length ? (
+              {(narration?.captions.length
+                ? narration.captions
+                : currentNode.scene.captions
+              )?.length ? (
                 <p className="mt-4 text-sm italic text-[var(--color-muted)]">
-                  {currentNode.scene.captions.join(" ")}
+                  {(narration?.captions.length
+                    ? narration.captions
+                    : (currentNode.scene.captions ?? [])
+                  ).join(" ")}
+                </p>
+              ) : null}
+
+              {narration?.framingNotes.length ? (
+                <div className="mt-4 rounded-sm border border-[var(--color-line)] bg-[var(--color-wash)]/50 px-3 py-3">
+                  <h3 className="text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">
+                    Story director framing
+                  </h3>
+                  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[var(--color-muted)]">
+                    {narration.framingNotes.map((note) => (
+                      <li key={note}>{note}</li>
+                    ))}
+                  </ul>
+                  <p className="mt-2 text-xs text-[var(--color-muted)]">
+                    {narration.providerNote}
+                    {narration.fallbackReason
+                      ? ` · ${narration.fallbackReason}`
+                      : ""}{" "}
+                    Clinical truth panels below stay engine/content owned.
+                  </p>
+                </div>
+              ) : null}
+              {enrichError ? (
+                <p className="mt-2 text-sm text-[var(--color-warning)]" role="alert">
+                  Narration request failed: {enrichError}
                 </p>
               ) : null}
 

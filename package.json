@@ -11,6 +11,7 @@
     "prognosis-smoke": "tsx scripts/prognosis-smoke.ts",
     "simulation-test": "tsx scripts/simulation-test.ts",
     "simulation-lint": "tsx scripts/simulation-test.ts",
+    "story-director-test": "tsx scripts/story-director-test.ts",
     "chronology-lint": "tsx scripts/content-lint.ts",
     "access-lint": "tsx scripts/content-lint.ts"
   },
